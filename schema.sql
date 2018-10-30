@@ -19,7 +19,7 @@ CREATE TABLE role_permissions (
 CREATE TABLE contact (
 	id uuid PRIMARY KEY,
 	email text NOT NULL UNIQUE,
-	registered timestamp(0) with time zone NOT NULL DEFAULT now()
+	registered timestamp with time zone NOT NULL DEFAULT now()
 );
 
 CREATE TABLE contact_roles (
