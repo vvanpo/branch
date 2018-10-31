@@ -1,9 +1,11 @@
-package branch
+package core
 
-import ()
+import (
+	"github.com/vvanpo/branch/core/repo"
+)
 
 type Contact struct {
-	*contacts
+	repo *repo.Contacts
 	id
 	email string
 }

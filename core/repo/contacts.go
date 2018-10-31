@@ -1,9 +1,9 @@
-package branch
+package repo
 
 import ()
 
-type contacts struct {
-	db
+type Contacts struct {
+	Repo
 }
 
 // new

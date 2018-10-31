@@ -1,4 +1,4 @@
-package branch
+package repo
 
 import (
 	"database/sql"
@@ -7,8 +7,8 @@ import (
 )
 
 type id uuid.UUID
-type repo struct {
-	*sql.DB
+type Repo struct {
+	db *sql.DB
 }
 
 // newID
@@ -17,11 +17,11 @@ func newID() id {
 }
 
 // openDB
-func openDB() db {
-	d, err := sql.Open("postgres", "")
+func Open() Repo {
+	conn, err := sql.Open("postgres", "")
 	if err != nil {
 		panic("Failed to connect to database")
 	}
 
-	return db{d}
+	return Repo{conn}
 }
