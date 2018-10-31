@@ -1,18 +1,16 @@
 package branch
 
-import (
-)
+import ()
 
 // users is the repository of User objects.
 type users struct {
-	db Database
+	*db
 }
 
-func (us *users) fetch(email string) (Contact, error) {
-
+func (us *users) fetch(email string) (*Contact, error) {
+	return nil, nil
 }
 
-func (us *users) create(contact Contact) error {
-
+func (us *users) store(contact *Contact) error {
+	return nil
 }
-

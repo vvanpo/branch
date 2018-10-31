@@ -2,13 +2,26 @@ package branch
 
 import (
 	"database/sql"
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
+	_ "github.com/lib/pq"
 )
 
-type id [16]byte
+type id uuid.UUID
+type db struct {
+	*sql.DB
+}
 
+// newID
 func newID() id {
-	// UUID version 4 is the only properly pseudorandom version.
-	u := uuid.Must(uuid.NewV4())
-	return id(uuid.Bytes())
+	return id(uuid.New())
+}
+
+// openDB
+func openDB() db {
+	d, err := sql.Open("postgres", "")
+	if err != nil {
+		panic("Failed to connect to database")
+	}
+
+	return db{d}
 }

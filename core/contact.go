@@ -9,8 +9,8 @@ type Contact struct {
 }
 
 // NewContact
-func (b *Branch) NewContact(email string) (Contact, error) {
-	contact := Contact{b.contacts, newID(), email}
+func (b *Branch) NewContact(email string) (*Contact, error) {
+	contact := &Contact{b.contacts, newID(), email}
 
 	if err := b.contacts.store(contact); err != nil {
 		return nil, err

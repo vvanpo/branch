@@ -1,8 +1,9 @@
 package branch
 
-import (
-)
+import ()
 
 type Branch struct {
 	contacts
+	groups
+	users
 }

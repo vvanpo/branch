@@ -1,8 +1,11 @@
 package branch
 
-import (
-)
+import ()
 
 type contacts struct {
-	db Database
+	db
+}
+
+func (cs *contacts) store(c *Contact) error {
+	return nil
 }

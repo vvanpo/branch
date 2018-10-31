@@ -1,8 +1,7 @@
 package branch
 
-import (
-)
+import ()
 
-type contacts struct {
-	db Database
+type groups struct {
+	db
 }
