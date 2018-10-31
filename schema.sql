@@ -1,4 +1,8 @@
 
+-- The application shouldn't be the schema owner, and shouldn't be able to alter
+-- the schema.
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+
 -- E-mail is the canonical identifier for a contact.
 CREATE TABLE contact (
 	id uuid PRIMARY KEY,
