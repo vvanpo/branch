@@ -4,6 +4,7 @@
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 -- E-mail is the canonical identifier for a contact.
+-- A contact can represent an individual or organization.
 CREATE TABLE contact (
 	id uuid PRIMARY KEY,
 	email text NOT NULL UNIQUE
@@ -59,12 +60,29 @@ CREATE TABLE contact_field_value (
 	UNIQUE (contact, field)
 );
 
+-- Users are contacts that are able to access the application.
+CREATE TABLE users (
+	id uuid PRIMARY KEY,
+	contact uuid NOT NULL UNIQUE
+);
+
 CREATE TABLE role (
 	id uuid PRIMARY KEY,
 	name text NOT NULL UNIQUE,
 	description text
 );
 
+-- Relates users to their roles.
+-- The permissions granted to a user is the union of all their roles.
+CREATE TABLE user_roles (
+	id uuid PRIMARY KEY,
+	contact uuid NOT NULL REFERENCES contact,
+	role uuid NOT NULL REFERENCES role,
+	UNIQUE (contact, role)
+);
+
+-- Relates roles to sets of permissions.
+-- The capabilities of permissions are determined by the application.
 CREATE TABLE role_permissions (
 	id uuid PRIMARY KEY,
 	role uuid NOT NULL REFERENCES role,
@@ -72,10 +90,3 @@ CREATE TABLE role_permissions (
 	UNIQUE (role, permission)
 );
 
--- Relates contacts to their roles.
-CREATE TABLE contact_roles (
-	id uuid PRIMARY KEY,
-	contact uuid NOT NULL REFERENCES contact,
-	role uuid NOT NULL REFERENCES role,
-	UNIQUE (contact, role)
-);
