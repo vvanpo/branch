@@ -6,22 +6,23 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type id uuid.UUID
-type Repo struct {
-	db *sql.DB
+type ID uuid.UUID
+
+// NewID
+func NewID() ID {
+	return ID(uuid.New())
 }
 
-// newID
-func newID() id {
-	return id(uuid.New())
+type db struct {
+	*sql.DB
 }
 
-// openDB
-func Open() Repo {
+// open
+func open() db {
 	conn, err := sql.Open("postgres", "")
 	if err != nil {
 		panic("Failed to connect to database")
 	}
 
-	return Repo{conn}
+	return db{conn}
 }

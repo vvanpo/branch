@@ -2,27 +2,30 @@ package repo
 
 import ()
 
-type Contacts struct {
-	Repo
+// Contact
+type Contact struct {
+	ID
+	Email string
 }
 
-// new
-func (cs *contacts) new(email string) (*Contact, error) {
-	contact := &Contact{cs, newID(), email}
+// Contacts
+type Contacts struct {
+	db
+}
 
-	if err := cs.store(contact); err != nil {
-		return nil, err
-	}
+// New
+func (cs *Contacts) New(email string) (Contact, error) {
+	contact := Contact{NewID(), email}
 
 	return contact, nil
 }
 
-// store
-func (cs *contacts) store(c *Contact) error {
+// Save
+func (cs *Contacts) Save(c Contact) error {
 	return nil
 }
 
-// fetch
-func (cs *contacts) fetch(email string) (*Contact, error) {
-
+// Fetch
+func (cs *Contacts) Fetch(email string) Contact {
+	return Contact{}
 }
