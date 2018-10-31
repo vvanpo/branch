@@ -1,21 +1,4 @@
 
-CREATE TABLE role (
-	id uuid PRIMARY KEY,
-	name text NOT NULL UNIQUE
-);
-
-CREATE TABLE permission (
-	id uuid PRIMARY KEY,
-	name text NOT NULL UNIQUE
-);
-
-CREATE TABLE role_permissions (
-	id uuid PRIMARY KEY,
-	role uuid NOT NULL REFERENCES role,
-	permission uuid NOT NULL REFERENCES permission,
-	UNIQUE (role, permission)
-);
-
 -- E-mail is the canonical identifier for a contact.
 CREATE TABLE contact (
 	id uuid PRIMARY KEY,
@@ -70,6 +53,19 @@ CREATE TABLE contact_field_value (
 	field uuid NOT NULL REFERENCES contact_field,
 	value bytea,
 	UNIQUE (contact, field)
+);
+
+CREATE TABLE role (
+	id uuid PRIMARY KEY,
+	name text NOT NULL UNIQUE,
+	description text
+);
+
+CREATE TABLE role_permissions (
+	id uuid PRIMARY KEY,
+	role uuid NOT NULL REFERENCES role,
+	permission text NOT NULL,
+	UNIQUE (role, permission)
 );
 
 -- Relates contacts to their roles.
