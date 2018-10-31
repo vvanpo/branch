@@ -7,7 +7,7 @@ import (
 )
 
 type id uuid.UUID
-type db struct {
+type repo struct {
 	*sql.DB
 }
 
