@@ -4,6 +4,7 @@ import ()
 
 type Group struct {
 	id       ID
+	name string
 	contacts []ID
 	users    []ID
 	roles    []ID
@@ -11,6 +12,10 @@ type Group struct {
 
 func (g Group) ID() ID {
 	return g.id
+}
+
+func (g Group) Name() string {
+	return g.name
 }
 
 func (g Group) Contacts() []ID {
