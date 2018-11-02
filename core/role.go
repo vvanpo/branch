@@ -16,6 +16,6 @@ type Roles map[ID]Role
 
 func (rs Roles) New(name string) ID {
 	id := newID()
-	rs[id] = Role{id, name}
+	rs[id] = Role{id: id, name: name}
 	return id
 }
