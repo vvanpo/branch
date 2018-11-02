@@ -1,21 +1,21 @@
 package core
 
-import (
-	"errors"
-)
+import ()
 
-type Users map[ID]User
+type Users map[ID]*User
 
-func (us Users) New(contact ID) (ID, error) {
-	var id ID
-
+func (us Users) New(contact ID) ID {
 	for _, u := range us {
 		if u.id == contact {
-			return id, errors.New("Contact already belongs to an existing user")
+			panic("Contact already belongs to an existing user")
 		}
 	}
 
-	id = newID()
-	us[id] = User{id: id, contact: contact}
-	return id, nil
+	id := newID()
+	us[id] = &User{id: id, contact: contact}
+	return id
+}
+
+func (us Users) Fetch(id ID) *User {
+	return us[id]
 }

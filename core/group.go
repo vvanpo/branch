@@ -3,10 +3,10 @@ package core
 import ()
 
 type Group struct {
-	id ID
+	id       ID
 	contacts []ID
-	users []ID
-	roles []ID
+	users    []ID
+	roles    []ID
 }
 
 func (g Group) ID() ID {

@@ -1,21 +1,15 @@
 package core
 
-import (
-	"errors"
-)
+import ()
 
-type Contacts map[ID]Contact
+type Contacts map[ID]*Contact
 
-func (cs Contacts) New(email string) (ID, error) {
+func (cs Contacts) New(email string) ID {
 	id := newID()
-	cs[id] = Contact{id, email}
-	return id, nil
+	cs[id] = &Contact{id, email}
+	return id
 }
 
-func (cs Contacts) Fetch(id ID) (*Contact, error) {
-	if c, ok := cs[id]; ok {
-		return &c, nil
-	}
-
-	return nil, errors.New("Invalid contact ID")
+func (cs Contacts) Fetch(id ID) *Contact {
+	return cs[id]
 }

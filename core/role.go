@@ -3,8 +3,8 @@ package core
 import ()
 
 type Role struct {
-	id ID
-	name string
+	id          ID
+	name        string
 	permissions []string
 }
 

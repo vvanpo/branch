@@ -1,7 +1,6 @@
 package core
 
-import (
-)
+import ()
 
 // Contact
 type Contact struct {
@@ -21,4 +20,3 @@ func (c *Contact) SetEmail(email string) error {
 	c.email = email
 	return nil
 }
-

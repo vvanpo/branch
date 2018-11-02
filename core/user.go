@@ -3,9 +3,9 @@ package core
 import ()
 
 type User struct {
-	id ID
+	id      ID
 	contact ID
-	roles []ID
+	roles   []ID
 }
 
 func (u User) ID() ID {
@@ -15,4 +15,3 @@ func (u User) ID() ID {
 func (u User) Contact() ID {
 	return u.contact
 }
-
