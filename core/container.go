@@ -2,7 +2,7 @@ package core
 
 import ()
 
-type repos struct {
+type Container struct {
 	Contacts
 	Users
 	Groups

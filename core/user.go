@@ -6,7 +6,7 @@ type User struct {
 	id      ID
 	contact ID
 	roles   []ID
-	repos
+	app Container
 }
 
 func (u User) ID() ID {
@@ -21,7 +21,7 @@ func (u User) Access(permission string) bool {
 	roles := u.roles
 
 	// Concatenate all role lists from groups
-	for _, group := range u.repos.Groups {
+	for _, group := range u.app.Groups {
 		roles = append(roles, group.Roles()...)
 	}
 
@@ -29,7 +29,7 @@ func (u User) Access(permission string) bool {
 	hashmap := make(map[ID]struct{})
 	for _, r := range roles {
 		if _, ok := hashmap[r]; !ok {
-			for _, p := range u.repos.Roles.Fetch(r).Permissions() {
+			for _, p := range u.app.Roles.Fetch(r).Permissions() {
 				if p == permission {
 					return true
 				}
