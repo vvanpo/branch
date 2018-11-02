@@ -10,6 +10,6 @@ func (cs Contacts) New(email string) ID {
 	return id
 }
 
-func (cs Contacts) Fetch(id ID) *Contact {
-	return cs[id]
+func (cs Contacts) Fetch(contact ID) *Contact {
+	return cs[contact]
 }

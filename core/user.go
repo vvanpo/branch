@@ -41,3 +41,13 @@ func (u User) Access(permission string) bool {
 
 	return false
 }
+
+func (u User) AddRole(role ID) {
+	for _, r := range u.roles {
+		if r == role {
+			return
+		}
+	}
+
+	u.roles = append(u.roles, role)
+}

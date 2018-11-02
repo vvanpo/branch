@@ -16,6 +16,6 @@ func (us Users) New(contact ID) ID {
 	return id
 }
 
-func (us Users) Fetch(id ID) *User {
+func (us Users) Fetch(user ID) *User {
 	return us[id]
 }

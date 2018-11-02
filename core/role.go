@@ -28,6 +28,6 @@ func (rs Roles) New(name string) ID {
 	return id
 }
 
-func (rs Roles) Fetch(id ID) *Role {
-	return rs[id]
+func (rs Roles) Fetch(role ID) *Role {
+	return rs[role]
 }

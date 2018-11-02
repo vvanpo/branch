@@ -10,6 +10,6 @@ func (gs Groups) New(name string) ID {
 	return id
 }
 
-func (gs Groups) Fetch(id ID) *Group {
-	return gs[id]
+func (gs Groups) Fetch(group ID) *Group {
+	return gs[group]
 }
