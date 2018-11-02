@@ -9,6 +9,10 @@ type Contact struct {
 	email string
 }
 
+func (c Contact) ID() ID {
+	return c.id
+}
+
 func (c Contact) Email() string {
 	return c.email
 }

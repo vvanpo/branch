@@ -81,6 +81,12 @@ CREATE TABLE user_roles (
 	UNIQUE (contact, role)
 );
 
+-- Relates groups to the roles inherited by group members.
+CREATE TABLE group_roles (
+	id uuid PRIMARY KEY,
+	
+);
+
 -- Relates roles to sets of permissions.
 -- The capabilities of permissions are determined by the application.
 CREATE TABLE role_permissions (
