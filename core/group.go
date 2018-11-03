@@ -3,11 +3,11 @@ package core
 import ()
 
 type Group struct {
-	id       ID
-	name string
-	contacts []ID
-	users    []ID
-	roles    []ID
+	id          ID
+	name        string
+	description string
+	contacts    map[ID]*Contact
+	permissions []string
 }
 
 func (g Group) ID() ID {
@@ -18,14 +18,55 @@ func (g Group) Name() string {
 	return g.name
 }
 
-func (g Group) Contacts() []ID {
-	return g.contacts[:]
+func (g Group) Description() string {
+	return g.description
 }
 
-func (g Group) Users() []ID {
-	return g.users[:]
+func (g Group) Contacts() []*Contact {
+	contacts := make([]*Contact, 0, len(g.contacts))
+
+	for _, contact := range g.contacts {
+		contacts = append(contacts, contact)
+	}
+
+	return contacts
 }
 
-func (g Group) Roles() []ID {
-	return g.roles[:]
+func (g Group) Permissions() []string {
+	return g.permissions[:]
+}
+
+func (g *Group) SetName(name string) {
+	g.name = name
+}
+
+func (g *Group) SetDescription(desc string) {
+	g.description = desc
+}
+
+func (g *Group) AddContact(contact *Contact) {
+	g.contacts[contact.ID()] = contact
+}
+
+func (g *Group) RemoveContact(contact *Contact) {
+	delete(g.contacts, contact.ID())
+}
+
+func (g *Group) AddPermission(perm string) {
+	for _, p := range g.permissions {
+		if p == perm {
+			return
+		}
+	}
+
+	g.permissions = append(g.permissions, perm)
+}
+
+func (g *Group) RemovePermission(perm string) {
+	for i, p := range g.permissions {
+		if p == perm {
+			g.permissions = append(g.permissions[:i], g.permissions[i+1:]...)
+			return
+		}
+	}
 }

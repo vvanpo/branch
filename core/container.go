@@ -6,5 +6,4 @@ type Container struct {
 	Contacts
 	Users
 	Groups
-	Roles
 }

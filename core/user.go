@@ -3,51 +3,29 @@ package core
 import ()
 
 type User struct {
+	app     Container
 	id      ID
-	contact ID
-	roles   []ID
-	app Container
+	contact *Contact
 }
 
 func (u User) ID() ID {
 	return u.id
 }
 
-func (u User) Contact() ID {
+func (u User) Contact() *Contact {
 	return u.contact
 }
 
 func (u User) Access(permission string) bool {
-	roles := u.roles
-
-	// Concatenate all role lists from groups
 	for _, group := range u.app.Groups {
-		roles = append(roles, group.Roles()...)
-	}
-
-	// Use a map to ensure we only check each role once
-	hashmap := make(map[ID]struct{})
-	for _, r := range roles {
-		if _, ok := hashmap[r]; !ok {
-			for _, p := range u.app.Roles.Fetch(r).Permissions() {
+		if _, ok := group.contacts[u.contact.id]; ok {
+			for _, p := range group.permissions {
 				if p == permission {
 					return true
 				}
 			}
 		}
-
-		hashmap[r] = struct{}{}
 	}
 
 	return false
-}
-
-func (u User) AddRole(role ID) {
-	for _, r := range u.roles {
-		if r == role {
-			return
-		}
-	}
-
-	u.roles = append(u.roles, role)
 }

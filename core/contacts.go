@@ -4,10 +4,10 @@ import ()
 
 type Contacts map[ID]*Contact
 
-func (cs Contacts) New(email string) ID {
+func (cs Contacts) New(email string) *Contact {
 	id := newID()
 	cs[id] = &Contact{id, email}
-	return id
+	return cs[id]
 }
 
 func (cs Contacts) Fetch(contact ID) *Contact {
