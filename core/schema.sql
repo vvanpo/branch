@@ -19,9 +19,9 @@ CREATE TABLE contact_group (
 -- The capabilities of permissions are determined by the application.
 CREATE TABLE contact_group_permissions (
 	id uuid PRIMARY KEY,
-	grp uuid NOT NULL REFERENCES role,
+	contact_group uuid NOT NULL REFERENCES contact_group,
 	permission text NOT NULL,
-	UNIQUE (role, permission)
+	UNIQUE (contact_group, permission)
 );
 
 -- Relates contacts and the groups they belong to.
@@ -71,7 +71,7 @@ CREATE TABLE contact_field_value (
 -- Users are contacts that are able to access the application.
 CREATE TABLE users (
 	id uuid PRIMARY KEY,
-	contact uuid NOT NULL UNIQUE
+	contact uuid NOT NULL UNIQUE REFERENCES contact
 );
 
 CREATE TABLE user_session (
