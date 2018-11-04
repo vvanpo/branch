@@ -24,18 +24,34 @@ type Field struct {
 	}
 }
 
+// Name
 func (f Field) Name() string {
 	return f.name
 }
 
+func (f *Field) SetName(name string) {
+	f.name = name
+}
+
+// Description
 func (f Field) Description() string {
 	return f.description
 }
 
+func (f *Field) SetDescription(description string) {
+	f.description = description
+}
+
+// Category
 func (f Field) Category() *FieldCategory {
 	return f.category
 }
 
+func (f *Field) SetCategory(category *FieldCategory) {
+	f.category = category
+}
+
+// Groups
 func (f Field) Groups() []*Group {
 	groups := make([]*Group, 0, len(f.groups))
 
@@ -46,6 +62,7 @@ func (f Field) Groups() []*Group {
 	return groups
 }
 
+// Visible
 func (f Field) Visible(group *Group) bool {
 	if len(f.visibility) == 0 {
 		return true
@@ -55,22 +72,11 @@ func (f Field) Visible(group *Group) bool {
 	return ok
 }
 
+// Administer
 func (f Field) Administer(group *Group) bool {
 	if g, ok := f.visibility[group]; ok {
 		return g.administer
 	}
 
 	return false
-}
-
-func (f *Field) SetName(name string) {
-	f.name = name
-}
-
-func (f *Field) SetDescription(description string) {
-	f.description = description
-}
-
-func (f *Field) SetCategory(category *FieldCategory) {
-	f.category = category
 }

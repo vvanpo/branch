@@ -78,4 +78,3 @@ func (g *Group) RemovePermission(perm string) {
 func (g Group) RequiredFields() []*Field {
 	return g.requiredFields[:]
 }
-

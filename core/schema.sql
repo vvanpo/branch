@@ -13,8 +13,8 @@ CREATE TABLE contact_email (
 	id uuid PRIMARY KEY,
 	email text NOT NULL UNIQUE,
 	contact uuid NOT NULL REFERENCES contact,
-	primary boolean NOT NULL DEFAULT TRUE,
-	UNIQUE (contact, primary)
+	primary_email boolean NOT NULL DEFAULT TRUE,
+	UNIQUE (contact, primary_email)
 );
 
 CREATE TABLE contact_group (

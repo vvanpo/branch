@@ -22,4 +22,3 @@ func (gs *Groups) Remove(name string) {
 		}
 	}
 }
-
