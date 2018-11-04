@@ -14,14 +14,9 @@ func (c Contact) Email() string {
 	return c.emails[0]
 }
 
-func (c Contact) Field(field *Field) *string {
-	var value string
-
-	if value, ok := c.fields[field]; ok {
-		return &value
-	}
-
-	return nil
+func (c Contact) Field(field *Field) (value string, ok bool) {
+	value, ok = c.fields[field]
+	return value, ok
 }
 
 func (c *Contact) SetEmail(email string) error {

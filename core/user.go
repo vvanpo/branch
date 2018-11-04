@@ -10,11 +10,6 @@ type User struct {
 }
 
 //
-func (u User) id() id {
-	return u.id
-}
-
-//
 func (u User) Contact() *Contact {
 	return u.contact
 }
