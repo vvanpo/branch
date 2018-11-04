@@ -8,11 +8,11 @@ type Field struct {
 	name        string
 	description string
 	category    *FieldCategory
-	groups      map[id]struct {
-		group    *Group
+	datatype    string
+	// If groups is a nil map, the field is common to all contacts.
+	groups map[*Group]struct {
 		required bool
 	}
-	datatype string
 	// If access is a nil map, the owning user has full access to their field.
 	// Otherwise, user access to their field is determined by group membership.
 	access map[*Group]struct {
@@ -55,11 +55,24 @@ func (f *Field) SetCategory(category *FieldCategory) {
 func (f Field) Groups() []*Group {
 	groups := make([]*Group, 0, len(f.groups))
 
-	for _, g := range f.groups {
-		groups = append(groups, g.group)
+	for group := range f.groups {
+		groups = append(groups, group)
 	}
 
 	return groups
+}
+
+func (f *Field) SetGroup(group *Group, required bool) {
+	f.groups[group] = struct{ required bool }{required}
+}
+
+func (f *Field) RemoveGroup(group *Group) {
+	delete(f.groups, group)
+}
+
+// Access
+func (f Field) Access() []*Group {
+	return nil
 }
 
 // Visible

@@ -3,6 +3,7 @@ package titian
 import ()
 
 type Contacts struct {
+	app    *Container
 	list   map[id]*Contact
 	fields map[id]*Field
 }

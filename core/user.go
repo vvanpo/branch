@@ -16,7 +16,7 @@ func (u User) Contact() *Contact {
 
 //
 func (u User) Access(permission string) bool {
-	for _, group := range u.app.Groups {
+	for _, group := range u.app.groups.list {
 		if _, ok := group.contacts[u.contact.id]; ok {
 			for _, p := range group.permissions {
 				if p == permission {

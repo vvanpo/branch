@@ -3,10 +3,10 @@ package titian
 import ()
 
 type Container struct {
-	Contacts
-	Users
-	Groups
-	Fields
+	contacts *Contacts
+	users    *Users
+	groups   *Groups
+	fields   *Fields
 }
 
 func New(config Config) *Container {

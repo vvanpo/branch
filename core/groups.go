@@ -2,22 +2,25 @@ package titian
 
 import ()
 
-type Groups map[id]*Group
+type Groups struct {
+	app  Container
+	list map[id]*Group
+}
 
 func (gs Groups) fetch(group id) *Group {
-	return gs[group]
+	return gs.list[group]
 }
 
 func (gs Groups) New(name string) *Group {
 	id := newID()
-	gs[id] = &Group{id: id, name: name}
-	return gs[id]
+	gs.list[id] = &Group{id: id, name: name}
+	return gs.list[id]
 }
 
 func (gs *Groups) Remove(name string) {
-	for _, group := range gs {
+	for _, group := range gs.list {
 		if group.name == name {
-			delete(gs, group.id)
+			delete(gs.list, group.id)
 			return
 		}
 	}

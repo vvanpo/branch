@@ -3,6 +3,7 @@ package titian
 import ()
 
 type Fields struct {
+	app        *Container
 	categories map[id]*FieldCategory
 	fields     map[id]*Field
 }
