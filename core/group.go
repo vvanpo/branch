@@ -3,15 +3,12 @@ package core
 import ()
 
 type Group struct {
-	id          ID
+	app	Container
+	id
 	name        string
 	description string
-	contacts    map[ID]*Contact
+	contacts    map[id]*Contact
 	permissions []string
-}
-
-func (g Group) ID() ID {
-	return g.id
 }
 
 func (g Group) Name() string {
@@ -45,11 +42,11 @@ func (g *Group) SetDescription(desc string) {
 }
 
 func (g *Group) AddContact(contact *Contact) {
-	g.contacts[contact.ID()] = contact
+	g.contacts[contact.id] = contact
 }
 
 func (g *Group) RemoveContact(contact *Contact) {
-	delete(g.contacts, contact.ID())
+	delete(g.contacts, contact.id)
 }
 
 func (g *Group) AddPermission(perm string) {

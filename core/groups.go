@@ -2,14 +2,14 @@ package core
 
 import ()
 
-type Groups map[ID]*Group
+type Groups map[id]*Group
+
+func (gs Groups) fetch(group id) *Group {
+	return gs[group]
+}
 
 func (gs Groups) New(name string) *Group {
 	id := newID()
 	gs[id] = &Group{id: id, name: name}
 	return gs[id]
-}
-
-func (gs Groups) Fetch(group ID) *Group {
-	return gs[group]
 }

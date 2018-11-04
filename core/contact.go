@@ -4,12 +4,8 @@ import ()
 
 // Contact
 type Contact struct {
-	id    ID
+	id
 	email string
-}
-
-func (c Contact) ID() ID {
-	return c.id
 }
 
 func (c Contact) Email() string {

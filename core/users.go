@@ -2,7 +2,11 @@ package core
 
 import ()
 
-type Users map[ID]*User
+type Users map[id]*User
+
+func (us Users) fetch(user id) *User {
+	return us[user]
+}
 
 func (us Users) New(contact *Contact) *User {
 	for _, u := range us {
@@ -14,8 +18,4 @@ func (us Users) New(contact *Contact) *User {
 	id := newID()
 	us[id] = &User{id: id, contact: contact}
 	return us[id]
-}
-
-func (us Users) Fetch(user ID) *User {
-	return us[user]
 }

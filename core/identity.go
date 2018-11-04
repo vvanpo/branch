@@ -5,13 +5,9 @@ import (
 )
 
 // Universal indentifier for objects.
-type ID uuid.UUID
-
-type Identifier interface {
-	ID() ID
-}
+type id uuid.UUID
 
 // newID
-func newID() ID {
-	return ID(uuid.New())
+func newID() id {
+	return id(uuid.New())
 }

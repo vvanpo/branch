@@ -4,11 +4,11 @@ import ()
 
 type User struct {
 	app     Container
-	id      ID
+	id
 	contact *Contact
 }
 
-func (u User) ID() ID {
+func (u User) id() id {
 	return u.id
 }
 
