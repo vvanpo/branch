@@ -1,6 +1,6 @@
-/*
-Package api implements an HTTP server for the application.
-*/
+// Package api implements a GraphQL server for Titian.
 package api
 
-import ()
+import (
+	"github.com/vvanpo/titian/core"
+)
