@@ -13,6 +13,10 @@ func (fs Fields) fetch(field id) *Field {
 
 func (fs Fields) New(name string, datatype string) *Field {
 	id := newID()
-	fs.fields[id] = &Field{id: id, name: name, datatype: datatype}
+	fs.fields[id] = &Field{
+		id:               id,
+		name:             name,
+		datatype:         datatype,
+	}
 	return fs.fields[id]
 }

@@ -52,7 +52,9 @@ CREATE TABLE contact_field (
 	name text NOT NULL UNIQUE,
 	description text,
 	category uuid REFERENCES contact_field_category,
-	datatype text NOT NULL
+	datatype text NOT NULL,
+	user_read_access bool NOT NULL DEFAULT TRUE,
+	user_write_access bool NOT NULL DEFAULT TRUE
 );
 
 -- Relates fields to groups they exist in. Fields not present in this table are
@@ -65,13 +67,24 @@ CREATE TABLE contact_field_groups (
 	UNIQUE (contact_field, contact_group)
 );
 
--- Relates fields to the groups that can access them. Fields not in this table
--- are public.
-CREATE TABLE contact_field_group_access (
+-- Defines which users can access their own fields via a relation to the groups
+-- they belong to. Fields not present in this table are fully accessible to
+-- their owners.
+CREATE TABLE contact_field_user_access (
 	id uuid PRIMARY KEY,
 	contact_field uuid NOT NULL REFERENCES contact_field,
 	contact_group uuid NOT NULL REFERENCES contact_group,
 	readonly boolean NOT NULL DEFAULT TRUE,
+	UNIQUE (contact_field, contact_group)
+);
+
+-- Defines which groups can access which fields of any contact. Fields not
+-- present in this table are public.
+CREATE TABLE contact_field_group_visibility (
+	id uuid PRIMARY KEY,
+	contact_field uuid NOT NULL REFERENCES contact_field,
+	contact_group uuid NOT NULL REFERENCES contact_group,
+	admin boolean NOT NULL DEFAULT FALSE,
 	UNIQUE (contact_field, contact_group)
 );
 

@@ -16,7 +16,7 @@ func (c Contact) Email() string {
 
 func (c Contact) Field(field *Field) (value string, ok bool) {
 	value, ok = c.fields[field]
-	return value, ok
+	return
 }
 
 func (c *Contact) SetEmail(email string) error {

@@ -28,3 +28,11 @@ func (u User) Access(permission string) bool {
 
 	return false
 }
+
+func (u User) AccessField(field *Field) (read, write bool) {
+	return
+}
+
+func (u User) AccessGroupField(field *Field, group *Group) (read, write bool) {
+	return
+}
