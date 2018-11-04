@@ -5,8 +5,16 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 -- A contact can represent an individual or organization.
 CREATE TABLE contact (
+	id uuid PRIMARY KEY
+);
+
+-- E-mail is the unique identifier for a contact.
+CREATE TABLE contact_email (
 	id uuid PRIMARY KEY,
-	email text NOT NULL UNIQUE
+	email text NOT NULL UNIQUE,
+	contact uuid NOT NULL REFERENCES contact,
+	primary boolean NOT NULL DEFAULT TRUE,
+	UNIQUE (contact, primary)
 );
 
 CREATE TABLE contact_group (
