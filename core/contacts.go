@@ -12,7 +12,11 @@ func (cs Contacts) fetch(contact id) *Contact {
 	return cs.list[contact]
 }
 
-func (cs Contacts) New(email string) *Contact {
+func (cs *Contacts) New(email string) *Contact {
+	if cs.list == nil {
+		cs.list = make(map[id]*Contact)
+	}
+
 	id := newID()
 	cs.list[id] = &Contact{
 		id:     id,
