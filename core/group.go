@@ -12,15 +12,8 @@ type Group struct {
 	requiredFields []*Field
 }
 
-func (g Group) Name() string {
-	return g.name
-}
-
-func (g Group) Description() string {
-	return g.description
-}
-
-func (g Group) Contacts() []*Contact {
+// Members returns an unordered list of all contacts belonging to the group.
+func (g Group) Members() []*Contact {
 	contacts := make([]*Contact, 0, len(g.contacts))
 
 	for _, contact := range g.contacts {
@@ -30,28 +23,36 @@ func (g Group) Contacts() []*Contact {
 	return contacts
 }
 
-func (g Group) Permissions() []string {
-	return g.permissions[:]
-}
-
-func (g Group) RequiredFields() []*Field {
-	return g.requiredFields[:]
-}
-
-func (g *Group) SetName(name string) {
-	g.name = name
-}
-
-func (g *Group) SetDescription(desc string) {
-	g.description = desc
-}
-
 func (g *Group) AddContact(contact *Contact) {
 	g.contacts[contact.id] = contact
 }
 
 func (g *Group) RemoveContact(contact *Contact) {
 	delete(g.contacts, contact.id)
+}
+
+// Name returns the name of the group.
+func (g Group) Name() string {
+	return g.name
+}
+
+func (g *Group) SetName(name string) {
+	g.name = name
+}
+
+// Description returns an optional description of the group.
+func (g Group) Description() string {
+	return g.description
+}
+
+func (g *Group) SetDescription(desc string) {
+	g.description = desc
+}
+
+// Permissions lists all the permissions members of this group have privileges
+// for.
+func (g Group) Permissions() []string {
+	return g.permissions[:]
 }
 
 func (g *Group) AddPermission(perm string) {
@@ -72,3 +73,9 @@ func (g *Group) RemovePermission(perm string) {
 		}
 	}
 }
+
+// RequiredFields returns a list of fields required for members of the group.
+func (g Group) RequiredFields() []*Field {
+	return g.requiredFields[:]
+}
+

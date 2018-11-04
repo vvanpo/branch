@@ -7,7 +7,7 @@ import (
 // Universal indentifier for objects.
 type id uuid.UUID
 
-// newID
+// newID generates a unique identifier.
 func newID() id {
 	return id(uuid.New())
 }

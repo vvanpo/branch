@@ -13,3 +13,13 @@ func (gs Groups) New(name string) *Group {
 	gs[id] = &Group{id: id, name: name}
 	return gs[id]
 }
+
+func (gs *Groups) Remove(name string) {
+	for _, group := range gs {
+		if group.name == name {
+			delete(gs, group.id)
+			return
+		}
+	}
+}
+
