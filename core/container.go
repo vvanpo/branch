@@ -6,4 +6,5 @@ type Container struct {
 	Contacts
 	Users
 	Groups
+	Fields
 }

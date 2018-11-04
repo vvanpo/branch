@@ -5,7 +5,8 @@ import ()
 // Contact
 type Contact struct {
 	id
-	email string
+	email  string
+	fields map[*Field]FieldValue
 }
 
 func (c Contact) Email() string {

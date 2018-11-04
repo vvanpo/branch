@@ -3,12 +3,13 @@ package core
 import ()
 
 type Group struct {
-	app	Container
+	app Container
 	id
-	name        string
-	description string
-	contacts    map[id]*Contact
-	permissions []string
+	name           string
+	description    string
+	contacts       map[id]*Contact
+	permissions    []string
+	requiredFields []*Field
 }
 
 func (g Group) Name() string {
@@ -31,6 +32,10 @@ func (g Group) Contacts() []*Contact {
 
 func (g Group) Permissions() []string {
 	return g.permissions[:]
+}
+
+func (g Group) RequiredFields() []*Field {
+	return g.requiredFields[:]
 }
 
 func (g *Group) SetName(name string) {

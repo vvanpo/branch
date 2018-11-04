@@ -2,7 +2,10 @@ package core
 
 import ()
 
-type Contacts map[id]*Contact
+type Contacts struct {
+	list   map[id]*Contact
+	fields map[id]*Field
+}
 
 func (cs Contacts) fetch(contact id) *Contact {
 	return cs[contact]

@@ -42,11 +42,9 @@ CREATE TABLE contact_field_category (
 CREATE TABLE contact_field (
 	id uuid PRIMARY KEY,
 	name text NOT NULL UNIQUE,
-	datatype text NOT NULL,
 	description text,
-	required boolean NOT NULL DEFAULT FALSE,
 	category uuid REFERENCES contact_field_category,
-	weight integer,
+	datatype text NOT NULL,
 	UNIQUE (category, weight)
 );
 
@@ -54,18 +52,19 @@ CREATE TABLE contact_field (
 -- common to all groups.
 CREATE TABLE contact_field_groups (
 	id uuid PRIMARY KEY,
-	field uuid NOT NULL REFERENCES contact_field,
+	contact_field uuid NOT NULL REFERENCES contact_field,
 	contact_group uuid NOT NULL REFERENCES contact_group,
-	UNIQUE (field, contact_group)
+	required boolean NOT NULL DEFAULT FALSE,
+	UNIQUE (contact_field, contact_group)
 );
 
 -- Relates field values to contacts.
 CREATE TABLE contact_field_value (
 	id uuid PRIMARY KEY,
 	contact uuid NOT NULL REFERENCES contact,
-	field uuid NOT NULL REFERENCES contact_field,
+	contact_field uuid NOT NULL REFERENCES contact_field,
 	value bytea,
-	UNIQUE (contact, field)
+	UNIQUE (contact, contact_field)
 );
 
 -- Users are contacts that are able to access the application.
