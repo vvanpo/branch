@@ -8,8 +8,15 @@ type Field struct {
 	name        string
 	description string
 	category    *FieldCategory
-	groups      map[id]*Group
-	datatype    string
+	groups      map[id]struct {
+		group    *Group
+		required bool
+	}
+	access map[id]struct {
+		group    *Group
+		readonly bool
+	}
+	datatype string
 }
 
 func (f Field) Name() string {

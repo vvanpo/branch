@@ -44,17 +44,26 @@ CREATE TABLE contact_field (
 	name text NOT NULL UNIQUE,
 	description text,
 	category uuid REFERENCES contact_field_category,
-	datatype text NOT NULL,
-	UNIQUE (category, weight)
+	datatype text NOT NULL
 );
 
 -- Relates fields to groups they exist in. Fields not present in this table are
--- common to all groups.
+-- common to all contacts, regardless of group.
 CREATE TABLE contact_field_groups (
 	id uuid PRIMARY KEY,
 	contact_field uuid NOT NULL REFERENCES contact_field,
 	contact_group uuid NOT NULL REFERENCES contact_group,
 	required boolean NOT NULL DEFAULT FALSE,
+	UNIQUE (contact_field, contact_group)
+);
+
+-- Relates fields to the groups that can access them. Fields not in this table
+-- are public.
+CREATE TABLE contact_field_group_access (
+	id uuid PRIMARY KEY,
+	contact_field uuid NOT NULL REFERENCES contact_field,
+	contact_group uuid NOT NULL REFERENCES contact_group,
+	readonly boolean NOT NULL DEFAULT TRUE,
 	UNIQUE (contact_field, contact_group)
 );
 
