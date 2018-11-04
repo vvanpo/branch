@@ -9,6 +9,7 @@ type Field struct {
 	description string
 	category    *FieldCategory
 	groups      map[id]*Group
+	datatype    string
 }
 
 func (f Field) Name() string {

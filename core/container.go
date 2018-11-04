@@ -8,3 +8,8 @@ type Container struct {
 	Groups
 	Fields
 }
+
+func New(config Config) *Container {
+	app := &Container{}
+	return app
+}
