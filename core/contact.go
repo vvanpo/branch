@@ -10,18 +10,20 @@ type Contact struct {
 	fields map[*Field]string
 }
 
+// Email
 func (c Contact) Email() string {
 	return c.emails[0]
-}
-
-func (c Contact) Field(field *Field) (value string, ok bool) {
-	value, ok = c.fields[field]
-	return
 }
 
 func (c *Contact) SetEmail(email string) error {
 	c.emails[0] = email
 	return nil
+}
+
+// Field
+func (c Contact) Field(field *Field) (value string, ok bool) {
+	value, ok = c.fields[field]
+	return
 }
 
 func (c *Contact) SetField(field *Field, value string) error {
