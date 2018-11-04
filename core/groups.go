@@ -3,7 +3,7 @@ package titian
 import ()
 
 type Groups struct {
-	app  Container
+	app  *Container
 	list map[id]*Group
 }
 
@@ -12,6 +12,10 @@ func (gs Groups) fetch(group id) *Group {
 }
 
 func (gs Groups) New(name string) *Group {
+	if gs.list == nil {
+		gs.list = make(map[id]*Group)
+	}
+
 	id := newID()
 	gs.list[id] = &Group{id: id, name: name}
 	return gs.list[id]

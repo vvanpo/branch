@@ -12,6 +12,10 @@ func (us Users) fetch(user id) *User {
 }
 
 func (us *Users) New(contact *Contact) *User {
+	if us.list == nil {
+		us.list = make(map[id]*User)
+	}
+
 	for _, u := range us.list {
 		if u.id == contact.id {
 			panic("Contact already belongs to an existing user")

@@ -5,19 +5,23 @@ import ()
 type Fields struct {
 	app        *Container
 	categories map[id]*FieldCategory
-	fields     map[id]*Field
+	list       map[id]*Field
 }
 
 func (fs Fields) fetch(field id) *Field {
-	return fs.fields[field]
+	return fs.list[field]
 }
 
 func (fs Fields) New(name string, datatype string) *Field {
+	if fs.list == nil {
+		fs.list = make(map[id]*Field)
+	}
+
 	id := newID()
-	fs.fields[id] = &Field{
+	fs.list[id] = &Field{
 		id:       id,
 		name:     name,
 		datatype: datatype,
 	}
-	return fs.fields[id]
+	return fs.list[id]
 }

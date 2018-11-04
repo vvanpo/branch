@@ -10,6 +10,10 @@ type Container struct {
 }
 
 func New(config Config) *Container {
-	app := &Container{}
-	return app
+	return &Container{
+		&Contacts{},
+		&Users{},
+		&Groups{},
+		&Fields{},
+	}
 }
