@@ -7,7 +7,7 @@ import (
 
 type FieldType interface {
 	Name() string
-	NewValue(string) (string, error)
+	NewValue() FieldValue
 }
 
 // LabelField
@@ -17,10 +17,8 @@ func (_ LabelField) Name() string {
 	return "Label"
 }
 
-// NewValue validates UTF-8 input.
-func (_ LabelField) NewValue(value string) (string, error) {
-	// stub
-	return value, nil
+func (_ LabelField) NewValue() FieldValue {
+	return &LabelFieldValue{}
 }
 
 // TextField
@@ -30,9 +28,8 @@ func (_ TextField) Name() string {
 	return "Text"
 }
 
-// NewValue validates markdown input.
-func (_ TextField) NewValue(value string) (string, error) {
-	return value, nil
+func (_ TextField) NewValue() FieldValue {
+	return &TextFieldValue{}
 }
 
 // NumberField

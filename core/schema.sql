@@ -47,14 +47,8 @@ CREATE TABLE contact_field_category (
 	parent uuid REFERENCES contact_field_category
 );
 
-CREATE TYPE contact_field_type_name AS ENUM (
-	'label', 'text', 'number', 'flag', 'date', 'money', 'checklist', 'selection', 'image', 'document'
-);
-
-CREATE TABLE contact_field_type (
-	id uuid PRIMARY KEY,
-	name contact_field_type_name NOT NULL,
-	typedata bytea
+CREATE TYPE contact_field_type AS ENUM (
+	'label', 'text', 'number', 'flag', 'checklist', 'selection', 'date', 'money', 'image', 'upload'
 );
 
 CREATE TABLE contact_field (
@@ -62,7 +56,8 @@ CREATE TABLE contact_field (
 	name text NOT NULL UNIQUE,
 	description text,
 	category uuid REFERENCES contact_field_category,
-	datatype uuid NOT NULL REFERENCES contact_field_type,
+	field_type contact_field_type NOT NULL,
+	typedata bytea,
 	user_read_access bool NOT NULL DEFAULT TRUE,
 	user_write_access bool NOT NULL DEFAULT TRUE
 );
