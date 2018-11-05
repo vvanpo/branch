@@ -77,17 +77,15 @@ func (_ FlagField) NewValue(value string) (string, error) {
 // DateField
 type DateField struct {
 	id
-	datetime bool
-	timezone bool
+	dateonly bool
 }
 
 func (d DateField) Name() string {
 	return "Date"
 }
 
-func (d DateField) NewValue(value string) (string, error) {
-	// stub
-	return value, nil
+func (d DateField) NewValue() FieldValue {
+	return &DateFieldValue{}
 }
 
 // ChecklistField

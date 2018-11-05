@@ -3,12 +3,13 @@ package titian
 import (
 	"encoding"
 	"errors"
+	"time"
 	"unicode/utf8"
 )
 
 // FieldValue represents a value for a particular field of a contact.
 type FieldValue interface {
-	Field() Field
+	Field() *Field
 	encoding.BinaryMarshaler
 	encoding.BinaryUnmarshaler
 }
@@ -16,11 +17,11 @@ type FieldValue interface {
 // LabelFieldValue
 type LabelFieldValue struct {
 	id
-	field Field
+	field *Field
 	value string
 }
 
-func (l *LabelFieldValue) Field() Field {
+func (l *LabelFieldValue) Field() *Field {
 	return l.field
 }
 
@@ -40,11 +41,11 @@ func (l *LabelFieldValue) UnmarshalBinary(data []byte) error {
 // TextFieldValue
 type TextFieldValue struct {
 	id
-	field Field
+	field *Field
 	value string
 }
 
-func (t *TextFieldValue) Field() Field {
+func (t *TextFieldValue) Field() *Field {
 	return t.field
 }
 
@@ -59,4 +60,23 @@ func (t *TextFieldValue) UnmarshalBinary(data []byte) error {
 
 	t.value = string(data)
 	return nil
+}
+
+// DateFieldValue
+type DateFieldValue struct {
+	id
+	field *Field
+	date time.Time
+}
+
+func (d *DateFieldValue) Field() *Field {
+	return d.field
+}
+
+func (d *DateFieldValue) MarshalBinary() ([]byte, error) {
+	return d.date.MarshalBinary()
+}
+
+func (d *DateFieldValue) UnmarshalBinary(data []byte) error {
+	return d.date.UnmarshalBinary(data)
 }
