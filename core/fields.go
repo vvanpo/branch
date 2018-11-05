@@ -12,7 +12,7 @@ func (fs Fields) fetch(field id) *Field {
 	return fs.list[field]
 }
 
-func (fs Fields) New(name string, datatype string) *Field {
+func (fs Fields) New(name string, datatype FieldType) *Field {
 	if fs.list == nil {
 		fs.list = make(map[id]*Field)
 	}

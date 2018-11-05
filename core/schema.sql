@@ -53,7 +53,8 @@ CREATE TYPE contact_field_type_name AS ENUM (
 
 CREATE TABLE contact_field_type (
 	id uuid PRIMARY KEY,
-	name contact_field_type_name NOT NULL
+	name contact_field_type_name NOT NULL,
+	typedata bytea
 );
 
 CREATE TABLE contact_field (
