@@ -8,7 +8,7 @@ type Field struct {
 	name        string
 	description string
 	category    *FieldCategory
-	datatype    string
+	datatype    FieldType
 	// If groups is a nil map, the field is common to all contacts.
 	groups map[*Group]struct {
 		required bool

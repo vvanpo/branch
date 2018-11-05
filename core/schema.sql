@@ -47,12 +47,21 @@ CREATE TABLE contact_field_category (
 	parent uuid REFERENCES contact_field_category
 );
 
+CREATE TYPE contact_field_type_name AS ENUM (
+	'label', 'text', 'number', 'flag', 'date', 'money', 'checklist', 'selection', 'image', 'document'
+);
+
+CREATE TABLE contact_field_type (
+	id uuid PRIMARY KEY,
+	name contact_field_type_name NOT NULL
+);
+
 CREATE TABLE contact_field (
 	id uuid PRIMARY KEY,
 	name text NOT NULL UNIQUE,
 	description text,
 	category uuid REFERENCES contact_field_category,
-	datatype text NOT NULL,
+	datatype uuid NOT NULL REFERENCES contact_field_type,
 	user_read_access bool NOT NULL DEFAULT TRUE,
 	user_write_access bool NOT NULL DEFAULT TRUE
 );
