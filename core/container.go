@@ -7,6 +7,7 @@ type Container struct {
 	users    *Users
 	groups   *Groups
 	fields   *Fields
+	emails   *Emails
 }
 
 func New(config Config) *Container {
@@ -15,5 +16,6 @@ func New(config Config) *Container {
 		&Users{},
 		&Groups{},
 		&Fields{},
+		&Emails{},
 	}
 }
