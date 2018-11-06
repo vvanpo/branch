@@ -11,11 +11,7 @@ type Container struct {
 }
 
 func New(config Config) *Container {
-	return &Container{
-		&Contacts{},
-		&Users{},
-		&Groups{},
-		&Fields{},
-		&Emails{},
-	}
+	app := &Container{}
+	app.contacts = newContacts(app)
+	return app
 }

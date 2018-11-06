@@ -4,19 +4,20 @@ import (
 	"testing"
 )
 
-// Tests the SetEmail method.
-func TestContactSetEmail(t *testing.T) {
-	cs := Contacts{}
-	email, _ := NewEmail("victor@example.com")
-	contact, err := cs.New(email)
+// Tests setting an e-mail address.
+func TestContactEmail(t *testing.T) {
+	app := New(Config{})
+	email, _ := NewEmailAddress("victor@example.com")
+	contact, err := app.contacts.New(email)
 
 	if err != nil {
 		t.Fail()
 	}
 
-	contact.SetEmail("another@example.com")
+	email, _ = NewEmailAddress("another@example.com")
+	contact.SetPrimaryEmailAddress(email)
 
-	if contact.Email() != "another@example.com" {
+	if contact.EmailAddress().String() != "another@example.com" {
 		t.Fail()
 	}
 }

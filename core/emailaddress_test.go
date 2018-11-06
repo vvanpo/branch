@@ -7,7 +7,7 @@ import (
 func TestEmailAddressString(t *testing.T) {
 	email, _ := NewEmailAddress("victor@example.com")
 
-	if email != "victor@example.com" {
+	if email.String() != "victor@example.com" {
 		t.Fail()
 	}
 }
@@ -18,8 +18,8 @@ var invalidEmails = [...]string{
 }
 
 func TestValidateEmailAddress(t *testing.T) {
-	for _, email := range invalidEmails {
-		email, err := NewEmailAddress("victor")
+	for _, invalid := range invalidEmails {
+		email, err := NewEmailAddress(invalid)
 
 		if email != (EmailAddress{}) || err == nil {
 			t.Fail()

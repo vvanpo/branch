@@ -8,10 +8,6 @@ type Contacts struct {
 	fields map[id]*Field
 }
 
-func (cs Contacts) fetch(contact id) *Contact {
-	return cs.list[contact]
-}
-
 // New creates a Contact. It must be passed a unique and verified e-mail
 // address. Passing a zero-value causes the method to panic.
 func (cs *Contacts) New(email EmailAddress) (*Contact, error) {
@@ -51,3 +47,16 @@ func (cs *Contacts) Find(email EmailAddress) *Contact {
 
 	return nil
 }
+
+func newContacts(app *Container) *Contacts {
+	return &Contacts{
+		app,
+		make(map[id]*Contact),
+		make(map[id]*Field),
+	}
+}
+
+func (cs Contacts) fetch(contact id) *Contact {
+	return cs.list[contact]
+}
+

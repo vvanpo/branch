@@ -7,19 +7,24 @@ import (
 // Tests that a newly-created contact is in the contact list and has a non-zero
 // identifier.
 func TestNewContact(t *testing.T) {
-	cs := Contacts{}
-	contact := cs.New("victor@example")
+	app := New(Config{})
+	email, _ := NewEmailAddress("victor@example.com")
+	contact, err := app.contacts.New(email)
 	var zeroId id
+
+	if err != nil {
+		t.Fail()
+	}
 
 	if contact.id == zeroId {
 		t.Fail()
 	}
 
-	if contact.Email() != "victor@example" {
+	if contact.EmailAddress().String() != "victor@example.com" {
 		t.Fail()
 	}
 
-	if cs.fetch(contact.id) != contact {
+	if app.contacts.fetch(contact.id) != contact {
 		t.Fail()
 	}
 }
