@@ -24,3 +24,15 @@ func (cs *Contacts) New(email string) *Contact {
 	}
 	return cs.list[id]
 }
+
+func (cs *Contacts) Find(email string) *Contact {
+	for _, contact := range cs.list {
+		for _, e := range contact.VerifiedEmails() {
+			if email == e {
+				return contact
+			}
+		}
+	}
+
+	return nil
+}
