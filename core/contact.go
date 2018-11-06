@@ -8,9 +8,9 @@ import (
 type Contact struct {
 	app *Container
 	id
-	email Email
-	verifiedEmails []string
-	fields map[id]FieldValue
+	email          Email
+	verifiedEmails []Email
+	fields         map[id]FieldValue
 }
 
 // Email
@@ -19,15 +19,15 @@ func (c Contact) Email() Email {
 }
 
 // VerifiedEmails
-func (c Contact) VerifiedEmails() [:]string {
-	return append([]string{c.email}, c.verifiedEmails...)
+func (c Contact) VerifiedEmails() []Email {
+	return append([]Email{c.email}, c.verifiedEmails...)
 }
 
 // SetPrimaryEmail swaps the current primary e-mail for a verified e-mail.
 // Returns an error if the passed e-mail is not in the user's verified e-mails
 // list.
 func (c *Contact) SetPrimaryEmail(email Email) error {
-	emails := verifiedEmails()
+	emails := VerifiedEmails()
 
 	for i, e := range emails {
 		if e == email {
@@ -43,7 +43,7 @@ func (c *Contact) SetPrimaryEmail(email Email) error {
 // AddVerifiedEmail adds an e-mail address to the verified e-mails list. Returns
 // an error if passed the zero value or adding an address already in use.
 func (c *Contact) AddVerifiedEmail(email Email) error {
-	if email == Email{} {
+	if email == (Email{}) {
 		return errors.New("E-mail address is invalid")
 	}
 
@@ -84,4 +84,3 @@ func (c Contact) Field(field *Field) FieldValue {
 func (c *Contact) SetField(value FieldValue) {
 	c.fields[value.Field().id] = value
 }
-

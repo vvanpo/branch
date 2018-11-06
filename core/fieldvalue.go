@@ -66,7 +66,7 @@ func (t *TextFieldValue) UnmarshalBinary(data []byte) error {
 type DateFieldValue struct {
 	id
 	field *Field
-	date time.Time
+	date  time.Time
 }
 
 func (d *DateFieldValue) Field() *Field {
