@@ -24,5 +24,5 @@ func NewEmailAddress(address string) (EmailAddress, error) {
 }
 
 func (e EmailAddress) String() string {
-	return e.local + "+" + e.domain
+	return e.local + "@" + e.domain
 }
