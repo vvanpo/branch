@@ -12,9 +12,9 @@ type Contact struct {
 	id
 	// email is a required field, and denotes the contact's primary e-mail
 	// address.
-	email           EmailAddress
-	secondaryEmails []EmailAddress
-	fields          map[id]FieldValue
+	email      EmailAddress
+	alternates []EmailAddress
+	fields     map[id]FieldValue
 }
 
 // EmailAddress returns the contact's primary e-mail address.
@@ -29,46 +29,45 @@ func (c Contact) EmailAddress() EmailAddress {
 // have multiple associated e-mail addresses if they have been linked together
 // (e.g. by the owning user, or by an administrator).
 func (c Contact) EmailAddresses() []EmailAddress {
-	return append([]EmailAddress{c.email}, c.verifiedEmails...)
+	return append([]EmailAddress{c.email}, c.alternates...)
 }
 
-// VerifyEmailAddress adds an e-mail address to the contact's e-mail list.
-// Returns an error for non-unique e-mails, and will panic if passed the zero
-// value.
-func (c *Contact) VerifyEmailAddress(email EmailAddress) error {
+// AddEmailAddress adds an e-mail address to the contact's e-mail list. Returns
+// an error for non-unique e-mails, and will panic if passed the zero value.
+func (c *Contact) AddEmailAddress(email EmailAddress) error {
 	if email == (EmailAddress{}) {
-		panic("Attempting to verify an invalid e-mail address")
+		panic("Attempting to add an invalid e-mail address")
 	}
 
 	if c.app.contacts.Find(email) != nil {
 		return fmt.Errorf("E-mail address '%v' is already in use", email)
 	}
 
-	c.verifiedEmails = append(c.verifiedEmails, email)
+	c.alternates = append(c.alternates, email)
 	return nil
 }
 
 // SetPrimaryEmailAddress sets the primary e-mail address for the contact,
-// bumping an existing primary e-mail address down the list of verified
+// bumping the existing primary e-mail address onto the list of alternate
 // addresses. Must be passed a verified e-mail address, which either belongs to
 // the contact or is otherwise unique. Will panic if passed a zero-value.
 func (c *Contact) SetPrimaryEmailAddress(email EmailAddress) error {
-	emails := append([]EmailAddress{c.email}, c.verifiedEmails...)
+	emails := append([]EmailAddress{c.email}, c.alternates...)
 
 	for i, e := range emails {
 		if e == email {
 			c.email = email
-			c.verifiedEmails = append(emails[:i], emails[i+1:]...)
+			c.alternates = append(emails[:i], emails[i+1:]...)
 			return nil
 		}
 	}
 
-	if err := c.VerifyEmailAddress(email); err != nil {
+	if err := c.AddEmailAddress(email); err != nil {
 		return err
 	}
 
 	c.email = email
-	c.verifiedEmails = emails[:len(emails)-1]
+	c.alternates = emails[:len(emails)-1]
 	return nil
 }
 
@@ -80,9 +79,9 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 		return errors.New("Cannot remove your primary e-mail address")
 	}
 
-	for i, e := range c.verifiedEmails {
+	for i, e := range c.alternates {
 		if email == e {
-			c.verifiedEmails = append(c.verifiedEmails[:i], c.verifiedEmails[i+1:]...)
+			c.alternates = append(c.alternates[:i], c.alternates[i+1:]...)
 			return nil
 		}
 	}
@@ -93,9 +92,9 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 // Merge combines two contacts. The receiver retains its fields and primary
 // e-mail address.
 func (c *Contact) Merge(associated *Contact) {
-	newEmails := associated.VerifiedEmails()
+	newEmails := associated.EmailAddresses()
 	c.app.contacts.Delete(associated)
-	c.verifiedEmails = append(c.verifiedEmails, newEmails...)
+	c.alternates = append(c.alternates, newEmails...)
 }
 
 // Field
