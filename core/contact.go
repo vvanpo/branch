@@ -96,11 +96,34 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 // are added.
 func (c *Contact) Merge(associated *Contact) {
 	newEmails := associated.EmailAddresses()
+	newFields := associated.Fields()
+	newGroups := associated.Groups(
 	c.app.contacts.Delete(associated)
 	c.alternates = append(c.alternates, newEmails...)
+
+	for _, value := range newFields {
+		if c.Field(value.Field()) == nil {
+			c.SetField(value)
+		}
+	}
+
+	for _, group := range newGroups {
+		group.AddContact(c)
+	}
 }
 
-// Field returns the value of the specified field, and nil otherwise.
+//
+func (c Contact) Fields() []FieldValue {
+	fields := make([]FieldValue, 0, len(c.fields))
+
+	for _, field := range c.fields {
+		fields = append(fields, field)
+	}
+
+	return fields
+}
+
+// Field returns the value of the specified field, and nil if it is not present.
 func (c Contact) Field(field *Field) FieldValue {
 	if value, ok := c.fields[field.id]; ok {
 		return value
@@ -114,5 +137,21 @@ func (c *Contact) SetField(value FieldValue) {
 }
 
 func (c *Contact) DeleteField(field *Field) {
+	delete(c.fields, field.id)
+}
 
+// Groups
+func (c Contact) Groups() []*Group {
+	groups = make([]*Group, 0)
+
+	for _, group := range c.app.Groups.list {
+		for _, member := range group.Members() {
+			if c.id == member.id {
+				groups = append(groups, group)
+				break
+			}
+		}
+	}
+
+	return groups
 }
