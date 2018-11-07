@@ -27,23 +27,23 @@ func TestContactEmailAddress(t *testing.T) {
 }
 
 //
-func TestContactVerifyEmailAddress(t *testing.T) {
+func TestContactAddEmailAddress(t *testing.T) {
 	contact, _ := stubContact()
 
 	for _, address := range validEmails[1:] {
 		email, _ := NewEmailAddress(address)
 
-		if err := contact.VerifyEmailAddress(email); err != nil {
-			t.Errorf("Failed to verify valid e-mail address '%v'", email)
+		if err := contact.AddEmailAddress(email); err != nil {
+			t.Errorf("Failed to add valid e-mail address '%v'", email)
 		}
 	}
 
-	if contact.VerifyEmailAddress(contact.email) == nil {
+	if contact.AddEmailAddress(contact.email) == nil {
 		t.Fatalf("Failed to identify duplicate e-mail address")
 	}
 
-	list := contact.VerifiedEmails()
+	list := contact.EmailAddresses()
 	if len(list) != len(validEmails) {
-		t.Errorf("Verified e-mails count doesn't match inputs: %d => %d", len(validEmails), len(list))
+		t.Errorf("E-mail address count doesn't match inputs: %d => %d", len(validEmails), len(list))
 	}
 }

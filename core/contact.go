@@ -22,18 +22,20 @@ func (c Contact) EmailAddress() EmailAddress {
 	return c.email
 }
 
-// EmailAddresses returns a slice of all verified e-mail addresses associated
-// with the contact. A verified e-mail address is one that the application has
-// received an e-mail from in the past, was provided by a third-party
-// authentication provider, or has been manually set as verified. A contact can
-// have multiple associated e-mail addresses if they have been linked together
-// (e.g. by the owning user, or by an administrator).
+// EmailAddresses returns a slice of all e-mail addresses associated with the
+// contact.
 func (c Contact) EmailAddresses() []EmailAddress {
 	return append([]EmailAddress{c.email}, c.alternates...)
 }
 
 // AddEmailAddress adds an e-mail address to the contact's e-mail list. Returns
 // an error for non-unique e-mails, and will panic if passed the zero value.
+// The passed e-mail address is assumed to be verified. A verified e-mail
+// address is one that the application has received an e-mail from in the past,
+// was provided by a third-party authentication provider, or has been manually
+// set as verified. A contact can have multiple associated e-mail addresses if
+// they have been linked together (e.g. by the owning user, or by an
+// administrator).
 func (c *Contact) AddEmailAddress(email EmailAddress) error {
 	if email == (EmailAddress{}) {
 		panic("Attempting to add an invalid e-mail address")

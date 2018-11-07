@@ -8,22 +8,22 @@ type Contacts struct {
 	fields map[id]*Field
 }
 
-// New creates a Contact. It must be passed a unique and verified e-mail
-// address. Passing a zero-value causes the method to panic.
+// New creates a Contact. It must be passed a unique e-mail address. Passing a
+// zero-value causes the method to panic.
 func (cs *Contacts) New(email EmailAddress) (*Contact, error) {
 	contact := &Contact{
-		app:            cs.app,
-		id:             newID(),
-		email:          email,
-		verifiedEmails: nil,
-		fields:         make(map[id]FieldValue),
+		app:        cs.app,
+		id:         newID(),
+		email:      email,
+		alternates: nil,
+		fields:     make(map[id]FieldValue),
 	}
 
-	if err := contact.VerifyEmailAddress(email); err != nil {
+	if err := contact.AddEmailAddress(email); err != nil {
 		return nil, err
 	}
 
-	contact.verifiedEmails = nil
+	contact.alternates = nil
 	cs.list[contact.id] = contact
 	return contact, nil
 }
@@ -40,7 +40,7 @@ func (cs *Contacts) Delete(contact *Contact) {
 // e-mail address.
 func (cs *Contacts) Find(email EmailAddress) *Contact {
 	for _, contact := range cs.list {
-		for _, e := range contact.VerifiedEmails() {
+		for _, e := range contact.EmailAddresses() {
 			if email == e {
 				return contact
 			}

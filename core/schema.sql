@@ -9,9 +9,8 @@ CREATE TABLE contact (
 );
 
 -- E-mail is the unique identifier for a contact. Every verified e-mail (i.e.
--- known to uniquely identify the contact; verified either by a third-party or
--- by having received an e-mail from the address) is associated with a contact,
--- and vice versa.
+-- known to uniquely identify the contact) is associated with a contact, and
+-- vice versa.
 CREATE TABLE contact_email (
 	id uuid PRIMARY KEY,
 	email text NOT NULL UNIQUE,
