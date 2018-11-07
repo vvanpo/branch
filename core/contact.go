@@ -5,15 +5,16 @@ import (
 	"fmt"
 )
 
-// Contact
+// A Contact represents any individual or organization with a known e-mail
+// address or addresses.
 type Contact struct {
 	app *Container
 	id
 	// email is a required field, and denotes the contact's primary e-mail
 	// address.
-	email          EmailAddress
-	verifiedEmails []EmailAddress
-	fields         map[id]FieldValue
+	email           EmailAddress
+	secondaryEmails []EmailAddress
+	fields          map[id]FieldValue
 }
 
 // EmailAddress returns the contact's primary e-mail address.
@@ -21,12 +22,13 @@ func (c Contact) EmailAddress() EmailAddress {
 	return c.email
 }
 
-// VerifiedEmails returns a slice of all verified e-mail addresses associated
+// EmailAddresses returns a slice of all verified e-mail addresses associated
 // with the contact. A verified e-mail address is one that the application has
-// received an e-mail from in the past, or has been manually set as verified. A
-// contact can have more than one verified e-mail addresses if the owner of the
-// address has linked them together (i.e. as a user).
-func (c Contact) VerifiedEmails() []EmailAddress {
+// received an e-mail from in the past, was provided by a third-party
+// authentication provider, or has been manually set as verified. A contact can
+// have multiple associated e-mail addresses if they have been linked together
+// (e.g. by the owning user, or by an administrator).
+func (c Contact) EmailAddresses() []EmailAddress {
 	return append([]EmailAddress{c.email}, c.verifiedEmails...)
 }
 
