@@ -29,3 +29,10 @@ func (gs *Groups) Remove(name string) {
 		}
 	}
 }
+
+func newGroups(app *Container) *Groups {
+	return &Groups{
+		app,
+		make(map[id]*Group),
+	}
+}
