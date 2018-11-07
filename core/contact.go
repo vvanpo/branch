@@ -35,7 +35,7 @@ func (c Contact) VerifiedEmails() []EmailAddress {
 // value.
 func (c *Contact) VerifyEmailAddress(email EmailAddress) error {
 	if email == (EmailAddress{}) {
-		panic("Attempting to verify a zero-value e-mail address object")
+		panic("Attempting to verify an invalid e-mail address")
 	}
 
 	if c.app.contacts.Find(email) != nil {
@@ -51,30 +51,22 @@ func (c *Contact) VerifyEmailAddress(email EmailAddress) error {
 // addresses. Must be passed a verified e-mail address, which either belongs to
 // the contact or is otherwise unique. Will panic if passed a zero-value.
 func (c *Contact) SetPrimaryEmailAddress(email EmailAddress) error {
-	if c.email != (EmailAddress{}) {
-		c.verifiedEmails = append([]EmailAddress{c.email}, c.verifiedEmails...)
-		c.email = EmailAddress{}
-	}
-
-	emails := c.VerifiedEmails()
+	emails := append([]EmailAddress{c.email}, c.verifiedEmails...)
 
 	for i, e := range emails {
 		if e == email {
 			c.email = email
 			c.verifiedEmails = append(emails[:i], emails[i+1:]...)
+			return nil
 		}
-	}
-
-	if c.email != (EmailAddress{}) {
-		return nil
 	}
 
 	if err := c.VerifyEmailAddress(email); err != nil {
 		return err
 	}
 
-	c.verifiedEmails = c.verifiedEmails[:len(c.verifiedEmails)-1]
 	c.email = email
+	c.verifiedEmails = emails[:len(emails)-1]
 	return nil
 }
 

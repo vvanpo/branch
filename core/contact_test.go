@@ -33,10 +33,9 @@ func TestContactVerifyEmailAddress(t *testing.T) {
 
 	for _, address := range validEmails[1:] {
 		email, _ := NewEmailAddress(address)
-		err := contact.VerifyEmailAddress(email)
 
-		if err != nil {
-			t.Errorf("Failed to verify e-mail address '%v'", email)
+		if err := contact.VerifyEmailAddress(email); err != nil {
+			t.Errorf("Failed to verify valid e-mail address '%v'", email)
 		}
 	}
 
@@ -46,7 +45,6 @@ func TestContactVerifyEmailAddress(t *testing.T) {
 
 	list := contact.VerifiedEmails()
 	if len(list) != len(validEmails) {
-		t.Errorf("Verified e-mails don't match inputs:\n\tExpected: %v\n\tActual: %v", validEmails, list)
+		t.Errorf("Verified e-mails count doesn't match inputs: %d => %d", len(validEmails), len(list))
 	}
 }
-

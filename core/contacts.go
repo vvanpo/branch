@@ -11,17 +11,19 @@ type Contacts struct {
 // New creates a Contact. It must be passed a unique and verified e-mail
 // address. Passing a zero-value causes the method to panic.
 func (cs *Contacts) New(email EmailAddress) (*Contact, error) {
-	if cs.list == nil {
-		cs.list = make(map[id]*Contact)
+	contact := &Contact{
+		app:            cs.app,
+		id:             newID(),
+		email:          email,
+		verifiedEmails: nil,
+		fields:         make(map[id]FieldValue),
 	}
-
-	contact := &Contact{app: cs.app, id: newID()}
 
 	if err := contact.VerifyEmailAddress(email); err != nil {
 		return nil, err
 	}
 
-	contact.SetPrimaryEmailAddress(email)
+	contact.verifiedEmails = nil
 	cs.list[contact.id] = contact
 	return contact, nil
 }

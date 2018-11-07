@@ -36,7 +36,7 @@ func TestEmailAddressString(t *testing.T) {
 	}
 }
 
-func TestValidateEmailAddress(t *testing.T) {
+func TestInvalidEmailAddress(t *testing.T) {
 	for _, invalid := range invalidEmails {
 		email, err := NewEmailAddress(invalid)
 
@@ -44,7 +44,9 @@ func TestValidateEmailAddress(t *testing.T) {
 			t.Errorf("Invalid e-mail address '%v' passed validation", invalid)
 		}
 	}
+}
 
+func TestValidEmailAddress(t *testing.T) {
 	for _, valid := range validEmails {
 		email, err := NewEmailAddress(valid)
 
