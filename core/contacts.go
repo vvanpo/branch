@@ -59,4 +59,3 @@ func newContacts(app *Container) *Contacts {
 func (cs Contacts) fetch(contact id) *Contact {
 	return cs.list[contact]
 }
-
