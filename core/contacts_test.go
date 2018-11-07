@@ -34,3 +34,20 @@ func TestDeleteContact(t *testing.T) {
 		t.Error("Failed to delete contact")
 	}
 }
+
+//
+func TestFindContact(t *testing.T) {
+	contact, _ := stubContact()
+	app := contact.app
+	email := contact.email
+
+	if app.contacts.Find(contact.email) == nil {
+		t.Fatal("Failed to find newly-created contact")
+	}
+
+	app.contacts.Delete(contact)
+
+	if app.contacts.Find(email) != nil {
+		t.Fatal("Found invalid contact")
+	}
+}
