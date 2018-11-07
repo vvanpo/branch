@@ -4,16 +4,15 @@ import (
 	"testing"
 )
 
-func stubContact() *Contact {
+func stubContact() (*Contact, error) {
 	app := New(Config{})
 	email, _ := NewEmailAddress(validEmails[0])
-	contact, _ := app.contacts.New(email)
-	return contact
+	return app.contacts.New(email)
 }
 
 // Tests setting an e-mail address.
 func TestContactEmailAddress(t *testing.T) {
-	contact := stubContact()
+	contact, _ := stubContact()
 	email2, _ := NewEmailAddress(validEmails[1])
 
 	if contact.EmailAddress().String() != validEmails[0] {
@@ -29,7 +28,7 @@ func TestContactEmailAddress(t *testing.T) {
 
 //
 func TestContactVerifyEmailAddress(t *testing.T) {
-	contact := stubContact()
+	contact, _ := stubContact()
 
 	for _, address := range validEmails[1:] {
 		email, _ := NewEmailAddress(address)
