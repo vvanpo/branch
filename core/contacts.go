@@ -32,11 +32,11 @@ func (cs *Contacts) New(email EmailAddress) (*Contact, error) {
 // information unique to the contact. The passed Contact object is set to the
 // zero value.
 func (cs *Contacts) Delete(contact *Contact) {
-	for _, group := contact.Groups() {
+	for _, group := range contact.Groups() {
 		group.RemoveContact(contact)
 	}
 
-	for _, value := contact.Fields() {
+	for _, value := range contact.Fields() {
 		contact.DeleteField(value.Field())
 	}
 

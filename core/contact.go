@@ -97,7 +97,7 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 func (c *Contact) Merge(associated *Contact) {
 	newEmails := associated.EmailAddresses()
 	newFields := associated.Fields()
-	newGroups := associated.Groups(
+	newGroups := associated.Groups()
 	c.app.contacts.Delete(associated)
 	c.alternates = append(c.alternates, newEmails...)
 
@@ -142,9 +142,9 @@ func (c *Contact) DeleteField(field *Field) {
 
 // Groups
 func (c Contact) Groups() []*Group {
-	groups = make([]*Group, 0)
+	groups := make([]*Group, 0)
 
-	for _, group := range c.app.Groups.list {
+	for _, group := range c.app.groups.list {
 		for _, member := range group.Members() {
 			if c.id == member.id {
 				groups = append(groups, group)
