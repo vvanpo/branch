@@ -3,13 +3,13 @@ package titian
 import ()
 
 type Group struct {
-	app Container
+	app *Container
 	id
 	name           string
 	description    string
 	contacts       map[id]*Contact
 	permissions    []string
-	requiredFields []*Field
+	requiredFields map[id]*Field
 }
 
 // Members returns an unordered list of all contacts belonging to the group.
@@ -76,5 +76,21 @@ func (g *Group) RemovePermission(perm string) {
 
 // RequiredFields returns a list of fields required for members of the group.
 func (g Group) RequiredFields() []*Field {
-	return g.requiredFields[:]
+	fields := make([]*Field, 0, len(g.requiredFields))
+
+	for _, field := range g.requiredFields {
+		fields = append(fields, field)
+	}
+
+	return fields
+}
+
+// AddRequiredField
+func (g *Group) AddRequiredField(field *Field) {
+	g.requiredFields[field.id] = field
+}
+
+// RemoveRequiredField
+func (g *Group) RemoveRequiredField(field *Field) {
+	delete(g.requiredFields, field.id)
 }

@@ -14,5 +14,6 @@ func New(config Config) *Container {
 	app := &Container{}
 	app.contacts = newContacts(app)
 	app.groups = newGroups(app)
+	app.fields = newFields(app)
 	return app
 }

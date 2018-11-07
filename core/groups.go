@@ -7,18 +7,27 @@ type Groups struct {
 	list map[id]*Group
 }
 
-func (gs Groups) fetch(group id) *Group {
-	return gs.list[group]
+func (gs Groups) All() []*Group {
+	groups := make([]*Group, 0, len(gs.list))
+
+	for _, group := range gs.list {
+		groups = append(groups, group)
+	}
+
+	return groups
 }
 
 func (gs Groups) New(name string) *Group {
-	if gs.list == nil {
-		gs.list = make(map[id]*Group)
+	group := &Group{
+		app:            gs.app,
+		id:             newID(),
+		name:           name,
+		contacts:       make(map[id]*Contact),
+		permissions:    make([]string, 0),
+		requiredFields: make(map[id]*Field),
 	}
-
-	id := newID()
-	gs.list[id] = &Group{id: id, name: name}
-	return gs.list[id]
+	gs.list[group.id] = group
+	return group
 }
 
 func (gs *Groups) Remove(name string) {
@@ -35,4 +44,8 @@ func newGroups(app *Container) *Groups {
 		app,
 		make(map[id]*Group),
 	}
+}
+
+func (gs Groups) fetch(group id) *Group {
+	return gs.list[group]
 }
