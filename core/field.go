@@ -2,6 +2,9 @@ package titian
 
 import ()
 
+// A Field is used to label and format information associated with contacts.
+// Fields can be given values by administrators, or by the user associated with
+// the contact.
 type Field struct {
 	app Container
 	id
@@ -13,12 +16,14 @@ type Field struct {
 	groups map[*Group]struct {
 		required bool
 	}
-	// If access is a nil map, the owning user has full access to their field.
-	// Otherwise, user access to their field is determined by group membership.
-	access map[*Group]struct {
+	// If userAccess is a nil map, the owning user has full access to their
+	// field. Otherwise, user access to their field is determined by group
+	// membership.
+	userAccess map[*Group]struct {
 		readonly bool
 	}
-	// If the visibility slice is empty, the field defaults to public.
+	// If the visibility slice is empty, the field defaults to being publicly
+	// readable.
 	visibility map[*Group]struct {
 		administer bool
 	}
