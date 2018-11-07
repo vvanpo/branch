@@ -4,26 +4,36 @@ import (
 	"testing"
 )
 
-func TestEmailAddressString(t *testing.T) {
-	email, _ := NewEmailAddress("victor@example.com")
-
-	if email.String() != "victor@example.com" {
-		t.Fail()
-	}
+var validEmails = [...]string{
+	"victor@gmail.com",
+	"victor_@gmail.com",
+	"!def!xyz%abc@example.com",
+	"a@b",
 }
 
 var invalidEmails = [...]string{
 	"",
+	"@b",
+	"a@",
 	"name",
 	"ç$€§/az@gmail.com",
 	"@gmail.com",
 	"victor@_gmail.com",
 	"victor@",
+	"victor@yahooo.",
 }
 
-var validEmails = [...]string{
-	"a@b",
-	"victor@gmail.com",
+func TestEmailAddressString(t *testing.T) {
+	email, _ := NewEmailAddress(validEmails[0])
+	email2, _ := NewEmailAddress(invalidEmails[0])
+
+	if email.String() != validEmails[0] {
+		t.Errorf("E-mail input does not match string output: %v => %v", validEmails[0], email.String())
+	}
+
+	if email2.String() != "" {
+		t.Errorf("Invalid e-mail address does not output empty string: %v => %v", invalidEmails[0], email2.String())
+	}
 }
 
 func TestValidateEmailAddress(t *testing.T) {

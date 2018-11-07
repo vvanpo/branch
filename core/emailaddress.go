@@ -25,5 +25,9 @@ func NewEmailAddress(address string) (EmailAddress, error) {
 
 // String implements the fmt.Stringer interface.
 func (e EmailAddress) String() string {
+	if e == (EmailAddress{}) {
+		return ""
+	}
+
 	return e.local + "@" + e.domain
 }
