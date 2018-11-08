@@ -12,7 +12,7 @@ type Fields struct {
 
 func (fs Fields) All() []*Field {
 	fields := make([]*Field, 0)
-	walkFields(func(field *Field) {
+	fs.walkFields(func(field *Field) {
 		fields = append(fields, field)
 	})
 	return fields
@@ -44,6 +44,8 @@ func (fs *Fields) Find(name string) *Field {
 			return field
 		}
 	}
+
+	return nil
 }
 
 // NewCategory
@@ -54,10 +56,10 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 
 	category := &FieldCategory{
 		app:           fs.app,
-		id:            newId(),
+		id:            newID(),
 		name:          name,
 		fields:        make(map[id]*Field),
-		subcategories: make(map[id]*Field),
+		subcategories: make(map[id]*FieldCategory),
 	}
 	collection := fs.categories
 
@@ -79,23 +81,23 @@ func (fs *Fields) MoveCategory(category, parent *FieldCategory) {
 }
 
 func (fs Fields) FindCategory(name string) *FieldCategory {
-
+	return nil
 }
 
 func newFields(app *Container) *Fields {
 	return &Fields{
 		app,
 		make(map[id]*FieldCategory),
-		make(map[id]*Field),
 	}
 }
 
 // walkCategories applies fn to every category.
 func (fs *Fields) walkCategories(fn func(*FieldCategory)) {
-	walk := func(fcs []*FieldCategory) {
+	var walk func(map[id]*FieldCategory)
+	walk = func(fcs map[id]*FieldCategory) {
 		for _, category := range fcs {
 			fn(category)
-			walk(fcs.subcategories)
+			walk(category.subcategories)
 		}
 	}
 

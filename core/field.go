@@ -59,7 +59,7 @@ func (f Field) Category() *FieldCategory {
 func (f Field) Groups() []*Group {
 	groups := make([]*Group, 0, len(f.groups))
 
-	for group := range f.groups {
+	for _, group := range f.groups {
 		groups = append(groups, group)
 	}
 
@@ -71,5 +71,5 @@ func (f *Field) AddGroup(group *Group) {
 }
 
 func (f *Field) RemoveGroup(group *Group) {
-	delete(f.groups, group)
+	delete(f.groups, group.id)
 }

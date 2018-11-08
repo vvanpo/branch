@@ -1,10 +1,12 @@
 package titian
 
-import ()
+import (
+	"errors"
+)
 
 //
 type FieldCategory struct {
-	app Container
+	app *Container
 	id
 	name          string
 	description   string
@@ -14,16 +16,20 @@ type FieldCategory struct {
 
 //
 func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, error) {
+	if fc.app.fields.Find(name) != nil {
+		return nil, errors.New("Duplicate field name")
+	}
+
 	field := &Field{
 		id:         newID(),
 		name:       name,
-		datatype:   datatype,
-		groups:     make(map[*Group]struct{ bool }),
-		userAccess: make(map[*Group]struct{ bool }),
-		visibility: make(map[*Group]struct{ bool }),
+		fieldtype:  datatype,
+		groups:     make(map[id]*Group),
+		visible:    make(map[id]*Group),
+		administer: make(map[id]*Group),
 	}
 
-	return field
+	return field, nil
 }
 
 func (fc *FieldCategory) Find(name string) *Field {
@@ -38,4 +44,6 @@ func (fc *FieldCategory) Find(name string) *Field {
 			return field
 		}
 	}
+
+	return nil
 }
