@@ -3,6 +3,7 @@ package titian
 import (
 	"encoding"
 	"errors"
+	"fmt"
 	"time"
 	"unicode/utf8"
 )
@@ -12,6 +13,7 @@ type FieldValue interface {
 	Field() *Field
 	encoding.BinaryMarshaler
 	encoding.BinaryUnmarshaler
+	fmt.Stringer
 }
 
 // LabelFieldValue
@@ -38,6 +40,10 @@ func (l *LabelFieldValue) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (l *LabelFieldValue) String() string {
+	return value
+}
+
 // TextFieldValue
 type TextFieldValue struct {
 	id
@@ -62,6 +68,10 @@ func (t *TextFieldValue) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (t *TextFieldValue) String() string {
+	return value
+}
+
 // DateFieldValue
 type DateFieldValue struct {
 	id
@@ -79,4 +89,12 @@ func (d *DateFieldValue) MarshalBinary() ([]byte, error) {
 
 func (d *DateFieldValue) UnmarshalBinary(data []byte) error {
 	return d.date.UnmarshalBinary(data)
+}
+
+func (d *DateFieldValue) SetDate(date time.Time) {
+	d.date = date
+}
+
+func (d *DateFieldValue) String() string {
+	return d.date.String()
 }
