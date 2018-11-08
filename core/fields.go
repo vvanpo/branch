@@ -11,7 +11,12 @@ type Fields struct {
 }
 
 func (fs Fields) All() []*Field {
-
+	fields := make([]*Field, 0)
+	walkCategories(func(fc *FieldCategory) {
+		for _, field := range fc.fields {
+			fields = append(fields, field)
+		}
+	})
 	return fields
 }
 
@@ -33,13 +38,17 @@ func (fs *Fields) Move(field *Field, category *FieldCategory) {
 }
 
 func (fs *Fields) Find(name string) *Field {
-
+	for _, category := range fs.categories {
+		if field := category.Find(name); field != nil {
+			return field
+		}
+	}
 }
 
 // NewCategory
 func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategory, error) {
 	if fs.FindCategory(name) != nil {
-		return nil, errors.New()
+		return nil, errors.New("Duplicate category name")
 	}
 
 	category := &FieldCategory{
@@ -50,7 +59,7 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 		subcategories: make(map[id]*Field),
 	}
 
-	if parent = nil {
+	if parent == nil {
 		parent = fs.categories
 	}
 
@@ -79,9 +88,14 @@ func newFields(app *Container) *Fields {
 	}
 }
 
-func (fc *FieldCategory) walkCategories(fn func(*FieldCategory)) {
-	for _, category := range fc.subcategories {
-		fn(category)
-		category.walkCategories(fn)
+// walkCategories applies fn to every category.
+func (fs *Fields) walkCategories(fn func(*FieldCategory)) {
+	walk := func(fcs []*FieldCategory) {
+		for _, category := range fcs {
+			fn(category)
+			walk(fcs.subcategories)
+		}
 	}
+
+	walk(fs.categories)
 }

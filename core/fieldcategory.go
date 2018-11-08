@@ -26,3 +26,16 @@ func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, erro
 	return field
 }
 
+func (fc *FieldCategory) Find(name string) *Field {
+	for _, field := range fc.fields {
+		if name == field.name {
+			return field
+		}
+	}
+
+	for _, category := range fc.subcategories {
+		if field := category.Find(name); field != nil {
+			return field
+		}
+	}
+}
