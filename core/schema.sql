@@ -57,7 +57,7 @@ CREATE TABLE contact_field (
 	id uuid PRIMARY KEY,
 	name text NOT NULL UNIQUE,
 	description text,
-	category uuid REFERENCES contact_field_category,
+	category uuid NOT NULL REFERENCES contact_field_category,
 	field_type contact_field_type NOT NULL,
 	typedata bytea,
 	user_read_access bool NOT NULL DEFAULT TRUE,

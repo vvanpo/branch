@@ -11,11 +11,6 @@ type Fields struct {
 }
 
 func (fs Fields) All() []*Field {
-	fields := make([]*Field, 0, len(fs.list))
-
-	for _, field := range fs.list {
-		fields = append(fields, field)
-	}
 
 	return fields
 }
@@ -30,8 +25,15 @@ func (fs *Fields) Delete(field *Field) {
 		contact.DeleteField(field)
 	}
 
-	delete(fs.list, field.id)
 	*field = Field{}
+}
+
+func (fs *Fields) Move(field *Field, category *FieldCategory) {
+
+}
+
+func (fs *Fields) Find(name string) *Field {
+
 }
 
 // NewCategory
@@ -48,11 +50,25 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 		subcategories: make(map[id]*Field),
 	}
 
+	if parent = nil {
+		parent = fs.categories
+	}
+
 	parent.subcategories[category.id] = category
 	return category, nil
 }
 
+//
+func (fs *Fields) DeleteCategory(category *FieldCategory) {
+
+}
+
+func (fs *Fields) MoveCategory(category, parent *FieldCategory) {
+
+}
+
 func (fs Fields) FindCategory(name string) *FieldCategory {
+
 }
 
 func newFields(app *Container) *Fields {

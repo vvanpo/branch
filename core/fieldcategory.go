@@ -25,3 +25,4 @@ func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, erro
 
 	return field
 }
+
