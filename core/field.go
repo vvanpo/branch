@@ -10,7 +10,6 @@ type Field struct {
 	id
 	name        string
 	description string
-	category    *FieldCategory
 	datatype    FieldType
 	// If groups is a nil map, the field is common to all contacts.
 	groups map[*Group]struct {
@@ -49,11 +48,10 @@ func (f *Field) SetDescription(description string) {
 
 // Category
 func (f Field) Category() *FieldCategory {
-	return f.category
+	return nil
 }
 
 func (f *Field) SetCategory(category *FieldCategory) {
-	f.category = category
 }
 
 // Groups

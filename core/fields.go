@@ -1,11 +1,13 @@
 package titian
 
-import ()
+import (
+	"errors"
+)
 
 type Fields struct {
-	app        *Container
+	app *Container
+	// A list of top-level categories
 	categories map[id]*FieldCategory
-	list       map[id]*Field
 }
 
 func (fs Fields) All() []*Field {
@@ -16,20 +18,6 @@ func (fs Fields) All() []*Field {
 	}
 
 	return fields
-}
-
-func (fs *Fields) New(name string, datatype FieldType) *Field {
-	if fs.list == nil {
-		fs.list = make(map[id]*Field)
-	}
-
-	id := newID()
-	fs.list[id] = &Field{
-		id:       id,
-		name:     name,
-		datatype: datatype,
-	}
-	return fs.list[id]
 }
 
 // Delete removes a field, deleting all values for that field from contacts.
@@ -46,6 +34,27 @@ func (fs *Fields) Delete(field *Field) {
 	*field = Field{}
 }
 
+// NewCategory
+func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategory, error) {
+	if fs.FindCategory(name) != nil {
+		return nil, errors.New()
+	}
+
+	category := &FieldCategory{
+		app:           fs.app,
+		id:            newId(),
+		name:          name,
+		fields:        make(map[id]*Field),
+		subcategories: make(map[id]*Field),
+	}
+
+	parent.subcategories[category.id] = category
+	return category, nil
+}
+
+func (fs Fields) FindCategory(name string) *FieldCategory {
+}
+
 func newFields(app *Container) *Fields {
 	return &Fields{
 		app,
@@ -54,6 +63,9 @@ func newFields(app *Container) *Fields {
 	}
 }
 
-func (fs Fields) fetch(field id) *Field {
-	return fs.list[field]
+func (fc *FieldCategory) walkCategories(fn func(*FieldCategory)) {
+	for _, category := range fc.subcategories {
+		fn(category)
+		category.walkCategories(fn)
+	}
 }
