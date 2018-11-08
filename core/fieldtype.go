@@ -7,7 +7,7 @@ import (
 
 type FieldType interface {
 	Name() string
-	NewValue() FieldValue
+	New(string) (FieldValue, error)
 }
 
 // LabelField
@@ -17,8 +17,9 @@ func (_ LabelField) Name() string {
 	return "Label"
 }
 
-func (_ LabelField) NewValue() FieldValue {
-	return &LabelFieldValue{}
+func (_ LabelField) New(value string) FieldValue {
+	label := LabelFieldValue{id: newID()}
+	return label, label.Set(value)
 }
 
 // TextField

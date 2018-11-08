@@ -10,21 +10,16 @@ import (
 
 // FieldValue represents a value for a particular field of a contact.
 type FieldValue interface {
-	Field() *Field
 	encoding.BinaryMarshaler
 	encoding.BinaryUnmarshaler
 	fmt.Stringer
+	Set(string) error
 }
 
 // LabelFieldValue
 type LabelFieldValue struct {
 	id
-	field *Field
 	value string
-}
-
-func (l *LabelFieldValue) Field() *Field {
-	return l.field
 }
 
 func (l *LabelFieldValue) MarshalBinary() ([]byte, error) {
@@ -41,18 +36,13 @@ func (l *LabelFieldValue) UnmarshalBinary(data []byte) error {
 }
 
 func (l *LabelFieldValue) String() string {
-	return value
+	return l.value
 }
 
 // TextFieldValue
 type TextFieldValue struct {
 	id
-	field *Field
 	value string
-}
-
-func (t *TextFieldValue) Field() *Field {
-	return t.field
 }
 
 func (t *TextFieldValue) MarshalBinary() ([]byte, error) {
@@ -69,18 +59,13 @@ func (t *TextFieldValue) UnmarshalBinary(data []byte) error {
 }
 
 func (t *TextFieldValue) String() string {
-	return value
+	return t.value
 }
 
 // DateFieldValue
 type DateFieldValue struct {
 	id
-	field *Field
-	date  time.Time
-}
-
-func (d *DateFieldValue) Field() *Field {
-	return d.field
+	date time.Time
 }
 
 func (d *DateFieldValue) MarshalBinary() ([]byte, error) {
@@ -89,10 +74,6 @@ func (d *DateFieldValue) MarshalBinary() ([]byte, error) {
 
 func (d *DateFieldValue) UnmarshalBinary(data []byte) error {
 	return d.date.UnmarshalBinary(data)
-}
-
-func (d *DateFieldValue) SetDate(date time.Time) {
-	d.date = date
 }
 
 func (d *DateFieldValue) String() string {
