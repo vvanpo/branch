@@ -4,12 +4,6 @@ import (
 	"testing"
 )
 
-func stubContact() (*Contact, error) {
-	app := New(Config{})
-	email, _ := NewEmailAddress(validEmails[0])
-	return app.contacts.New(email)
-}
-
 // Tests setting an e-mail address.
 func TestContactEmailAddress(t *testing.T) {
 	contact, _ := stubContact()
@@ -46,4 +40,10 @@ func TestContactAddEmailAddress(t *testing.T) {
 	if len(list) != len(validEmails) {
 		t.Errorf("E-mail address count doesn't match inputs: %d => %d", len(validEmails), len(list))
 	}
+}
+
+func stubContact() (*Contact, error) {
+	app := New(Config{})
+	email, _ := NewEmailAddress(validEmails[0])
+	return app.contacts.New(email)
 }

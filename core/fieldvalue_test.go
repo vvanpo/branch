@@ -12,7 +12,7 @@ func TestLabelFieldValue(t *testing.T) {
 
 // Tests the Marshal/Unmarshal methods of DateFieldValue.
 func TestDateFieldValueMarshalling(t *testing.T) {
-	field := &Field{datatype: &DateField{}}
+	field := stubField()
 	value := &DateFieldValue{newID(), field, time.Now()}
 	buf, err := value.MarshalBinary()
 
@@ -35,4 +35,11 @@ func TestDateFieldValueMarshalling(t *testing.T) {
 	if !bytes.Equal(buf, buf2) {
 		t.Fail()
 	}
+}
+
+func stubField() *Field {
+	app := New(Config{})
+	category, _ := app.fields.NewCategory("top", nil)
+	field, _ := category.NewField("label", &LabelField{})
+	return field
 }
