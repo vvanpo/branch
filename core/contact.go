@@ -132,8 +132,15 @@ func (c Contact) Field(field *Field) FieldValue {
 	return nil
 }
 
-func (c *Contact) SetField(value FieldValue) {
-	c.fields[value.Field().id] = value
+func (c *Contact) SetField(field *Field, value string) error {
+	fieldValue, err := field.Type().New(value)
+
+	if err != nil {
+		return err
+	}
+
+	c.fields[field.id] = fieldValue
+	return nil
 }
 
 func (c *Contact) DeleteField(field *Field) {

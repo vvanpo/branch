@@ -28,7 +28,7 @@ func (l *LabelFieldValue) MarshalBinary() ([]byte, error) {
 
 func (l *LabelFieldValue) UnmarshalBinary(data []byte) error {
 	if !utf8.Valid(data) {
-		return errors.New("Invalid UTF-8")
+		return errors.New("Invalid string encoding")
 	}
 
 	l.value = string(data)
@@ -37,6 +37,15 @@ func (l *LabelFieldValue) UnmarshalBinary(data []byte) error {
 
 func (l *LabelFieldValue) String() string {
 	return l.value
+}
+
+func (l *LabelFieldValue) Set(value string) error {
+	if !utf8.ValidString(value) {
+		return errors.New("Invalid string encoding")
+	}
+
+	l.value = value
+	return nil
 }
 
 // TextFieldValue
@@ -65,7 +74,8 @@ func (t *TextFieldValue) String() string {
 // DateFieldValue
 type DateFieldValue struct {
 	id
-	date time.Time
+	fieldtype FieldType
+	date      time.Time
 }
 
 func (d *DateFieldValue) MarshalBinary() ([]byte, error) {
