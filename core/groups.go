@@ -7,6 +7,7 @@ type Groups struct {
 	list map[id]*Group
 }
 
+// All returns a list of all groups.
 func (gs Groups) All() []*Group {
 	groups := make([]*Group, 0, len(gs.list))
 
@@ -17,7 +18,8 @@ func (gs Groups) All() []*Group {
 	return groups
 }
 
-func (gs Groups) New(name string) *Group {
+// New creates a new group and adds it to the collection.
+func (gs *Groups) New(name string) *Group {
 	group := &Group{
 		app:            gs.app,
 		id:             newID(),
@@ -30,13 +32,10 @@ func (gs Groups) New(name string) *Group {
 	return group
 }
 
-func (gs *Groups) Remove(name string) {
-	for _, group := range gs.list {
-		if group.name == name {
-			delete(gs.list, group.id)
-			return
-		}
-	}
+// Delete removes a group from the collection and deletes associated data.
+func (gs *Groups) Delete(group *Group) {
+	delete(gs.list, group.id)
+	*group = Group{}
 }
 
 func newGroups(app *Container) *Groups {

@@ -95,24 +95,24 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 // e-mail address, and additional fields and groups from the associated contact
 // are added.
 func (c *Contact) Merge(associated *Contact) {
-	newEmails := associated.EmailAddresses()
-	newFields := associated.Fields()
-	newGroups := associated.Groups()
+	emails := associated.EmailAddresses()
+	fields := associated.Fields()
+	groups := associated.Groups()
 	c.app.contacts.Delete(associated)
-	c.alternates = append(c.alternates, newEmails...)
+	c.alternates = append(c.alternates, emails...)
 
-	for _, value := range newFields {
+	for _, value := range fields {
 		if c.Field(value.Field()) == nil {
 			c.SetField(value)
 		}
 	}
 
-	for _, group := range newGroups {
+	for _, group := range groups {
 		group.AddContact(c)
 	}
 }
 
-//
+// Fields returns a slice of all field values for the contact.
 func (c Contact) Fields() []FieldValue {
 	fields := make([]FieldValue, 0, len(c.fields))
 
