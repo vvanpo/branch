@@ -12,15 +12,13 @@ type Fields struct {
 
 func (fs Fields) All() []*Field {
 	fields := make([]*Field, 0)
-	walkCategories(func(fc *FieldCategory) {
-		for _, field := range fc.fields {
-			fields = append(fields, field)
-		}
+	walkFields(func(field *Field) {
+		fields = append(fields, field)
 	})
 	return fields
 }
 
-// Delete removes a field, deleting all values for that field from contacts.
+// Delete removes a field, deleting all values for that field from all contacts.
 func (fs *Fields) Delete(field *Field) {
 	for _, group := range fs.app.groups.All() {
 		group.RemoveRequiredField(field)
@@ -33,10 +31,12 @@ func (fs *Fields) Delete(field *Field) {
 	*field = Field{}
 }
 
+// Move changes a field's category.
 func (fs *Fields) Move(field *Field, category *FieldCategory) {
 
 }
 
+// Find searches the fields collection for a field.
 func (fs *Fields) Find(name string) *Field {
 	for _, category := range fs.categories {
 		if field := category.Find(name); field != nil {
@@ -98,4 +98,13 @@ func (fs *Fields) walkCategories(fn func(*FieldCategory)) {
 	}
 
 	walk(fs.categories)
+}
+
+// walkFields applies fn to every field.
+func (fs *Fields) walkFields(fn func(*Field)) {
+	fs.walkCategories(func(fc *FieldCategory) {
+		for _, field := range fc.fields {
+			fn(field)
+		}
+	})
 }

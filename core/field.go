@@ -10,22 +10,22 @@ type Field struct {
 	id
 	name        string
 	description string
-	datatype    FieldType
-	// If groups is a nil map, the field is common to all contacts.
-	groups map[*Group]struct {
-		required bool
-	}
-	// If userAccess is a nil map, the owning user has full access to their
-	// field. Otherwise, user access to their field is determined by group
-	// membership.
-	userAccess map[*Group]struct {
-		readonly bool
-	}
-	// If the visibility slice is empty, the field defaults to being publicly
-	// readable.
-	visibility map[*Group]struct {
-		administer bool
-	}
+	fieldtype   FieldType
+	// Determines if a contact can create or update this field.
+	readonly bool
+	// Determines if a contact can see their own field. This property is
+	// overridden if the contact is a member of any groups in the 'visible'
+	// list below.
+	hidden bool
+	// The list of groups whose members can have a value stored in this field.
+	// If this list is empty, the field is common to all contacts.
+	groups map[id]*Group
+	// Visibility determines who can view a contact's field. If the list is
+	// empty, anyone can view this field for any contact.
+	visible map[id]*Group
+	// Administrators can create and update this field for any contact in the
+	// above groups list.
+	administer map[id]*Group
 }
 
 // Name
@@ -46,12 +46,13 @@ func (f *Field) SetDescription(description string) {
 	f.description = description
 }
 
+func (f Field) Type() FieldType {
+	return f.fieldtype
+}
+
 // Category
 func (f Field) Category() *FieldCategory {
 	return nil
-}
-
-func (f *Field) SetCategory(category *FieldCategory) {
 }
 
 // Groups
@@ -65,34 +66,10 @@ func (f Field) Groups() []*Group {
 	return groups
 }
 
-func (f *Field) SetGroup(group *Group, required bool) {
-	f.groups[group] = struct{ required bool }{required}
+func (f *Field) AddGroup(group *Group) {
+	f.groups[group.id] = group
 }
 
 func (f *Field) RemoveGroup(group *Group) {
 	delete(f.groups, group)
-}
-
-// Access
-func (f Field) Access() []*Group {
-	return nil
-}
-
-// Visible
-func (f Field) Visible(group *Group) bool {
-	if len(f.visibility) == 0 {
-		return true
-	}
-
-	_, ok := f.visibility[group]
-	return ok
-}
-
-// Administer
-func (f Field) Administer(group *Group) bool {
-	if g, ok := f.visibility[group]; ok {
-		return g.administer
-	}
-
-	return false
 }
