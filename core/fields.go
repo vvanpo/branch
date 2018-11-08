@@ -33,7 +33,8 @@ func (fs *Fields) Delete(field *Field) {
 
 // Move changes a field's category.
 func (fs *Fields) Move(field *Field, category *FieldCategory) {
-
+	delete(field.Category().fields, field.id)
+	category.fields[field.id] = field
 }
 
 // Find searches the fields collection for a field.
@@ -58,12 +59,13 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 		fields:        make(map[id]*Field),
 		subcategories: make(map[id]*Field),
 	}
+	collection := fs.categories
 
-	if parent == nil {
-		parent = fs.categories
+	if parent != nil {
+		collection = parent.subcategories
 	}
 
-	parent.subcategories[category.id] = category
+	collection[category.id] = category
 	return category, nil
 }
 
