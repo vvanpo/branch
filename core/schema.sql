@@ -25,15 +25,6 @@ CREATE TABLE contact_group (
 	description text
 );
 
--- Relates groups to sets of permissions.
--- The capabilities of permissions are determined by the application.
-CREATE TABLE contact_group_permissions (
-	id uuid PRIMARY KEY,
-	contact_group uuid NOT NULL REFERENCES contact_group,
-	permission text NOT NULL,
-	UNIQUE (contact_group, permission)
-);
-
 -- Relates contacts and the groups they belong to.
 CREATE TABLE contact_groups (
 	id uuid PRIMARY KEY,
