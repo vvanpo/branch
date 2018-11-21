@@ -4,14 +4,16 @@ import (
 	"errors"
 )
 
+type fcid id
+
 //
 type FieldCategory struct {
 	app *Container
-	id
+	fcid
 	name          string
 	description   string
-	fields        map[id]*Field
-	subcategories map[id]*FieldCategory
+	fields        map[fid]*Field
+	subcategories map[fcid]*FieldCategory
 }
 
 //
@@ -21,12 +23,9 @@ func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, erro
 	}
 
 	field := &Field{
-		id:         newID(),
+		fid:         fid(newID()),
 		name:       name,
 		fieldtype:  datatype,
-		groups:     make(map[id]*Group),
-		visible:    make(map[id]*Group),
-		administer: make(map[id]*Group),
 	}
 
 	return field, nil

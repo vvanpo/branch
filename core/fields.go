@@ -7,7 +7,7 @@ import (
 type Fields struct {
 	app *Container
 	// A list of top-level categories
-	categories map[id]*FieldCategory
+	categories map[fcid]*FieldCategory
 }
 
 func (fs Fields) All() []*Field {
@@ -56,10 +56,10 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 
 	category := &FieldCategory{
 		app:           fs.app,
-		id:            newID(),
+		fcid:            fcid(newID()),
 		name:          name,
-		fields:        make(map[id]*Field),
-		subcategories: make(map[id]*FieldCategory),
+		fields:        make(map[fid]*Field),
+		subcategories: make(map[fcid]*FieldCategory),
 	}
 	collection := fs.categories
 
@@ -67,7 +67,7 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 		collection = parent.subcategories
 	}
 
-	collection[category.id] = category
+	collection[category.fcid] = category
 	return category, nil
 }
 
@@ -93,8 +93,8 @@ func newFields(app *Container) *Fields {
 
 // walkCategories applies fn to every category.
 func (fs *Fields) walkCategories(fn func(*FieldCategory)) {
-	var walk func(map[id]*FieldCategory)
-	walk = func(fcs map[id]*FieldCategory) {
+	var walk func(map[fcid]*FieldCategory)
+	walk = func(fcs map[fcid]*FieldCategory) {
 		for _, category := range fcs {
 			fn(category)
 			walk(category.subcategories)

@@ -4,7 +4,7 @@ import ()
 
 type Groups struct {
 	app  *Container
-	list map[id]*Group
+	list map[gid]*Group
 }
 
 // All returns a list of all groups.
@@ -22,29 +22,29 @@ func (gs Groups) All() []*Group {
 func (gs *Groups) New(name string) *Group {
 	group := &Group{
 		app:            gs.app,
-		id:             newID(),
+		gid:             gid(newID()),
 		name:           name,
 		contacts:       make(map[id]*Contact),
 		permissions:    make([]string, 0),
 		requiredFields: make(map[id]*Field),
 	}
-	gs.list[group.id] = group
+	gs.list[group.gid] = group
 	return group
 }
 
 // Delete removes a group from the collection and deletes associated data.
 func (gs *Groups) Delete(group *Group) {
-	delete(gs.list, group.id)
+	delete(gs.list, group.gid)
 	*group = Group{}
 }
 
 func newGroups(app *Container) *Groups {
 	return &Groups{
 		app,
-		make(map[id]*Group),
+		make(map[gid]*Group),
 	}
 }
 
-func (gs Groups) fetch(group id) *Group {
+func (gs Groups) fetch(group gid) *Group {
 	return gs.list[group]
 }

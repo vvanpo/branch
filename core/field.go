@@ -2,16 +2,15 @@ package titian
 
 import ()
 
+type fid id
+
 // A Field is used to label and format information associated with contacts.
 type Field struct {
 	app Container
-	id
+	fid
 	name        string
 	description string
 	fieldtype   FieldType
-	// The list of groups whose members can have a value stored in this field.
-	// If this list is empty, the field is common to all contacts.
-	groups map[id]*Group
 }
 
 // Name
@@ -43,19 +42,7 @@ func (f Field) Category() *FieldCategory {
 
 // Groups
 func (f Field) Groups() []*Group {
-	groups := make([]*Group, 0, len(f.groups))
-
-	for _, group := range f.groups {
-		groups = append(groups, group)
-	}
+	groups := make([]*Group, 0)
 
 	return groups
-}
-
-func (f *Field) AddGroup(group *Group) {
-	f.groups[group.id] = group
-}
-
-func (f *Field) RemoveGroup(group *Group) {
-	delete(f.groups, group.id)
 }

@@ -2,14 +2,16 @@ package titian
 
 import ()
 
+type gid id
+
 type Group struct {
 	app *Container
-	id
+	gid
 	name           string
 	description    string
-	contacts       map[id]*Contact
+	contacts       map[cid]*Contact
 	permissions    []string
-	requiredFields map[id]*Field
+	requiredFields map[fid]*Field
 }
 
 // Members returns an unordered list of all contacts belonging to the group.
