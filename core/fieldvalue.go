@@ -8,31 +8,18 @@ import (
 	"unicode/utf8"
 )
 
-// FieldValue represents a value for a particular field of a contact.
+type fvid id
+
+// FieldValue represents a value for a particular field type.
 type FieldValue interface {
-	encoding.BinaryMarshaler
-	encoding.BinaryUnmarshaler
 	fmt.Stringer
 	Set(string) error
 }
 
 // LabelFieldValue
 type LabelFieldValue struct {
-	id
+	id    fvid
 	value string
-}
-
-func (l *LabelFieldValue) MarshalBinary() ([]byte, error) {
-	return []byte(l.value), nil
-}
-
-func (l *LabelFieldValue) UnmarshalBinary(data []byte) error {
-	if !utf8.Valid(data) {
-		return errors.New("Invalid string encoding")
-	}
-
-	l.value = string(data)
-	return nil
 }
 
 func (l *LabelFieldValue) String() string {
@@ -40,7 +27,7 @@ func (l *LabelFieldValue) String() string {
 }
 
 func (l *LabelFieldValue) Set(value string) error {
-	if !utf8.ValidString(value) {
+	if !utf8.Valid(value) {
 		return errors.New("Invalid string encoding")
 	}
 
@@ -50,7 +37,7 @@ func (l *LabelFieldValue) Set(value string) error {
 
 // TextFieldValue
 type TextFieldValue struct {
-	id
+	id    fvid
 	value string
 }
 
@@ -73,7 +60,7 @@ func (t *TextFieldValue) String() string {
 
 // DateFieldValue
 type DateFieldValue struct {
-	id
+	id        fvid
 	fieldtype FieldType
 	date      time.Time
 }

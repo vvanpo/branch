@@ -56,7 +56,7 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 
 	category := &FieldCategory{
 		app:           fs.app,
-		fcid:            fcid(newID()),
+		id:            fcid(newID()),
 		name:          name,
 		fields:        make(map[fid]*Field),
 		subcategories: make(map[fcid]*FieldCategory),
@@ -67,7 +67,7 @@ func (fs *Fields) NewCategory(name string, parent *FieldCategory) (*FieldCategor
 		collection = parent.subcategories
 	}
 
-	collection[category.fcid] = category
+	collection[category.id] = category
 	return category, nil
 }
 
@@ -89,6 +89,17 @@ func newFields(app *Container) *Fields {
 		app,
 		make(map[id]*FieldCategory),
 	}
+}
+
+func (fs Fields) field(id fid) *Field {
+	var field *Field
+	fs.walkFields(func(f *Field) {
+		if f.id == id {
+			field = f
+			return
+		}
+	})
+	return field
 }
 
 // walkCategories applies fn to every category.

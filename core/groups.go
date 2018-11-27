@@ -22,7 +22,7 @@ func (gs Groups) All() []*Group {
 func (gs *Groups) New(name string) *Group {
 	group := &Group{
 		app:            gs.app,
-		gid:             gid(newID()),
+		gid:            gid(newID()),
 		name:           name,
 		contacts:       make(map[id]*Contact),
 		permissions:    make([]string, 0),

@@ -4,8 +4,8 @@ import ()
 
 type Contacts struct {
 	app    *Container
-	list   map[id]*Contact
-	fields map[id]*Field
+	list   map[cid]*Contact
+	fields map[fid]*Field
 }
 
 func (cs *Contacts) All() []*Contact {
@@ -23,10 +23,10 @@ func (cs *Contacts) All() []*Contact {
 func (cs *Contacts) New(email EmailAddress) (*Contact, error) {
 	contact := &Contact{
 		app:        cs.app,
-		id:         newID(),
+		id:         cid(newID()),
 		email:      email,
 		alternates: nil,
-		fields:     make(map[id]FieldValue),
+		fields:     make(map[fid]FieldValue),
 	}
 
 	if err := contact.AddEmailAddress(email); err != nil {

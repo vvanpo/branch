@@ -8,8 +8,8 @@ type fcid id
 
 //
 type FieldCategory struct {
-	app *Container
-	fcid
+	app           *Container
+	id            fcid
 	name          string
 	description   string
 	fields        map[fid]*Field
@@ -23,9 +23,9 @@ func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, erro
 	}
 
 	field := &Field{
-		fid:         fid(newID()),
-		name:       name,
-		fieldtype:  datatype,
+		id:        fid(newID()),
+		name:      name,
+		fieldtype: datatype,
 	}
 
 	return field, nil

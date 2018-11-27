@@ -6,8 +6,8 @@ type fid id
 
 // A Field is used to label and format information associated with contacts.
 type Field struct {
-	app Container
-	fid
+	app         Container
+	id          fid
 	name        string
 	description string
 	fieldtype   FieldType
@@ -38,11 +38,4 @@ func (f Field) Type() FieldType {
 // Category
 func (f Field) Category() *FieldCategory {
 	return nil
-}
-
-// Groups
-func (f Field) Groups() []*Group {
-	groups := make([]*Group, 0)
-
-	return groups
 }

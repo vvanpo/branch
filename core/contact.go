@@ -5,16 +5,18 @@ import (
 	"fmt"
 )
 
+type cid id
+
 // A Contact represents any individual or organization with a known e-mail
 // address or addresses.
 type Contact struct {
 	app *Container
-	id
+	id  cid
 	// email is a required field, and denotes the contact's primary e-mail
 	// address.
 	email      EmailAddress
 	alternates []EmailAddress
-	fields     map[id]FieldValue
+	fields     map[fid]FieldValue
 }
 
 // EmailAddress returns the contact's primary e-mail address.
@@ -91,38 +93,6 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 	return nil
 }
 
-// Merge combines two contacts. The receiver retains its fields and primary
-// e-mail address, and additional fields and groups from the associated contact
-// are added.
-func (c *Contact) Merge(associated *Contact) {
-	emails := associated.EmailAddresses()
-	fields := associated.Fields()
-	groups := associated.Groups()
-	c.app.contacts.Delete(associated)
-	c.alternates = append(c.alternates, emails...)
-
-	for _, value := range fields {
-		if c.Field(value.Field()) == nil {
-			c.SetField(value)
-		}
-	}
-
-	for _, group := range groups {
-		group.AddContact(c)
-	}
-}
-
-// Fields returns a slice of all field values for the contact.
-func (c Contact) Fields() []FieldValue {
-	fields := make([]FieldValue, 0, len(c.fields))
-
-	for _, field := range c.fields {
-		fields = append(fields, field)
-	}
-
-	return fields
-}
-
 // Field returns the value of the specified field, and nil if it is not present.
 func (c Contact) Field(field *Field) FieldValue {
 	if value, ok := c.fields[field.id]; ok {
@@ -132,14 +102,28 @@ func (c Contact) Field(field *Field) FieldValue {
 	return nil
 }
 
+func (c Contact) Fields() []*Field {
+	fields := make([]*Field, len(c.fields))
+
+	for id := range c.fields {
+		fields = append(fields, c.app.fields.field(id))
+	}
+
+	return fields
+}
+
 func (c *Contact) SetField(field *Field, value string) error {
-	fieldValue, err := field.Type().New(value)
+	if _, ok := c.fields[field.id]; ok {
+		return c.fields[field.id].Set(value)
+	}
+
+	newValue, err := field.Type().New(value)
 
 	if err != nil {
 		return err
 	}
 
-	c.fields[field.id] = fieldValue
+	c.fields[field.id] = newValue
 	return nil
 }
 
@@ -161,4 +145,25 @@ func (c Contact) Groups() []*Group {
 	}
 
 	return groups
+}
+
+// Merge combines two contacts. The receiver retains its fields and primary
+// e-mail address, and additional fields and groups from the associated contact
+// are added.
+func (c *Contact) Merge(associated *Contact) {
+	emails := associated.EmailAddresses()
+	fields := associated.fields
+	groups := associated.Groups()
+	c.app.contacts.Delete(associated)
+	c.alternates = append(c.alternates, emails...)
+
+	for id, value := range fields {
+		if _, ok := c.fields[id]; !ok {
+			c.fields[id] = value
+		}
+	}
+
+	for _, group := range groups {
+		group.AddContact(c)
+	}
 }
