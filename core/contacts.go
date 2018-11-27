@@ -46,8 +46,8 @@ func (cs *Contacts) Delete(contact *Contact) {
 		group.RemoveContact(contact)
 	}
 
-	for _, value := range contact.Fields() {
-		contact.DeleteField(value.Field())
+	for _, field := range contact.Fields() {
+		contact.DeleteField(field)
 	}
 
 	delete(cs.list, contact.id)
@@ -71,11 +71,15 @@ func (cs *Contacts) Find(email EmailAddress) *Contact {
 func newContacts(app *Container) *Contacts {
 	return &Contacts{
 		app,
-		make(map[id]*Contact),
-		make(map[id]*Field),
+		make(map[cid]*Contact),
+		make(map[fid]*Field),
 	}
 }
 
-func (cs Contacts) fetch(contact id) *Contact {
-	return cs.list[contact]
+func (cs Contacts) contact(id cid) *Contact {
+	if contact, ok := cs.list[id]; ok {
+		return contact
+	}
+
+	return nil
 }
