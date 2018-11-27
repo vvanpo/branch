@@ -22,19 +22,18 @@ func (gs Groups) All() []*Group {
 func (gs *Groups) New(name string) *Group {
 	group := &Group{
 		app:            gs.app,
-		gid:            gid(newID()),
+		id:             gid(newID()),
 		name:           name,
-		contacts:       make(map[id]*Contact),
-		permissions:    make([]string, 0),
-		requiredFields: make(map[id]*Field),
+		contacts:       make(map[cid]*Contact),
+		requiredFields: make(map[fid]*Field),
 	}
-	gs.list[group.gid] = group
+	gs.list[group.id] = group
 	return group
 }
 
 // Delete removes a group from the collection and deletes associated data.
 func (gs *Groups) Delete(group *Group) {
-	delete(gs.list, group.gid)
+	delete(gs.list, group.id)
 	*group = Group{}
 }
 
@@ -45,6 +44,10 @@ func newGroups(app *Container) *Groups {
 	}
 }
 
-func (gs Groups) fetch(group gid) *Group {
-	return gs.list[group]
+func (gs Groups) group(id gid) *Group {
+	if group, ok := gs.list[id]; ok {
+		return group
+	}
+
+	return nil
 }

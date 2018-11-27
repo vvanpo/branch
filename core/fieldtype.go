@@ -1,9 +1,8 @@
 package titian
 
-import (
-	"fmt"
-	"strconv"
-)
+import ()
+
+type ftid id
 
 type FieldType interface {
 	Name() string
@@ -17,9 +16,14 @@ func (_ LabelField) Name() string {
 	return "Label"
 }
 
-func (_ LabelField) New(value string) FieldValue {
-	label := LabelFieldValue{id: newID()}
-	return label, label.Set(value)
+func (_ LabelField) New(value string) (FieldValue, error) {
+	label := &LabelFieldValue{id: fvid(newID())}
+
+	if err := label.Set(value); err != nil {
+		return nil, err
+	}
+
+	return label, nil
 }
 
 // TextField
@@ -29,13 +33,14 @@ func (_ TextField) Name() string {
 	return "Text"
 }
 
-func (_ TextField) NewValue() FieldValue {
-	return &TextFieldValue{}
+func (_ TextField) New(value string) (FieldValue, error) {
+	return &TextFieldValue{}, nil
 }
 
+/*
 // NumberField
 type NumberField struct {
-	id
+	id ftid
 	unsigned bool
 	integer  bool
 }
@@ -117,4 +122,4 @@ func (s SelectionField) Name() string {
 func (s SelectionField) NewValue(value string) (string, error) {
 	//stub
 	return value, nil
-}
+}*/

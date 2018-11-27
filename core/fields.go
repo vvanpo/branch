@@ -87,7 +87,7 @@ func (fs Fields) FindCategory(name string) *FieldCategory {
 func newFields(app *Container) *Fields {
 	return &Fields{
 		app,
-		make(map[id]*FieldCategory),
+		make(map[fcid]*FieldCategory),
 	}
 }
 

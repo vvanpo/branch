@@ -5,8 +5,8 @@ import ()
 type gid id
 
 type Group struct {
-	app *Container
-	gid
+	app            *Container
+	id             gid
 	name           string
 	description    string
 	contacts       map[cid]*Contact

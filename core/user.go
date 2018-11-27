@@ -2,10 +2,12 @@ package titian
 
 import ()
 
+type uid id
+
 //
 type User struct {
-	app Container
-	id
+	app     Container
+	id      uid
 	contact *Contact
 }
 

@@ -1,7 +1,6 @@
 package titian
 
 import (
-	"encoding"
 	"errors"
 	"fmt"
 	"time"
@@ -27,7 +26,7 @@ func (l *LabelFieldValue) String() string {
 }
 
 func (l *LabelFieldValue) Set(value string) error {
-	if !utf8.Valid(value) {
+	if !utf8.ValidString(value) {
 		return errors.New("Invalid string encoding")
 	}
 
@@ -41,21 +40,17 @@ type TextFieldValue struct {
 	value string
 }
 
-func (t *TextFieldValue) MarshalBinary() ([]byte, error) {
-	return []byte(t.value), nil
-}
-
-func (t *TextFieldValue) UnmarshalBinary(data []byte) error {
-	if !utf8.Valid(data) {
-		return errors.New("Invalid UTF-8")
-	}
-
-	t.value = string(data)
-	return nil
-}
-
 func (t *TextFieldValue) String() string {
 	return t.value
+}
+
+func (t *TextFieldValue) Set(value string) error {
+	if !utf8.ValidString(value) {
+		return errors.New("Invalid string encoding")
+	}
+
+	t.value = value
+	return nil
 }
 
 // DateFieldValue
