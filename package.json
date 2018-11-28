@@ -1,0 +1,19 @@
+{
+  "name": "titian",
+  "version": "0",
+  "repository": "github:vvanpo/titian",
+  "license": "GPL-3.0",
+  "main": "client/dist/index.js",
+  "bin": "client/cli",
+  "scripts": {
+    "build": "tsc -p client"
+  },
+  "dependencies": {
+    "commander": "^2.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.10",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  }
+}
