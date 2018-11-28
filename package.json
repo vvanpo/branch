@@ -6,7 +6,8 @@
   "main": "client/dist/index.js",
   "bin": "client/cli",
   "scripts": {
-    "build": "tsc -p client"
+    "build": "tsc -p client",
+    "watch": "yarn build -w"
   },
   "dependencies": {
     "commander": "^2.19.0"
