@@ -7,14 +7,16 @@
   "bin": "client/cli",
   "scripts": {
     "build": "tsc -p client",
-    "watch": "yarn build -w"
+    "watch": "yarn build -w",
+    "lint": "tslint -p client"
   },
   "dependencies": {
-    "commander": "^2.19.0"
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "@types/node": "^10.12.10",
     "tslint": "^5.11.0",
+    "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.6"
   }
 }

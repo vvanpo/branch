@@ -1,12 +1,14 @@
-import { Command } from 'commander'
+import * as yargs from "yargs"
 
-const program = new Command()
+const args = yargs
+    .option("c", {
+        alias: "config",
+        describe: "Path to configuration file",
+    })
+    .option("h", {
+        alias: "host",
+        describe: "Instance hostname or socket file",
+    })
+    .command("contacts", "Find, list, or update contacts")
 
-program
-    .option('-c, --config <path>', 'configuration options file')
-    .option('-H, --host <url> [port]', 'instance hostname or socket file')
-
-program
-    .command('contacts', 'find, list, or update contacts')
-
-program.parse(process.argv)
+const argv = args.argv
