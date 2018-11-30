@@ -22,13 +22,13 @@ const args = yargs
 args.command({
     command: ["contacts", "co"],
     describe: "Find, list, or update contacts",
-    builder: yargs => {
-        const args = yargs.command({
-            command: "find",
+    builder: yargs => yargs
+        .command({
+            command: "find <e-mail>",
             describe: "Find a contact by e-mail",
+            builder: {},
         })
-
-        args.command({
+        .command({
             command: "list",
             describe: "List contacts",
             builder: {
@@ -36,10 +36,7 @@ args.command({
                     describe: "Filter contacts",
                 },
             },
-        })
-
-        return args
-    },
+        }),
 })
 
 args.command("groups", "Enumerate or modify contact groups")
