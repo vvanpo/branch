@@ -4,4 +4,11 @@ service Contacts {
 
 }
 
+message FindContact {
+    string email = 1;
+    repeated string fields = 2;
+}
 
+message Contact {
+    repeated string email = 1;
+}
