@@ -3,6 +3,7 @@ package titian
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -27,6 +28,10 @@ func (l *LabelFieldValue) String() string {
 func (l *LabelFieldValue) Set(value string) error {
 	if !utf8.ValidString(value) {
 		return errors.New("Invalid string encoding")
+	}
+
+	if strings.Contains(value, "\n") {
+		return errors.New("Labels cannot span multiple lines")
 	}
 
 	l.value = value

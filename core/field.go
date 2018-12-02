@@ -18,24 +18,22 @@ func (f Field) Name() string {
 	return f.name
 }
 
+/*
 func (f *Field) SetName(name string) {
 	f.name = name
-}
+}*/
 
 // Description
 func (f Field) Description() string {
 	return f.description
 }
 
+// SetDescription
 func (f *Field) SetDescription(description string) {
 	f.description = description
 }
 
+// Type retrives the field type.
 func (f Field) Type() FieldType {
 	return f.fieldtype
-}
-
-// Category
-func (f Field) Category() *FieldCategory {
-	return nil
 }

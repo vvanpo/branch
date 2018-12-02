@@ -35,6 +35,12 @@ func (_ TextField) Name() string {
 
 func (_ TextField) New(value string) (FieldValue, error) {
 	return &TextFieldValue{}, nil
+
+	if err := label.Set(value); err != nil {
+		return nil, err
+	}
+
+	return label, nil
 }
 
 /*
