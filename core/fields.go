@@ -10,6 +10,7 @@ type Fields struct {
 	categories map[fcid]*FieldCategory
 }
 
+// All enumerates all fields.
 func (fs Fields) All() []*Field {
 	fields := make([]*Field, 0)
 	fs.walkFields(func(field *Field) {

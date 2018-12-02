@@ -16,6 +16,7 @@ type FieldCategory struct {
 	subcategories map[fcid]*FieldCategory
 }
 
+// NewField
 func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, error) {
 	if fc.app.fields.Find(name) != nil {
 		return nil, errors.New("Duplicate field name")
@@ -30,6 +31,7 @@ func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, erro
 	return field, nil
 }
 
+// Find
 func (fc *FieldCategory) Find(name string) *Field {
 	for _, field := range fc.fields {
 		if name == field.name {

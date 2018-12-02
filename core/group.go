@@ -10,7 +10,6 @@ type Group struct {
 	name           string
 	description    string
 	contacts       map[cid]*Contact
-	permissions    []string
 	requiredFields map[fid]*Field
 }
 
@@ -49,31 +48,6 @@ func (g Group) Description() string {
 
 func (g *Group) SetDescription(desc string) {
 	g.description = desc
-}
-
-// Permissions lists all the permissions members of this group have privileges
-// for.
-func (g Group) Permissions() []string {
-	return g.permissions[:]
-}
-
-func (g *Group) AddPermission(perm string) {
-	for _, p := range g.permissions {
-		if p == perm {
-			return
-		}
-	}
-
-	g.permissions = append(g.permissions, perm)
-}
-
-func (g *Group) RemovePermission(perm string) {
-	for i, p := range g.permissions {
-		if p == perm {
-			g.permissions = append(g.permissions[:i], g.permissions[i+1:]...)
-			return
-		}
-	}
 }
 
 // RequiredFields returns a list of fields required for members of the group.

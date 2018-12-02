@@ -15,4 +15,3 @@ type User struct {
 func (u User) Contact() *Contact {
 	return u.contact
 }
-
