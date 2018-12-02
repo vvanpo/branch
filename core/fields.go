@@ -33,9 +33,14 @@ func (fs *Fields) Delete(field *Field) {
 }
 
 // Move changes a field's category.
-func (fs *Fields) Move(field *Field, category *FieldCategory) {
+func (fs *Fields) Move(field *Field, category *FieldCategory) error {
+	if category.Find(field.name) != nil {
+		return errors.New("Duplicate category name")
+	}
+
 	delete(field.Category().fields, field.id)
 	category.fields[field.id] = field
+	return nil
 }
 
 // Find searches the fields collection for a field.

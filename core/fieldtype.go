@@ -6,7 +6,7 @@ type ftid id
 
 type FieldType interface {
 	Name() string
-	New(string) (FieldValue, error)
+	NewValue(string) (FieldValue, error)
 }
 
 // LabelField
@@ -16,7 +16,7 @@ func (_ LabelField) Name() string {
 	return "Label"
 }
 
-func (_ LabelField) New(value string) (FieldValue, error) {
+func (_ LabelField) NewValue(value string) (FieldValue, error) {
 	label := &LabelFieldValue{id: fvid(newID())}
 
 	if err := label.Set(value); err != nil {
@@ -33,14 +33,14 @@ func (_ TextField) Name() string {
 	return "Text"
 }
 
-func (_ TextField) New(value string) (FieldValue, error) {
-	return &TextFieldValue{}, nil
+func (_ TextField) NewValue(value string) (FieldValue, error) {
+	text := &TextFieldValue{id: fvid(newID())}
 
-	if err := label.Set(value); err != nil {
+	if err := text.Set(value); err != nil {
 		return nil, err
 	}
 
-	return label, nil
+	return text, nil
 }
 
 /*
