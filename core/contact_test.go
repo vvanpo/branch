@@ -4,9 +4,10 @@ import (
 	"testing"
 )
 
-// Tests setting an e-mail address.
+// Set and retrieve a primary e-mail address.
 func TestContactEmailAddress(t *testing.T) {
 	contact, _ := stubContact()
+	email := contact.EmailAddress()
 	email2, _ := NewEmailAddress(validEmails[1])
 
 	if contact.EmailAddress().String() != validEmails[0] {
@@ -16,12 +17,16 @@ func TestContactEmailAddress(t *testing.T) {
 	contact.SetPrimaryEmailAddress(email2)
 
 	if contact.EmailAddress().String() != validEmails[1] {
-		t.Error("Failure to set primary e-mail address")
+		t.Fatal("Failure to set primary e-mail address")
+	}
+
+	if err := contact.RemoveEmailAddress(email); err != nil {
+		t.Error("Failure to remove alternate e-mail address")
 	}
 }
 
-//
-func TestContactAddEmailAddress(t *testing.T) {
+// Add multiple alternate e-mail addresses.
+func TestContactEmailAddresses(t *testing.T) {
 	contact, _ := stubContact()
 
 	for _, address := range validEmails[1:] {
@@ -36,8 +41,7 @@ func TestContactAddEmailAddress(t *testing.T) {
 		t.Fatalf("Failed to identify duplicate e-mail address")
 	}
 
-	list := contact.EmailAddresses()
-	if len(list) != len(validEmails) {
+	if list := contact.EmailAddresses(); len(list) != len(validEmails) {
 		t.Errorf("E-mail address count doesn't match inputs: %d => %d", len(validEmails), len(list))
 	}
 }
