@@ -7,7 +7,7 @@ import (
 // Tests that a newly-created contact is in the contact list and has a non-zero
 // identifier.
 func TestNewContact(t *testing.T) {
-	var zeroId id
+	var zeroId cid
 	contact, err := stubContact()
 
 	if err != nil {
@@ -18,7 +18,7 @@ func TestNewContact(t *testing.T) {
 		t.Fatal("Contact does not have initialized ID")
 	}
 
-	if contact.app.contacts.fetch(contact.id) != contact {
+	if contact.app.contacts.contact(contact.id) != contact {
 		t.Errorf("Cannot fetch contact ID: %v", contact.id)
 	}
 }
@@ -30,7 +30,7 @@ func TestDeleteContact(t *testing.T) {
 	contacts := contact.app.contacts
 	contacts.Delete(contact)
 
-	if contacts.fetch(id) != nil {
+	if contacts.contact(id) != nil {
 		t.Error("Failed to delete contact")
 	}
 }

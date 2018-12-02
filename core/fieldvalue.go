@@ -3,7 +3,6 @@ package titian
 import (
 	"errors"
 	"fmt"
-	"time"
 	"unicode/utf8"
 )
 
@@ -53,10 +52,11 @@ func (t *TextFieldValue) Set(value string) error {
 	return nil
 }
 
+/*
 // DateFieldValue
 type DateFieldValue struct {
 	id        fvid
-	fieldtype FieldType
+	fieldtype DateField
 	date      time.Time
 }
 
@@ -70,4 +70,4 @@ func (d *DateFieldValue) UnmarshalBinary(data []byte) error {
 
 func (d *DateFieldValue) String() string {
 	return d.date.String()
-}
+}*/
