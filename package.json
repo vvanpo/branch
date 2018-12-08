@@ -1,9 +1,8 @@
 {
   "name": "titian",
-  "version": "0",
+  "version": "0.0.0",
   "repository": "github:vvanpo/titian",
   "license": "GPL-3.0",
-  "main": "client/dist/index.js",
   "bin": "client/cli",
   "scripts": {
     "build": "tsc -p client",
@@ -16,7 +15,8 @@
   "devDependencies": {
     "@types/node": "^10.12.10",
     "tslint": "^5.11.0",
-    "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
   }
 }
