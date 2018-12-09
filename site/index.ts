@@ -1,6 +1,4 @@
-console.log('Hello World')
+import './index.html'
+import button from './components/button.ts'
 
-const el = document.createElement('h1')
-el.innerHTML = 'Hello world'
-
-document.body.appendChild(el)
+customElements.define('titian-button', button)
