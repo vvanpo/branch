@@ -3,18 +3,18 @@
   "version": "0.0.0",
   "repository": "github:vvanpo/titian",
   "license": "GPL-3.0",
-  "bin": "client/cli",
   "scripts": {
+    "clean": "rm -rf dist",
     "dev": "webpack-dev-server --mode development",
     "lint": "tslint -p . --fix"
   },
   "dependencies": {
-    "file-loader": "^2.0.0",
     "yargs": "^12.0.5"
   },
   "devDependencies": {
     "@types/node": "^10.12.10",
     "css-loader": "^2.0.0",
+    "file-loader": "^2.0.0",
     "html-loader": "^0.5.5",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
