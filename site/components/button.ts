@@ -4,9 +4,11 @@ import { template, shadow } from "./template.ts"
 
 const tmpl = template(html, style)
 
-export default class extends HTMLElement {
+export default class Button extends HTMLElement {
     constructor() {
         super()
         shadow(this, tmpl)
     }
 }
+
+customElements.define("titian-button", Button)
