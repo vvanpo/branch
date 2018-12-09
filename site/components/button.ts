@@ -1,10 +1,12 @@
 import html from "./button.html"
 import style from "./button.scss"
+import { template, shadow } from "./template.ts"
+
+const tmpl = template(html, style)
 
 export default class extends HTMLElement {
     constructor() {
         super()
-        const shadow = this.attachShadow({mode: "open"})
-        shadow.innerHTML = "<style>" + style + "</style>" + html
+        shadow(this, tmpl)
     }
 }
