@@ -5,7 +5,8 @@
   "license": "GPL-3.0",
   "bin": "client/cli",
   "scripts": {
-    "lint": "tslint -p client"
+    "dev": "webpack-dev-server --mode development",
+    "lint": "tslint -p . --fix"
   },
   "dependencies": {
     "file-loader": "^2.0.0",
@@ -19,8 +20,10 @@
     "sass-loader": "^7.1.0",
     "ts-loader": "^5.3.1",
     "tslint": "^5.11.0",
+    "tslint-loader": "^3.5.4",
     "typescript": "^3.1.6",
     "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   }
 }
