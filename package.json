@@ -5,8 +5,6 @@
   "license": "GPL-3.0",
   "bin": "client/cli",
   "scripts": {
-    "build": "tsc -p client",
-    "watch": "yarn build -w",
     "lint": "tslint -p client"
   },
   "dependencies": {
@@ -14,6 +12,8 @@
   },
   "devDependencies": {
     "@types/node": "^10.12.10",
+    "html-loader": "^0.5.5",
+    "ts-loader": "^5.3.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.6",
     "webpack": "^4.27.1",
