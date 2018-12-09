@@ -12,14 +12,6 @@ const siteConfig = {
     module: {
         rules: [
             { test: /\.ts$/, use: "ts-loader" },
-            {
-                test: /\.ts$/,
-                use: {
-                    loader: "tslint-loader",
-                    enforce: "pre",
-                    options: {},
-                },
-            }
             { test: /\.html$/, use: "html-loader" },
             {
                 // Copy files to dist/ without html-loader
@@ -32,7 +24,7 @@ const siteConfig = {
             {
                 test: /\.scss$/,
                 use: ["css-loader", "sass-loader"],
-            }
+            },
         ],
     },
 }
