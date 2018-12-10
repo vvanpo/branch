@@ -1,6 +1,6 @@
-import * as yargs from "yargs"
+import Argv from "yargs"
 
-const args = yargs
+const args = Argv
     .option("c", {
         alias: "config",
         config: true,

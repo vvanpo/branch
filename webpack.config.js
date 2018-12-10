@@ -1,3 +1,5 @@
+const merge = require("webpack-merge")
+
 /*const clientConfig = {
     entry: "./client/index.ts",
 }*/
@@ -29,10 +31,18 @@ const siteConfig = {
     },
 }
 
+const siteES5Config = {
+    output: { filename: "site.es5.js" },
+    module: { rules: [{ test: /\.ts$/, use: [
+        { loader: "babel-loader", options: { presets: ["@babel/preset-env"] }},
+        { loader: "ts-loader" },
+    ]}]},
+}
+
 module.exports = (env, argv) => {
     if (argv.mode === "development") {
         siteConfig.devtool = "source-map"
     }
 
-    return siteConfig
+    return [siteConfig, merge.smart(siteConfig, siteES5Config)]
 }
