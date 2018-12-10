@@ -9,6 +9,17 @@ export default class Button extends HTMLElement {
         super()
         shadow(this, tmpl)
     }
+
+    connectedCallback() {
+
+    }
+
+    static get observedAttributes() {
+        return ['disabled', 'href']
+    }
+
+    attributeChangedCallback(name, old, val) {
+    }
 }
 
 customElements.define("titian-button", Button)
