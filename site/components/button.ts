@@ -3,6 +3,7 @@ import style from "./button.scss"
 import { shadow, template } from "./template.ts"
 
 const tmpl = template(html, style)
+const attrs = ['disabled', 'href']
 
 export default class Button extends HTMLElement {
     constructor() {
@@ -15,10 +16,13 @@ export default class Button extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['disabled', 'href']
+        return attrs
     }
 
     attributeChangedCallback(name, old, val) {
+        if (attrs.includes(name)) {
+            this[name] = val
+        }
     }
 }
 
