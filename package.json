@@ -4,30 +4,17 @@
   "repository": "github:vvanpo/titian",
   "license": "GPL-3.0",
   "scripts": {
-    "clean": "rm -rf dist",
-    "dev": "webpack-dev-server --mode development",
+    "clean": "rm -rf www dist",
+    "dev": "stencil build --dev --watch --serve",
     "lint": "tslint -p . --fix"
   },
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.2.1",
     "yargs": "^12.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "@types/node": "^10.12.10",
-    "babel-loader": "^8.0.4",
-    "css-loader": "^2.0.0",
-    "file-loader": "^2.0.0",
-    "html-loader": "^0.5.5",
-    "node-sass": "^4.11.0",
-    "sass-loader": "^7.1.0",
-    "ts-loader": "^5.3.1",
+    "@stencil/core": "^0.16.0",
+    "@stencil/sass": "^0.1.1",
     "tslint": "^5.11.0",
-    "typescript": "^3.1.6",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
-    "webpack-merge": "^4.1.5"
+    "typescript": "^3.2.2"
   }
 }
