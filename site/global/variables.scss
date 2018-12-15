@@ -1,0 +1,15 @@
+
+$palette: (
+    1: #4a707a,
+    2: #7697a0,
+    3: #94b0b7,
+    4: #c2c8c5,
+    5: #ddddda,
+);
+
+:root {
+    @each $i, $color in $palette {
+        --palette-#{$i}: #{$color};
+        --palette-complement-#{$i}: #{complement($color)};
+    }
+}
