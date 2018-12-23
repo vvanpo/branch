@@ -1,13 +1,15 @@
 package titian
 
-import ()
+import (
+	"github.com/google/uuid"
+)
 
-type fid id
+type id uuid.UUID
 
 // A Field is used to label and format information associated with contacts.
 type Field struct {
-	app         Container
-	id          fid
+	app Container
+	id
 	name        string
 	description string
 	fieldtype   FieldType
