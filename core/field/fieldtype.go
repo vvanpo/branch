@@ -1,8 +1,8 @@
 package titian
 
-import ()
-
-type ftid id
+import (
+	"github.com/google/uuid"
+)
 
 type FieldType interface {
 	Name() string
@@ -17,7 +17,7 @@ func (_ LabelField) Name() string {
 }
 
 func (_ LabelField) NewValue(value string) (FieldValue, error) {
-	label := &LabelFieldValue{id: fvid(newID())}
+	label := &LabelFieldValue{id: uuid.New()}
 
 	if err := label.Set(value); err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func (_ TextField) Name() string {
 }
 
 func (_ TextField) NewValue(value string) (FieldValue, error) {
-	text := &TextFieldValue{id: fvid(newID())}
+	text := &TextFieldValue{id: uuid.New()}
 
 	if err := text.Set(value); err != nil {
 		return nil, err

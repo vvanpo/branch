@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 	"unicode/utf8"
-)
 
-type fvid id
+	"github.com/google/uuid"
+)
 
 // FieldValue represents a value for a particular field type.
 type FieldValue interface {
@@ -17,7 +17,7 @@ type FieldValue interface {
 
 // LabelFieldValue
 type LabelFieldValue struct {
-	id    fvid
+	id    uuid.UUID
 	value string
 }
 
@@ -40,7 +40,7 @@ func (l *LabelFieldValue) Set(value string) error {
 
 // TextFieldValue
 type TextFieldValue struct {
-	id    fvid
+	id    uuid.UUID
 	value string
 }
 

@@ -2,18 +2,17 @@ package titian
 
 import (
 	"errors"
-)
 
-type fcid id
+	"github.com/google/uuid"
+)
 
 //
 type FieldCategory struct {
-	app           *Container
-	id            fcid
+	id            uuid.UUID
 	name          string
 	description   string
-	fields        map[fid]*Field
-	subcategories map[fcid]*FieldCategory
+	fields        map[uuid.UUID]*Field
+	subcategories map[uuid.UUID]*FieldCategory
 }
 
 // NewField
@@ -23,7 +22,7 @@ func (fc *FieldCategory) NewField(name string, datatype FieldType) (*Field, erro
 	}
 
 	field := &Field{
-		id:        fid(newID()),
+		id:        uuid.New(),
 		name:      name,
 		fieldtype: datatype,
 	}
