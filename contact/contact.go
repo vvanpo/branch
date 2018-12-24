@@ -1,8 +1,6 @@
 package contact
 
 import (
-	"errors"
-
 	"github.com/vvanpo/titian/email"
 	"github.com/vvanpo/titian/field"
 )
@@ -17,7 +15,7 @@ type Contact struct {
 // EmailAddresses returns a slice of all e-mail addresses associated with the
 // contact.
 func (c Contact) EmailAddresses() []email.Address {
-	return c.email[:]
+	return c.emails[:]
 }
 
 // AddEmailAddress adds an e-mail address to the contact's e-mail list. Will
@@ -27,7 +25,7 @@ func (c *Contact) AddEmailAddress(address email.Address) error {
 		panic("Attempting to add an invalid e-mail address")
 	}
 
-	c.email = append(c.email, address)
+	c.emails = append(c.emails, address)
 	return nil
 }
 
