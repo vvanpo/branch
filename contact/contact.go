@@ -2,7 +2,6 @@ package titian
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/vvanpo/titian/email"
 	"github.com/vvanpo/titian/field"
@@ -37,16 +36,12 @@ func (c Contact) EmailAddresses() []email.Address {
 // set as verified. A contact can have multiple associated e-mail addresses if
 // they have been linked together (e.g. by the owning user, or by an
 // administrator).
-func (c *Contact) AddEmailAddress(email email.Address) error {
-	if email == (email.Address{}) {
+func (c *Contact) AddEmailAddress(address email.Address) error {
+	if address == (email.Address{}) {
 		panic("Attempting to add an invalid e-mail address")
 	}
 
-	if c.app.contacts.Find(email) != nil {
-		return fmt.Errorf("E-mail address '%v' is already in use", email)
-	}
-
-	c.alternates = append(c.alternates, email)
+	c.alternates = append(c.alternates, address)
 	return nil
 }
 
@@ -54,22 +49,22 @@ func (c *Contact) AddEmailAddress(email email.Address) error {
 // bumping the existing primary e-mail address onto the list of alternate
 // addresses. If the passed e-mail address does not already belong to the
 // contact, it is assumed to be verified. Will panic if passed a zero-value.
-func (c *Contact) SetPrimaryEmailAddress(email email.Address) error {
+func (c *Contact) SetPrimaryEmailAddress(address email.Address) error {
 	emails := append([]email.Address{c.email}, c.alternates...)
 
 	for i, e := range emails {
-		if e == email {
-			c.email = email
+		if e == address {
+			c.email = address
 			c.alternates = append(emails[:i], emails[i+1:]...)
 			return nil
 		}
 	}
 
-	if err := c.AddEmailAddress(email); err != nil {
+	if err := c.AddEmailAddress(address); err != nil {
 		return err
 	}
 
-	c.email = email
+	c.email = address
 	c.alternates = emails[:len(emails)-1]
 	return nil
 }
@@ -92,77 +87,47 @@ func (c *Contact) RemoveEmailAddress(email email.Address) error {
 	return nil
 }
 
-// Field returns the value of the specified field, and nil if it is not present.
-func (c Contact) Field(field *field.Field) field.Value {
-	if value, ok := c.fields[field]; ok {
-		return value
-	}
+// Fields
+func (c Contact) Fields() []*field.Field {
+	fields := make([]*field.Field, len(c.fields))
 
-	return nil
-}
-
-func (c Contact) Fields() []*Field {
-	fields := make([]*Field, len(c.fields))
-
-	for id := range c.fields {
-		fields = append(fields, c.app.fields.field(id))
+	for field := range c.fields {
+		fields = append(fields, field)
 	}
 
 	return fields
 }
 
-func (c *Contact) SetField(field *Field, value string) error {
-	if _, ok := c.fields[field.id]; ok {
-		return c.fields[field.id].Set(value)
+// SetField
+func (c *Contact) SetField(field *field.Field, value string) error {
+	if _, ok := c.fields[field]; ok {
+		return c.fields[field].Set(value)
 	}
 
-	newValue, err := field.Type().New(value)
+	newValue, err := field.Type().NewValue(value)
 
 	if err != nil {
 		return err
 	}
 
-	c.fields[field.id] = newValue
+	c.fields[field] = newValue
 	return nil
 }
 
-func (c *Contact) DeleteField(field *Field) {
-	delete(c.fields, field.id)
-}
-
-// Groups
-func (c Contact) Groups() []*Group {
-	groups := make([]*Group, 0)
-
-	for _, group := range c.app.groups.list {
-		for _, member := range group.Members() {
-			if c.id == member.id {
-				groups = append(groups, group)
-				break
-			}
-		}
-	}
-
-	return groups
+func (c *Contact) DeleteField(field *field.Field) {
+	delete(c.fields, field)
 }
 
 // Merge combines two contacts. The receiver retains its fields and primary
-// e-mail address, and additional fields and groups from the associated contact
-// are added.
+// e-mail address, and additional fields from the associated contact are added.
 func (c *Contact) Merge(associated *Contact) {
 	emails := associated.EmailAddresses()
 	fields := associated.fields
-	groups := associated.Groups()
-	c.app.contacts.Delete(associated)
 	c.alternates = append(c.alternates, emails...)
 
-	for id, value := range fields {
-		if _, ok := c.fields[id]; !ok {
-			c.fields[id] = value
+	for field, value := range fields {
+		if _, ok := c.fields[field]; !ok {
+			c.fields[field] = value
 		}
-	}
-
-	for _, group := range groups {
-		group.AddContact(c)
 	}
 }
