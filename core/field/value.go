@@ -13,25 +13,6 @@ type Value interface {
 	Set(string) error
 }
 
-// TextValue
-type TextValue struct {
-	id    uuid.UUID
-	value string
-}
-
-func (t *TextValue) String() string {
-	return t.value
-}
-
-func (t *TextValue) Set(value string) error {
-	if !utf8.ValidString(value) {
-		return errors.New("Invalid string encoding")
-	}
-
-	t.value = value
-	return nil
-}
-
 /*
 // DateFieldValue
 type DateFieldValue struct {

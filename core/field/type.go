@@ -7,23 +7,6 @@ type Type interface {
 	NewValue(string) (Value, error)
 }
 
-// Text represents a multi-line text field.
-type Text struct{}
-
-func (_ Text) Name() string {
-	return "Text"
-}
-
-func (_ Text) NewValue(value string) (Value, error) {
-	text := &TextValue{}
-
-	if err := text.Set(value); err != nil {
-		return nil, err
-	}
-
-	return text, nil
-}
-
 /*
 // NumberField
 type NumberField struct {
