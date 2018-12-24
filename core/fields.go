@@ -2,21 +2,14 @@ package titian
 
 import (
 	"errors"
+
+	"github.com/vvanpo/titian/field"
 )
 
 type Fields struct {
 	app *Container
 	// A list of top-level categories
-	categories map[fcid]*FieldCategory
-}
-
-// All enumerates all fields.
-func (fs Fields) All() []*Field {
-	fields := make([]*Field, 0)
-	fs.walkFields(func(field *Field) {
-		fields = append(fields, field)
-	})
-	return fields
+	categories []*field.Category
 }
 
 // Delete removes a field, deleting all values for that field from all contacts.

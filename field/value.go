@@ -1,10 +1,10 @@
-package titian
+package field
 
 import (
 	"fmt"
 )
 
-// Value represents a value for a particular field type.
+// Value represents data stored in a field.
 type Value interface {
 	fmt.Stringer
 	Set(string) error
