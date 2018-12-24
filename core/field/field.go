@@ -15,11 +15,6 @@ func (f Field) Name() string {
 	return f.name
 }
 
-// SetName
-func (f *Field) SetName(name string) {
-	f.name = name
-}
-
 // Description
 func (f Field) Description() string {
 	return f.description
@@ -33,4 +28,9 @@ func (f *Field) SetDescription(description string) {
 // Type retrieves the field type.
 func (f Field) Type() Type {
 	return f.fieldtype
+}
+
+func (f *Field) setName(name string) error {
+	f.name = name
+	return nil
 }

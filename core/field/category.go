@@ -15,11 +15,7 @@ type Category struct {
 
 // NewCategory
 func NewCategory(name, description string) (*Category, error) {
-	c := &Category{}
-
-	if err := c.SetName(name); err != nil {
-		return nil, err
-	}
+	c := &Category{name: name}
 
 	if err := c.SetDescription(description); err != nil {
 		return nil, err
@@ -33,12 +29,6 @@ func NewCategory(name, description string) (*Category, error) {
 // Name
 func (c Category) Name() string {
 	return c.name
-}
-
-// SetName
-func (c *Category) SetName(name string) error {
-	c.name = name
-	return nil
 }
 
 // Description
@@ -101,7 +91,7 @@ func (c *Category) AppendField(field *Field) error {
 // AppendSubcategory
 func (c *Category) AppendSubcategory(category *Category) error {
 	if c.GetSubcategory(category.Name()) != nil {
-		return errors.New("Duplicate category name")
+		return errors.New("Duplicate subcategory name")
 	}
 
 	if c.GetField(category.Name()) != nil {
@@ -124,6 +114,46 @@ func (c *Category) MoveSubcategory(from, dest uint) {
 	category := c.subcategories[from]
 	c.RemoveSubcategory(category)
 	c.subcategories = append(append(c.subcategories[:dest], category), c.subcategories[dest:]...)
+}
+
+// RenameField
+func (c *Category) RenameField(from, to string) error {
+	if c.GetField(to) != nil {
+		return errors.New("Duplicate field name")
+	}
+
+	if c.GetSubcategory(to) != nil {
+		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a subcategory", to)
+	}
+
+	field := c.GetField(from)
+
+	if field == nil {
+		panic("Cannot rename nil field")
+	}
+
+	field.setName(to)
+	return nil
+}
+
+// RenameSubcategory
+func (c *Category) RenameSubcategory(from, to string) error {
+	if c.GetSubcategory(to) != nil {
+		return errors.New("Duplicate subcategory name")
+	}
+
+	if c.GetField(to) != nil {
+		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a field", to)
+	}
+
+	category := c.GetSubcategory(from)
+
+	if category == nil {
+		panic("Cannot rename nil subcategory")
+	}
+
+	category.setName(to)
+	return nil
 }
 
 // RemoveField
@@ -167,4 +197,9 @@ func (c *Category) WalkFields(fn func(*Field)) {
 			fn(field)
 		}
 	})
+}
+
+func (c *Category) setName(name string) error {
+	c.name = name
+	return nil
 }
