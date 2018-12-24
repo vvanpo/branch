@@ -86,12 +86,12 @@ func (c Category) GetSubcategory(name string) *Category {
 
 // AppendField
 func (c *Category) AppendField(field *Field) error {
-	if c.GetField(name) != nil {
+	if c.GetField(field.Name()) != nil {
 		return errors.New("Duplicate field name")
 	}
 
-	if c.GetSubcategory(name) != nil {
-		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a subcategory", name)
+	if c.GetSubcategory(field.Name()) != nil {
+		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a subcategory", field.Name())
 	}
 
 	c.fields = append(c.fields, field)
@@ -100,12 +100,12 @@ func (c *Category) AppendField(field *Field) error {
 
 // AppendSubcategory
 func (c *Category) AppendSubcategory(category *Category) error {
-	if c.GetSubcategory(name) != nil {
+	if c.GetSubcategory(category.Name()) != nil {
 		return errors.New("Duplicate category name")
 	}
 
-	if c.GetField(name) != nil {
-		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a field", name)
+	if c.GetField(category.Name()) != nil {
+		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a field", category.Name())
 	}
 
 	c.subcategories = append(c.subcategories, category)
@@ -116,14 +116,14 @@ func (c *Category) AppendSubcategory(category *Category) error {
 func (c *Category) MoveField(from, dest uint) {
 	field := c.fields[from]
 	c.RemoveField(field)
-	c.fields = append(c.fields[:dest], field, c.fields[dest:]...)
+	c.fields = append(append(c.fields[:dest], field), c.fields[dest:]...)
 }
 
 // MoveSubcategory
 func (c *Category) MoveSubcategory(from, dest uint) {
 	category := c.subcategories[from]
 	c.RemoveSubcategory(category)
-	c.subcategories = append(c.subcategories[:dest], category, c.subcategories[dest:]...)
+	c.subcategories = append(append(c.subcategories[:dest], category), c.subcategories[dest:]...)
 }
 
 // RemoveField
@@ -147,8 +147,8 @@ func (c *Category) RemoveSubcategory(category *Category) {
 // WalkCategories applies fn recursively to each category in the tree, starting
 // with the receiver and proceeding in a breadth-first manner.
 func (c *Category) WalkCategories(fn func(*Category)) {
-	//	var walk func([]*Category)
-	var walk = func(categories []*Category) {
+	var walk func([]*Category)
+	walk = func(categories []*Category) {
 		for _, category := range categories {
 			fn(category)
 			walk(category.subcategories)

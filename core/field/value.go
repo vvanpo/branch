@@ -1,10 +1,7 @@
 package titian
 
 import (
-	"errors"
 	"fmt"
-	"strings"
-	"unicode/utf8"
 )
 
 // Value represents a value for a particular field type.

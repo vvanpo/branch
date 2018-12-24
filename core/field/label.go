@@ -14,7 +14,7 @@ func (_ Label) Name() string {
 }
 
 func (_ Label) NewValue(value string) (Value, error) {
-	label := &LabelValue{id: uuid.New()}
+	label := &LabelValue{}
 
 	if err := label.Set(value); err != nil {
 		return nil, err
