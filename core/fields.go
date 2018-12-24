@@ -89,36 +89,3 @@ func newFields(app *Container) *Fields {
 		make(map[fcid]*FieldCategory),
 	}
 }
-
-func (fs Fields) field(id fid) *Field {
-	var field *Field
-	fs.walkFields(func(f *Field) {
-		if f.id == id {
-			field = f
-			return
-		}
-	})
-	return field
-}
-
-// walkCategories applies fn to every category.
-func (fs *Fields) walkCategories(fn func(*FieldCategory)) {
-	var walk func(map[fcid]*FieldCategory)
-	walk = func(fcs map[fcid]*FieldCategory) {
-		for _, category := range fcs {
-			fn(category)
-			walk(category.subcategories)
-		}
-	}
-
-	walk(fs.categories)
-}
-
-// walkFields applies fn to every field.
-func (fs *Fields) walkFields(fn func(*Field)) {
-	fs.walkCategories(func(fc *FieldCategory) {
-		for _, field := range fc.fields {
-			fn(field)
-		}
-	})
-}

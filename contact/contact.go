@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/vvanpo/titian/email"
+	"github.com/vvanpo/titian/field"
 )
 
 // A Contact represents any individual or organization with a known e-mail
@@ -13,19 +14,19 @@ type Contact struct {
 	// email is a required field, and denotes the contact's primary e-mail
 	// address.
 	email      email.Address
-	alternates []EmailAddress
-	fields     map[fid]FieldValue
+	alternates []email.Address
+	fields     map[*field.Field]field.Value
 }
 
 // EmailAddress returns the contact's primary e-mail address.
-func (c Contact) EmailAddress() EmailAddress {
+func (c Contact) EmailAddress() email.Address {
 	return c.email
 }
 
 // EmailAddresses returns a slice of all e-mail addresses associated with the
 // contact.
-func (c Contact) EmailAddresses() []EmailAddress {
-	return append([]EmailAddress{c.email}, c.alternates...)
+func (c Contact) EmailAddresses() []email.Address {
+	return append([]email.Address{c.email}, c.alternates...)
 }
 
 // AddEmailAddress adds an e-mail address to the contact's e-mail list. Returns
@@ -36,8 +37,8 @@ func (c Contact) EmailAddresses() []EmailAddress {
 // set as verified. A contact can have multiple associated e-mail addresses if
 // they have been linked together (e.g. by the owning user, or by an
 // administrator).
-func (c *Contact) AddEmailAddress(email EmailAddress) error {
-	if email == (EmailAddress{}) {
+func (c *Contact) AddEmailAddress(email email.Address) error {
+	if email == (email.Address{}) {
 		panic("Attempting to add an invalid e-mail address")
 	}
 
@@ -53,8 +54,8 @@ func (c *Contact) AddEmailAddress(email EmailAddress) error {
 // bumping the existing primary e-mail address onto the list of alternate
 // addresses. If the passed e-mail address does not already belong to the
 // contact, it is assumed to be verified. Will panic if passed a zero-value.
-func (c *Contact) SetPrimaryEmailAddress(email EmailAddress) error {
-	emails := append([]EmailAddress{c.email}, c.alternates...)
+func (c *Contact) SetPrimaryEmailAddress(email email.Address) error {
+	emails := append([]email.Address{c.email}, c.alternates...)
 
 	for i, e := range emails {
 		if e == email {
@@ -76,7 +77,7 @@ func (c *Contact) SetPrimaryEmailAddress(email EmailAddress) error {
 // RemoveEmailAddress removes a secondary e-mail address. Returns an error if
 // the passed e-mail is the contact's primary address. Passing an e-mail address
 // not belonging to the contact is a no-op.
-func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
+func (c *Contact) RemoveEmailAddress(email email.Address) error {
 	if email == c.email {
 		return errors.New("Cannot remove your primary e-mail address")
 	}
@@ -92,8 +93,8 @@ func (c *Contact) RemoveEmailAddress(email EmailAddress) error {
 }
 
 // Field returns the value of the specified field, and nil if it is not present.
-func (c Contact) Field(field *Field) FieldValue {
-	if value, ok := c.fields[field.id]; ok {
+func (c Contact) Field(field *field.Field) field.Value {
+	if value, ok := c.fields[field]; ok {
 		return value
 	}
 

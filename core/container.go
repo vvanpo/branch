@@ -4,7 +4,6 @@ import ()
 
 type Container struct {
 	contacts *Contacts
-	users    *Users
 	groups   *Groups
 	fields   *Fields
 	emails   *Emails

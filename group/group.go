@@ -5,12 +5,11 @@ import ()
 type gid id
 
 type Group struct {
-	app            *Container
-	id             gid
-	name           string
-	description    string
-	contacts       map[cid]*Contact
-	requiredFields map[fid]*Field
+	app         *Container
+	id          gid
+	name        string
+	description string
+	contacts    []*Contact
 }
 
 // Members returns an unordered list of all contacts belonging to the group.

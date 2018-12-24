@@ -1,10 +1,12 @@
 package titian
 
-import ()
+import (
+	"github.com/vvanpo/titian/group"
+)
 
 type Groups struct {
 	app  *Container
-	list map[gid]*Group
+	list []*Group
 }
 
 // All returns a list of all groups.
@@ -21,11 +23,9 @@ func (gs Groups) All() []*Group {
 // New creates a new group and adds it to the collection.
 func (gs *Groups) New(name string) *Group {
 	group := &Group{
-		app:            gs.app,
-		id:             gid(newID()),
-		name:           name,
-		contacts:       make(map[cid]*Contact),
-		requiredFields: make(map[fid]*Field),
+		app:  gs.app,
+		id:   gid(newID()),
+		name: name,
 	}
 	gs.list[group.id] = group
 	return group
