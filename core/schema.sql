@@ -46,7 +46,7 @@ CREATE TYPE contact_field_type AS ENUM (
 
 CREATE TABLE contact_field (
 	id uuid PRIMARY KEY,
-	name text NOT NULL UNIQUE,
+	name text NOT NULL,
 	description text,
 	category uuid NOT NULL REFERENCES contact_field_category,
 	field_type contact_field_type NOT NULL,

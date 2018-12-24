@@ -7,7 +7,7 @@ import (
 type Group struct {
 	name        string
 	description string
-	contacts    map[*Contact]struct{}
+	contacts    map[*contact.Contact]struct{}
 }
 
 // Name returns the name of the group.
@@ -31,8 +31,8 @@ func (g *Group) SetDescription(description string) error {
 }
 
 // Members returns an unordered list of all contacts belonging to the group.
-func (g Group) Members() []*Contact {
-	contacts := make([]*Contact, 0, len(g.contacts))
+func (g Group) Members() []*contact.Contact {
+	contacts := make([]*contact.Contact, 0, len(g.contacts))
 
 	for contact := range g.contacts {
 		contacts = append(contacts, contact)
@@ -41,10 +41,10 @@ func (g Group) Members() []*Contact {
 	return contacts
 }
 
-func (g *Group) AddContact(contact *Contact) {
-	g.contacts[contact.id] = contact
+func (g *Group) AddContact(contact *contact.Contact) {
+	g.contacts[contact] = struct{}{}
 }
 
-func (g *Group) RemoveContact(contact *Contact) {
-	delete(g.contacts, contact.id)
+func (g *Group) RemoveContact(contact *contact.Contact) {
+	delete(g.contacts, contact)
 }
