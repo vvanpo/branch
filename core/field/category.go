@@ -15,7 +15,11 @@ type Category struct {
 
 // NewCategory
 func NewCategory(name, description string) (*Category, error) {
-	c := &Category{name: name}
+	c := &Category{}
+
+	if err := c.setName(name); err != nil {
+		return nil, err
+	}
 
 	if err := c.SetDescription(description); err != nil {
 		return nil, err
