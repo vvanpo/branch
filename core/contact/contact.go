@@ -3,18 +3,16 @@ package titian
 import (
 	"errors"
 	"fmt"
-)
 
-type cid id
+	"github.com/vvanpo/titian/email"
+)
 
 // A Contact represents any individual or organization with a known e-mail
 // address or addresses.
 type Contact struct {
-	app *Container
-	id  cid
 	// email is a required field, and denotes the contact's primary e-mail
 	// address.
-	email      EmailAddress
+	email      email.Address
 	alternates []EmailAddress
 	fields     map[fid]FieldValue
 }
