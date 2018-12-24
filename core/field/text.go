@@ -5,15 +5,15 @@ import (
 	"unicode/utf8"
 )
 
-// Text represents a multi-line text field.
-type Text struct{}
-
-func (_ Text) Name() string {
-	return "Text"
+func NewText(name, description string) (*Field, error) {
+	return newField(name, description, &textType{})
 }
 
-func (_ Text) NewValue(value string) (Value, error) {
-	text := &TextValue{}
+// textType represents a multi-line text field.
+type textType struct{}
+
+func (_ textType) NewValue(value string) (Value, error) {
+	text := new(textValue)
 
 	if err := text.Set(value); err != nil {
 		return nil, err
@@ -22,20 +22,18 @@ func (_ Text) NewValue(value string) (Value, error) {
 	return text, nil
 }
 
-// TextValue
-type TextValue struct {
-	value string
+// textValue
+type textValue string
+
+func (t *textValue) String() string {
+	return string(*t)
 }
 
-func (t *TextValue) String() string {
-	return t.value
-}
-
-func (t *TextValue) Set(value string) error {
+func (t *textValue) Set(value string) error {
 	if !utf8.ValidString(value) {
 		return errors.New("Invalid string encoding")
 	}
 
-	t.value = value
+	*t = textValue(value)
 	return nil
 }

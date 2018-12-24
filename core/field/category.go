@@ -107,6 +107,7 @@ func (c *Category) AppendSubcategory(category *Category) error {
 }
 
 // MoveField
+// Will panic if indices are invalid.
 func (c *Category) MoveField(from, dest uint) {
 	field := c.fields[from]
 	c.RemoveField(field)
@@ -114,6 +115,7 @@ func (c *Category) MoveField(from, dest uint) {
 }
 
 // MoveSubcategory
+// Will panic if indices are invalid.
 func (c *Category) MoveSubcategory(from, dest uint) {
 	category := c.subcategories[from]
 	c.RemoveSubcategory(category)

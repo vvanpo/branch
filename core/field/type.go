@@ -3,7 +3,6 @@ package titian
 import ()
 
 type Type interface {
-	Name() string
 	NewValue(string) (Value, error)
 }
 

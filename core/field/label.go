@@ -6,15 +6,15 @@ import (
 	"unicode/utf8"
 )
 
-// Label
-type Label struct{}
-
-func (_ Label) Name() string {
-	return "Label"
+func NewLabel(name, description string) (*Field, error) {
+	return newField(name, description, &labelType{})
 }
 
-func (_ Label) NewValue(value string) (Value, error) {
-	label := &LabelValue{}
+// labelType
+type labelType struct{}
+
+func (_ labelType) NewValue(value string) (Value, error) {
+	label := new(labelValue)
 
 	if err := label.Set(value); err != nil {
 		return nil, err
@@ -23,16 +23,14 @@ func (_ Label) NewValue(value string) (Value, error) {
 	return label, nil
 }
 
-// LabelValue
-type LabelValue struct {
-	value string
+// labelValue
+type labelValue string
+
+func (l *labelValue) String() string {
+	return string(*l)
 }
 
-func (l *LabelValue) String() string {
-	return l.value
-}
-
-func (l *LabelValue) Set(value string) error {
+func (l *labelValue) Set(value string) error {
 	if !utf8.ValidString(value) {
 		return errors.New("Invalid string encoding")
 	}
@@ -41,6 +39,6 @@ func (l *LabelValue) Set(value string) error {
 		return errors.New("Labels cannot span multiple lines")
 	}
 
-	l.value = value
+	*l = labelValue(value)
 	return nil
 }
