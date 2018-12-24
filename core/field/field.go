@@ -4,12 +4,13 @@ import (
 	"github.com/google/uuid"
 )
 
-// A Field is used to label and format information associated with contacts.
+// A Field is used to categorize and format information associated with
+// contacts.
 type Field struct {
 	id          uuid.UUID
 	name        string
 	description string
-	fieldtype   FieldType
+	fieldtype   Type
 }
 
 // Name
@@ -33,6 +34,6 @@ func (f *Field) SetDescription(description string) {
 }
 
 // Type retrieves the field type.
-func (f Field) Type() FieldType {
+func (f Field) Type() Type {
 	return f.fieldtype
 }

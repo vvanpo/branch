@@ -1,40 +1,21 @@
 package titian
 
-import (
-	"github.com/google/uuid"
-)
+import ()
 
-type FieldType interface {
+type Type interface {
 	Name() string
-	NewValue(string) (FieldValue, error)
+	NewValue(string) (Value, error)
 }
 
-// LabelField
-type LabelField struct{}
+// Text represents a multi-line text field.
+type Text struct{}
 
-func (_ LabelField) Name() string {
-	return "Label"
-}
-
-func (_ LabelField) NewValue(value string) (FieldValue, error) {
-	label := &LabelFieldValue{id: uuid.New()}
-
-	if err := label.Set(value); err != nil {
-		return nil, err
-	}
-
-	return label, nil
-}
-
-// TextField
-type TextField struct{}
-
-func (_ TextField) Name() string {
+func (_ Text) Name() string {
 	return "Text"
 }
 
-func (_ TextField) NewValue(value string) (FieldValue, error) {
-	text := &TextFieldValue{id: uuid.New()}
+func (_ Text) NewValue(value string) (Value, error) {
+	text := &TextValue{}
 
 	if err := text.Set(value); err != nil {
 		return nil, err
