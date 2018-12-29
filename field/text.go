@@ -9,31 +9,20 @@ func NewText(name, description string) (*Field, error) {
 	return newField(name, description, &textType{})
 }
 
-// textType represents a multi-line text field.
-type textType struct{}
+// text represents a multi-line text field.
+type text struct{}
 
-func (_ textType) NewValue(value string) (Value, error) {
-	text := new(textValue)
-
-	if err := text.Set(value); err != nil {
-		return nil, err
+func (_ text) NewValue(value string) (Value, error) {
+	if !utf8.ValidString(value) {
+		return nil, errors.New("Invalid string encoding")
 	}
 
-	return text, nil
+	return textValue(value), nil
 }
 
 // textValue
 type textValue string
 
-func (t *textValue) String() string {
-	return string(*t)
-}
-
-func (t *textValue) Set(value string) error {
-	if !utf8.ValidString(value) {
-		return errors.New("Invalid string encoding")
-	}
-
-	*t = textValue(value)
-	return nil
+func (t textValue) String() string {
+	return string(t)
 }

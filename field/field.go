@@ -1,6 +1,8 @@
 package field
 
-import ()
+import (
+	"strings"
+)
 
 // A Field is used to categorize and format information associated with
 // contacts.
@@ -22,7 +24,14 @@ func (f Field) Description() string {
 
 // SetDescription
 func (f *Field) SetDescription(description string) error {
-	f.description = description
+	var t textType
+	v, err := t.NewValue(description)
+
+	if err != nil {
+		return err
+	}
+
+	f.description = v.String()
 	return nil
 }
 
@@ -47,6 +56,13 @@ func newField(name, description string, fieldtype Type) (*Field, error) {
 }
 
 func (f *Field) setName(name string) error {
-	f.name = name
+	var t labelType
+	v, err := t.NewValue(name)
+
+	if err != nil {
+		return err
+	}
+
+	f.name = v.String()
 	return nil
 }
