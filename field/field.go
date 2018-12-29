@@ -7,7 +7,7 @@ import ()
 type Field struct {
 	name        string
 	description string
-	fieldtype   Type
+	fieldtype   interface{}
 }
 
 // Name
@@ -22,23 +22,15 @@ func (f Field) Description() string {
 
 // SetDescription
 func (f *Field) SetDescription(description string) error {
-	var t textType
-	v, err := t.NewValue(description)
-
-	if err != nil {
+	if err := (TextType{}).Validate(description); err != nil {
 		return err
 	}
 
-	f.description = v.String()
+	f.description = description
 	return nil
 }
 
-// Type retrieves the field type.
-func (f Field) Type() Type {
-	return f.fieldtype
-}
-
-func newField(name, description string, fieldtype Type) (*Field, error) {
+func newField(name, description string, fieldtype interface{}) (*Field, error) {
 	field := &Field{}
 
 	if err := field.setName(name); err != nil {
@@ -54,13 +46,10 @@ func newField(name, description string, fieldtype Type) (*Field, error) {
 }
 
 func (f *Field) setName(name string) error {
-	var t labelType
-	v, err := t.NewValue(name)
-
-	if err != nil {
+	if err := (LabelType{}).Validate(name); err != nil {
 		return err
 	}
 
-	f.name = v.String()
+	f.name = name
 	return nil
 }

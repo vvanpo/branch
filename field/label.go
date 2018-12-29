@@ -6,28 +6,21 @@ import (
 	"unicode/utf8"
 )
 
-func NewLabelField(name, description string) (*Field, error) {
-	return newField(name, description, &labelType{})
+// LabelType
+type LabelType struct{}
+
+func NewField(name, description string) (*Field, error) {
+	return newField(name, description, &LabelType{})
 }
 
-// labelType
-type labelType struct{}
-
-func (_ labelType) NewValue(value string) (Value, error) {
+func (l LabelType) Validate(value string) error {
 	if !utf8.ValidString(value) {
-		return nil, errors.New("Invalid string encoding")
+		return errors.New("Invalid string encoding")
 	}
 
 	if strings.Contains(value, "\n") {
-		return nil, errors.New("Labels cannot span multiple lines")
+		return errors.New("Labels cannot span multiple lines")
 	}
 
-	return labelValue(value), nil
-}
-
-// labelValue
-type labelValue string
-
-func (l labelValue) String() string {
-	return string(l)
+	return nil
 }

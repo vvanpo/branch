@@ -2,8 +2,9 @@ package field
 
 import ()
 
-type Type interface {
-	NewValue(string) (Value, error)
+// FieldBuilder
+type FieldBuilder interface {
+	NewField(string, string) (*Field, error)
 }
 
 /*
