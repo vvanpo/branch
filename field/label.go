@@ -6,7 +6,7 @@ import (
 	"unicode/utf8"
 )
 
-func NewLabel(name, description string) (*Field, error) {
+func NewLabelField(name, description string) (*Field, error) {
 	return newField(name, description, &labelType{})
 }
 

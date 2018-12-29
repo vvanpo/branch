@@ -4,11 +4,11 @@ import (
 	"math/big"
 )
 
-func NewNumber(name, description string) Type {
-	field := newField
+func NewNumberField(name, description string, num NumberType) (*Field, error) {
+	return newField(name, description, num)
 }
 
-type numberType struct {
+type NumberType struct {
 	minimum *big.Rat
 	maximum *big.Rat
 	step    *big.Rat
@@ -16,8 +16,10 @@ type numberType struct {
 	isFraction bool
 }
 
-func (n *numberType) NewValue(value *big.Rat) (Value, error) {
-
+func (n NumberType) NewValue(x, y int64) (Number, error) {
+	number := Number{*math.NewRat(x, y)}
 }
 
-type number big.Rat
+type Number struct {
+	value big.Rat
+}

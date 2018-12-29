@@ -7,26 +7,6 @@ type Type interface {
 }
 
 /*
-// NumberField
-type NumberField struct {
-	id ftid
-	unsigned bool
-	integer  bool
-}
-
-func (n NumberField) Name() string {
-	return "Number"
-}
-
-func (n NumberField) NewValue(value string) (string, error) {
-	number, err := strconv.ParseFloat(value, 64)
-
-	if err != nil {
-		return "", err
-	}
-
-	return fmt.Sprint(number), nil
-}
 
 // FlagField
 type FlagField struct{}

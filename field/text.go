@@ -5,14 +5,14 @@ import (
 	"unicode/utf8"
 )
 
-func NewText(name, description string) (*Field, error) {
+func NewTextField(name, description string) (*Field, error) {
 	return newField(name, description, &textType{})
 }
 
-// text represents a multi-line text field.
-type text struct{}
+// textType represents a multi-line text field.
+type textType struct{}
 
-func (_ text) NewValue(value string) (Value, error) {
+func (_ textType) NewValue(value string) (Value, error) {
 	if !utf8.ValidString(value) {
 		return nil, errors.New("Invalid string encoding")
 	}
@@ -20,9 +20,9 @@ func (_ text) NewValue(value string) (Value, error) {
 	return textValue(value), nil
 }
 
-// textValue
-type textValue string
+// text
+type text string
 
-func (t textValue) String() string {
+func (t text) String() string {
 	return string(t)
 }

@@ -1,8 +1,6 @@
 package field
 
-import (
-	"strings"
-)
+import ()
 
 // A Field is used to categorize and format information associated with
 // contacts.
