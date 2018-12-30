@@ -7,47 +7,12 @@ import (
 	"github.com/vvanpo/titian/field"
 )
 
+var emails field.Field = field.Field{fieldtype: field.EmailAddressesField{}}
+
 // A Contact represents any individual or organization with a known e-mail
 // address or addresses.
 type Contact struct {
-	emails map[email.Address]struct{}
 	fields map[*field.Field]field.Value
-}
-
-// EmailAddresses returns a slice of all e-mail addresses associated with the
-// contact.
-func (c Contact) EmailAddresses() []email.Address {
-	addresses := make([]string, len(c.emails))
-
-	for address := range c.emails {
-		addresses = append(addresses, address)
-	}
-
-	sort.Strings(addresses)
-	return addresses
-}
-
-// AddEmailAddress adds an e-mail address or addresses to the contact's e-mail
-// list. Will panic if passed the zero value.
-func (c *Contact) AddEmailAddress(addresses ...email.Address) {
-	for _, address := range addresses {
-		if address == (email.Address{}) {
-			panic("Attempting to add an invalid e-mail address")
-		}
-
-		c.emails[address] = struct{}{}
-	}
-}
-
-// RemoveEmailAddress removes an e-mail address from the contact. Panics if
-// removing the address would leave the contact without any e-mail addresses.
-// Passing an e-mail address not belonging to the contact is a no-op.
-func (c *Contact) RemoveEmailAddress(address email.Address) {
-	if len(c.emails) <= 1 {
-		panic("Cannot remove all e-mail addresses from contact")
-	}
-
-	delete(c.emails, address)
 }
 
 // Fields returns a map of all field values.

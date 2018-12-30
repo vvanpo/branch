@@ -22,7 +22,3 @@ func (n NumberType) NewValue(x, y int64) error {
 
 	return nil
 }
-
-type Number struct {
-	value big.Rat
-}

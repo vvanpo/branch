@@ -4,7 +4,7 @@ import ()
 
 // FieldBuilder
 type FieldBuilder interface {
-	NewField(string, string) (*Field, error)
+	NewField(name, description string) (*Field, error)
 }
 
 /*
