@@ -7,8 +7,8 @@ import (
 
 //
 type Category struct {
-	name          string
-	description   string
+	name          label
+	description   text
 	fields        []*Field
 	subcategories []*Category
 }
@@ -17,7 +17,7 @@ type Category struct {
 func NewCategory(name, description string) (*Category, error) {
 	c := &Category{}
 
-	if err := c.setName(name); err != nil {
+	if err := c.name.Set(name); err != nil {
 		return nil, err
 	}
 
@@ -32,18 +32,17 @@ func NewCategory(name, description string) (*Category, error) {
 
 // Name
 func (c Category) Name() string {
-	return c.name
+	return string(c.name)
 }
 
 // Description
 func (c Category) Description() string {
-	return c.description
+	return string(c.description)
 }
 
 // SetDescription
 func (c *Category) SetDescription(description string) error {
-	c.description = description
-	return nil
+	return c.description.Set(description)
 }
 
 // Fields
@@ -129,7 +128,7 @@ func (c *Category) RenameField(from, to string) error {
 	}
 
 	if c.GetSubcategory(to) != nil {
-		return fmt.Errorf("Duplicate name, \"%s\" is already the name of a subcategory", to)
+		return fmt.Errorf("Duplicate name, \"%s\" is the name of a subcategory", to)
 	}
 
 	field := c.GetField(from)
@@ -138,8 +137,7 @@ func (c *Category) RenameField(from, to string) error {
 		panic("Cannot rename nil field")
 	}
 
-	field.setName(to)
-	return nil
+	return field.name.Set(to)
 }
 
 // RenameSubcategory
@@ -158,8 +156,7 @@ func (c *Category) RenameSubcategory(from, to string) error {
 		panic("Cannot rename nil subcategory")
 	}
 
-	category.setName(to)
-	return nil
+	return category.name.Set(to)
 }
 
 // RemoveField
@@ -203,9 +200,4 @@ func (c *Category) WalkFields(fn func(*Field)) {
 			fn(field)
 		}
 	})
-}
-
-func (c *Category) setName(name string) error {
-	c.name = name
-	return nil
 }
