@@ -3,78 +3,76 @@ package field
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 //
 type Category struct {
-	name          label
-	description   text
-	fields        []*Field
-	subcategories []*Category
+	lock        *sync.RWMutex
+	repo        Categories
+	name        label
+	description text
+	fields      []*Field
 }
 
 // NewCategory
-func NewCategory(name, description string) (*Category, error) {
-	c := &Category{}
+func NewCategory(name, description string, repository Categories) (*Category, error) {
+	c := &Category{
+		lock:   new(sync.RWMutex),
+		repo:   repository,
+		fields: make([]*Field, 0),
+	}
 
 	if err := c.name.Set(name); err != nil {
 		return nil, err
 	}
 
-	if err := c.SetDescription(description); err != nil {
+	if err := c.description.Set(description); err != nil {
 		return nil, err
 	}
 
-	c.fields = make([]*Field, 0)
-	c.subcategories = make([]*Category, 0)
 	return c, nil
 }
 
 // Name
 func (c Category) Name() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
 	return string(c.name)
 }
 
 // Description
 func (c Category) Description() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
 	return string(c.description)
 }
 
 // SetDescription
 func (c *Category) SetDescription(description string) error {
-	return c.description.Set(description)
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
+	if err := c.description.Set(description); err != nil {
+		return err
+	}
+
+	c.repo.Persist(c)
+	return nil
 }
 
 // Fields
-func (c Category) Fields() []*Field {
-	return c.fields[:]
+func (c *Category) Fields() []*Field {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	return c.repo.Fields().Fetch(c)
 }
 
 // Subcategories
-func (c Category) Subcategories() []*Category {
-	return c.subcategories[:]
-}
-
-// GetField retrieves the field with name if it is a member.
-func (c Category) GetField(name string) *Field {
-	for _, field := range c.fields {
-		if name == field.Name() {
-			return field
-		}
-	}
-
-	return nil
-}
-
-// GetSubcategory retrieves the category with name if it is a member.
-func (c Category) GetSubcategory(name string) *Category {
-	for _, category := range c.subcategories {
-		if name == category.Name() {
-			return category
-		}
-	}
-
-	return nil
+func (c *Category) Subcategories() []*Category {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	return c.repo.Fetch(c)
 }
 
 // AppendField

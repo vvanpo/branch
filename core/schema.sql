@@ -23,14 +23,6 @@ CREATE TABLE contact (
 	id uuid PRIMARY KEY
 );
 
--- Relates field values to contacts.
-CREATE TABLE contact_field (
-	id uuid PRIMARY KEY,
-	contact uuid NOT NULL REFERENCES contact,
-	field uuid NOT NULL REFERENCES field,
-	UNIQUE (contact, field)
-);
-
 CREATE TABLE contact_group (
 	id uuid PRIMARY KEY,
 	name text NOT NULL UNIQUE,
