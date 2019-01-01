@@ -9,11 +9,17 @@ import (
 // LabelType
 type LabelType struct{}
 
-func NewField(name, description string) (*Field, error) {
-	return newField(name, description, &LabelType{})
+type label string
+
+func (l LabelType) NewValue() Value {
+	return new(label)
 }
 
-func (l LabelType) Validate(value string) error {
+func (l LabelType) Validate() error {
+	return nil
+}
+
+func (l *label) Set(value string) error {
 	if !utf8.ValidString(value) {
 		return errors.New("Invalid string encoding")
 	}
@@ -22,5 +28,6 @@ func (l LabelType) Validate(value string) error {
 		return errors.New("Labels cannot span multiple lines")
 	}
 
+	*l = label(value)
 	return nil
 }

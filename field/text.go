@@ -11,14 +11,21 @@ type TextType struct {
 	Maximum uint
 }
 
-func (t TextType) NewField(name, description string) (*Field, error) {
-	return newField(name, description, t)
+type text string
+
+func (t TextType) NewValue() Value {
+	return new(text)
 }
 
-func (t TextType) Validate(value string) error {
+func (t TextType) Validate() error {
+	return nil
+}
+
+func (t *text) Set(value string) error {
 	if !utf8.ValidString(value) {
 		return errors.New("Invalid string encoding")
 	}
 
+	*t = text(value)
 	return nil
 }

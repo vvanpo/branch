@@ -1,11 +1,11 @@
 package field
 
-import ()
-
-// FieldBuilder
-type FieldBuilder interface {
-	NewField(name, description string) (*Field, error)
+type Type interface {
+	NewValue() Value
+	Validate() error
 }
+
+type Value interface{}
 
 /*
 

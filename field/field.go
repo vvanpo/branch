@@ -1,13 +1,11 @@
 package field
 
-import ()
-
 // A Field is used to categorize and format information associated with
 // contacts.
 type Field struct {
 	name        string
 	description string
-	fieldtype   interface{}
+	definition  Type
 }
 
 // Name
@@ -22,7 +20,9 @@ func (f Field) Description() string {
 
 // SetDescription
 func (f *Field) SetDescription(description string) error {
-	if err := (TextType{}).Validate(description); err != nil {
+	t := (TextType{}).NewValue()
+
+	if err := t.(*text).Set(description); err != nil {
 		return err
 	}
 
@@ -30,7 +30,7 @@ func (f *Field) SetDescription(description string) error {
 	return nil
 }
 
-func newField(name, description string, fieldtype interface{}) (*Field, error) {
+func NewField(name, description string, definition Type) (*Field, error) {
 	field := &Field{}
 
 	if err := field.setName(name); err != nil {
@@ -41,12 +41,18 @@ func newField(name, description string, fieldtype interface{}) (*Field, error) {
 		return nil, err
 	}
 
-	field.fieldtype = fieldtype
+	if err := definition.Validate(); err != nil {
+		return nil, err
+	}
+
+	field.definition = definition
 	return field, nil
 }
 
 func (f *Field) setName(name string) error {
-	if err := (LabelType{}).Validate(name); err != nil {
+	l := (LabelType{}).NewValue()
+
+	if err := l.(*label).Set(name); err != nil {
 		return err
 	}
 

@@ -1,18 +1,24 @@
 package field
 
 import (
-	"sort"
-
 	"github.com/vvanpo/titian/email"
 )
 
-type EmailAddressesType struct{}
-
-func (e EmailAddressesType) NewField(name, description string) (*Field, error) {
-	return newField(name, description, e)
+type EmailAddressesType struct {
+	Maximum uint
 }
 
-func (e EmailAddressesType) NewValue(addresses ...email.Address) EmailAddresses {
+func (e EmailAddressesType) NewValue() Value {
+	return make([]email.Address, 0)
+}
+
+func (e EmailAddressesType) Validate() error {
+	return nil
+}
+
+/*
+
+func (e *EmailAddressesType) NewValue(addresses ...email.Address) EmailAddresses {
 	if len(addresses) == 0 {
 		panic("Cannot create e-mail address list without addresses")
 	}
@@ -58,4 +64,4 @@ func (e *EmailAddresses) Remove(address email.Address) {
 	}
 
 	delete(e.list, address)
-}
+} */
