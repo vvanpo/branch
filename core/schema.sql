@@ -23,12 +23,12 @@ CREATE TABLE contact (
 	id uuid PRIMARY KEY
 );
 
--- E-mail is the unique identifier for a contact. Every verified e-mail is
--- associated with a contact, and vice versa.
-CREATE TABLE emailaddress (
+-- Relates field values to contacts.
+CREATE TABLE contact_field (
 	id uuid PRIMARY KEY,
-	address text NOT NULL UNIQUE,
-	contact uuid NOT NULL REFERENCES contact
+	contact uuid NOT NULL REFERENCES contact,
+	field uuid NOT NULL REFERENCES field,
+	UNIQUE (contact, field)
 );
 
 CREATE TABLE contact_group (
@@ -44,12 +44,3 @@ CREATE TABLE contact_groups (
 	contact_group uuid NOT NULL REFERENCES contact_group,
 	UNIQUE (contact, contact_group)
 );
-
--- Relates field values to contacts.
-CREATE TABLE contact_field (
-	id uuid PRIMARY KEY,
-	contact uuid NOT NULL REFERENCES contact,
-	field uuid NOT NULL REFERENCES field,
-	UNIQUE (contact, field)
-);
-
