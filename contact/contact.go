@@ -1,13 +1,9 @@
 package contact
 
 import (
-	"sort"
-
 	"github.com/vvanpo/titian/email"
 	"github.com/vvanpo/titian/field"
 )
-
-var emails field.Field = field.Field{fieldtype: field.EmailAddressesField{}}
 
 // A Contact represents any individual or organization with a known e-mail
 // address or addresses.
@@ -16,11 +12,11 @@ type Contact struct {
 }
 
 // Fields returns a map of all field values.
-func (c Contact) Fields() map[*field.Field]string {
-	fields := make(map[*field.Field]string, len(c.fields))
+func (c Contact) Fields() map[*field.Field]field.Value {
+	fields := make(map[*field.Field]field.Value, len(c.fields))
 
 	for field, value := range c.fields {
-		fields[field] = value.String()
+		fields[field] = value
 	}
 
 	return fields
