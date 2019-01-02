@@ -6,6 +6,12 @@ import (
 	"sync"
 )
 
+type Categories interface {
+	Fetch(parent *Category) []*Category
+	Fields() Fields
+	Persist(*Category)
+}
+
 //
 type Category struct {
 	lock        *sync.RWMutex
@@ -101,22 +107,6 @@ func (c *Category) AppendSubcategory(category *Category) error {
 
 	c.subcategories = append(c.subcategories, category)
 	return nil
-}
-
-// MoveField
-// Will panic if indices are invalid.
-func (c *Category) MoveField(from, dest uint) {
-	field := c.fields[from]
-	c.RemoveField(field)
-	c.fields = append(append(c.fields[:dest], field), c.fields[dest:]...)
-}
-
-// MoveSubcategory
-// Will panic if indices are invalid.
-func (c *Category) MoveSubcategory(from, dest uint) {
-	category := c.subcategories[from]
-	c.RemoveSubcategory(category)
-	c.subcategories = append(append(c.subcategories[:dest], category), c.subcategories[dest:]...)
 }
 
 // RenameField

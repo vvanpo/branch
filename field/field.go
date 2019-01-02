@@ -4,6 +4,11 @@ import (
 	"sync"
 )
 
+type Fields interface {
+	Fetch(parent *Category) []*Field
+	Persist(*Field)
+}
+
 // A Field is used to categorize and format information associated with
 // contacts.
 type Field struct {
