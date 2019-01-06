@@ -3,19 +3,22 @@ package field
 import (
 	"errors"
 	"fmt"
-	"sync"
 )
 
+// Categories is a collection that controls persistence of Category objects.
 type Categories interface {
-	Fetch(parent *Category) []*Category
-	Fields() Fields
-	Persist(*Category)
+	// Query returns a Category and a channel for persisting it. The channel can
+	// only be sent to once, after which it is closed. The returned Category is
+	// guaranteed to be consistent until it is sent down the channel, or the
+	// channel is closed. If the caller does not need to persist the Category it
+	// should close the channel once consistency is no longer needed. This frees
+	// up the Category for use by another caller.
+	Query() (Category, chan<- Category)
 }
 
 //
 type Category struct {
-	lock        *sync.RWMutex
-	repo        Categories
+	repository  Categories
 	name        label
 	description text
 	fields      []*Field
@@ -24,9 +27,8 @@ type Category struct {
 // NewCategory
 func NewCategory(name, description string, repository Categories) (*Category, error) {
 	c := &Category{
-		lock:   new(sync.RWMutex),
-		repo:   repository,
-		fields: make([]*Field, 0),
+		repository: repository,
+		fields:     make([]*Field, 0),
 	}
 
 	if err := c.name.Set(name); err != nil {
@@ -42,28 +44,21 @@ func NewCategory(name, description string, repository Categories) (*Category, er
 
 // Name
 func (c Category) Name() string {
-	c.lock.RLock()
-	defer c.lock.RUnlock()
 	return string(c.name)
 }
 
 // Description
 func (c Category) Description() string {
-	c.lock.RLock()
-	defer c.lock.RUnlock()
 	return string(c.description)
 }
 
 // SetDescription
 func (c *Category) SetDescription(description string) error {
-	c.lock.Lock()
-	defer c.lock.Unlock()
-
 	if err := c.description.Set(description); err != nil {
 		return err
 	}
 
-	c.repo.Persist(c)
+	c.repository.Persist(c)
 	return nil
 }
 
@@ -71,14 +66,14 @@ func (c *Category) SetDescription(description string) error {
 func (c *Category) Fields() []*Field {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
-	return c.repo.Fields().Fetch(c)
+	return c.repository.Fields().Fetch(c)
 }
 
 // Subcategories
 func (c *Category) Subcategories() []*Category {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
-	return c.repo.Fetch(c)
+	return c.repository.Fetch(c)
 }
 
 // AppendField
