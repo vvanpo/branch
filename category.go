@@ -1,4 +1,4 @@
-package field
+package category
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ type Categories interface {
 	Query() (Category, chan<- Category)
 }
 
-//
+// A Category is a named and ordered collection of fields.
 type Category struct {
 	repository  Categories
 	name        label
