@@ -1,5 +1,6 @@
 package field
 
+/*
 import (
 	"github.com/vvanpo/titian/email"
 )
@@ -15,8 +16,6 @@ func (e EmailAddressesType) NewValue() Value {
 func (e EmailAddressesType) Validate() error {
 	return nil
 }
-
-/*
 
 func (e *EmailAddressesType) NewValue(addresses ...email.Address) EmailAddresses {
 	if len(addresses) == 0 {

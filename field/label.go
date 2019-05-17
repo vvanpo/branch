@@ -1,14 +1,24 @@
 package field
 
 import (
-	"errors"
-	"strings"
-	"unicode/utf8"
+//	"errors"
+//	"strings"
+//	"unicode/utf8"
 )
 
-// LabelType
-type LabelType struct{}
+type LabelField struct {
+	field
+}
 
+func (l LabelField) TypeName() string {
+	return "Label"
+}
+
+type Label struct {
+	value string
+}
+
+/**
 type label string
 
 func (l LabelType) NewValue() Value {
@@ -31,3 +41,4 @@ func (l *label) Set(value string) error {
 	*l = label(value)
 	return nil
 }
+*/

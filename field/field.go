@@ -1,17 +1,29 @@
-// Fields are used to label, describe, and store various types of data.
+// Package field
+//
 package field
 
 import ()
 
-// A Field is used to categorize and format information associated with
-// contacts.
-type Field struct {
-	repo        Fields
-	name        label
-	description text
-	definition  Type
+type Interface interface {
+	TypeName() string
+	Name() string
+	Description() string
 }
 
+type field struct {
+	name        string
+	description string
+}
+
+func (f field) Name() string {
+	return f.name
+}
+
+func (f field) Description() string {
+	return f.description
+}
+
+/**
 // NewField
 func NewField(name, description string, definition Type, repository Fields) (*Field, error) {
 	field := &Field{
@@ -53,3 +65,4 @@ func (f *Field) SetDescription(description string) error {
 	f.repo.Persist(f)
 	return nil
 }
+*/

@@ -1,16 +1,17 @@
 package field
 
 import (
-	"errors"
-	"unicode/utf8"
+//	"errors"
+//	"unicode/utf8"
 )
 
-// TextType represents a multi-line text field.
-type TextType struct {
+// TextField represents a multi-line text field.
+type TextField struct {
 	// The max length of the text field, in runes. Zero implies no limit.
 	Maximum uint
 }
 
+/**
 type text string
 
 func (t TextType) NewValue() Value {
@@ -29,3 +30,4 @@ func (t *text) Set(value string) error {
 	*t = text(value)
 	return nil
 }
+*/

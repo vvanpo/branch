@@ -1,12 +1,5 @@
 package field
 
-type Type interface {
-	NewValue() Value
-	Validate() error
-}
-
-type Value interface{}
-
 /*
 
 // FlagField

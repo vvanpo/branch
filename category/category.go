@@ -1,6 +1,18 @@
 package category
 
 import (
+	"github.com/vvanpo/titian/field"
+)
+
+// A Category is a named and ordered collection of fields.
+type Category struct {
+	name        string
+	description string
+	fields      []field.Interface
+}
+
+/**
+import (
 	"errors"
 	"fmt"
 )
@@ -14,14 +26,6 @@ type Categories interface {
 	// should close the channel once consistency is no longer needed. This frees
 	// up the Category for use by another caller.
 	Query() (Category, chan<- Category)
-}
-
-// A Category is a named and ordered collection of fields.
-type Category struct {
-	repository  Categories
-	name        label
-	description text
-	fields      []*Field
 }
 
 // NewCategory
@@ -183,4 +187,4 @@ func (c *Category) WalkFields(fn func(*Field)) {
 			fn(field)
 		}
 	})
-}
+}*/
