@@ -4,11 +4,19 @@ import (
 	"github.com/vvanpo/titian/field"
 )
 
-// A Category is a named and ordered collection of fields.
+type Item interface {
+	Name() string
+}
+
+// A Category is a named and ordered collection of items.
 type Category struct {
 	name        string
 	description string
-	fields      []field.Interface
+	items       []Item
+}
+
+func (c Category) Name() string {
+	return c.name
 }
 
 /**
@@ -47,9 +55,6 @@ func NewCategory(name, description string, repository Categories) (*Category, er
 }
 
 // Name
-func (c Category) Name() string {
-	return string(c.name)
-}
 
 // Description
 func (c Category) Description() string {
