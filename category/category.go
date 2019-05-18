@@ -1,9 +1,5 @@
 package category
 
-import (
-	"github.com/vvanpo/titian/field"
-)
-
 type Item interface {
 	Name() string
 }
@@ -13,6 +9,10 @@ type Category struct {
 	name        string
 	description string
 	items       []Item
+}
+
+func New(name, description string) *Category {
+	return &Category{name, description, make([]Item)}
 }
 
 func (c Category) Name() string {
