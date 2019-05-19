@@ -5,7 +5,6 @@ package field
 import ()
 
 type Interface interface {
-	TypeName() string
 	Name() string
 	Description() string
 }

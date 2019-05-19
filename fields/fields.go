@@ -1,17 +1,23 @@
 package fields
 
 import (
-	"github.com/vvanpo/titian/category"
 	"github.com/vvanpo/titian/field"
 )
 
 type Fields struct {
-	root category.Category
+	category
 }
 
-func (f Fields) Add(f field.Field) {
-}
+// Walk applies fn recursively to each field in the tree in a breadth-first
+// manner.
+func (f Fields) Walk(fn func(field field.Interface)) {
+	var walk = func(fields []field.Interface) {
+		for _, field := range fields {
+			fn(.fields)
+			walk()
+		}
+	}
 
-func (f Fields) NewCategory(name, description string) {
-
+	fn(c)
+	walk(c.subcategories)
 }

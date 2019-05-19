@@ -1,22 +1,21 @@
-package category
+package fields
 
-type Item interface {
-	Name() string
-}
+import (
+	"github.com/vvanpo/titian/field"
+)
 
-// A Category is a named and ordered collection of items.
-type Category struct {
+type category struct {
 	name        string
 	description string
-	items       []Item
+	fields      []field.Interface
 }
 
-func New(name, description string) *Category {
-	return &Category{name, description, make([]Item)}
-}
-
-func (c Category) Name() string {
+func (c category) Name() string {
 	return c.name
+}
+
+func (c category) Description() string {
+	return c.description
 }
 
 /**
@@ -167,21 +166,6 @@ func (c *Category) RemoveSubcategory(category *Category) {
 			c.subcategories = append(c.subcategories[:i], c.subcategories[i+1:]...)
 		}
 	}
-}
-
-// WalkCategories applies fn recursively to each category in the tree, starting
-// with the receiver and proceeding in a breadth-first manner.
-func (c *Category) WalkCategories(fn func(*Category)) {
-	var walk func([]*Category)
-	walk = func(categories []*Category) {
-		for _, category := range categories {
-			fn(category)
-			walk(category.subcategories)
-		}
-	}
-
-	fn(c)
-	walk(c.subcategories)
 }
 
 // WalkFields applies fn to every field in the receiver, and recursively to
