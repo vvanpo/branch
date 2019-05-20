@@ -4,18 +4,11 @@ import (
 	"github.com/vvanpo/titian/field"
 )
 
-type category struct {
-	name        string
-	description string
-	fields      []field.Interface
-}
-
-func (c category) Name() string {
-	return c.name
-}
-
-func (c category) Description() string {
-	return c.description
+type Category struct {
+	Name          string
+	Description   string
+	Fields        []field.Interface
+	Subcategories []Category
 }
 
 /**
