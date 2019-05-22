@@ -1,5 +1,8 @@
 package field
 
+type Type interface {
+}
+
 /*
 
 // FlagField

@@ -7,15 +7,6 @@ import (
 )
 
 type LabelField struct {
-	field
-}
-
-func (l LabelField) TypeName() string {
-	return "Label"
-}
-
-type Label struct {
-	value string
 }
 
 /**
