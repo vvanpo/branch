@@ -1,4 +1,4 @@
-package titian
+package stonefruit
 
 import (
 	"github.com/google/uuid"

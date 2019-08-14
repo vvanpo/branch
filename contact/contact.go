@@ -1,8 +1,8 @@
 package contact
 
 import (
-	"github.com/vvanpo/titian/email"
-	"github.com/vvanpo/titian/field"
+	"github.com/vvanpo/stonefruit/email"
+	"github.com/vvanpo/stonefruit/field"
 )
 
 // A Contact represents any individual or organization with a known e-mail

@@ -1,5 +1,13 @@
 package field
 
+// A registry of types.
+type Types struct {
+}
+
+func (ts *Types) register(f Type) {
+
+}
+
 type Type interface {
 }
 

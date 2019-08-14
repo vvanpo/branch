@@ -6,7 +6,7 @@ import (
 //	"unicode/utf8"
 )
 
-type LabelField struct {
+type LabelType struct {
 }
 
 /**

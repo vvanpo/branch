@@ -1,9 +1,9 @@
-package titian
+package stonefruit
 
 import (
 	"errors"
 
-	"github.com/vvanpo/titian/field"
+	"github.com/vvanpo/stonefruit/field"
 )
 
 type Fields struct {

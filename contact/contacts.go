@@ -1,8 +1,8 @@
 package contact
 
 import (
-	"github.com/vvanpo/titian/email"
-	"github.com/vvanpo/titian/field"
+	"github.com/vvanpo/stonefruit/email"
+	"github.com/vvanpo/stonefruit/field"
 )
 
 type Contacts interface {

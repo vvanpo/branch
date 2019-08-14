@@ -1,20 +1,16 @@
 {
-  "name": "titian",
+  "name": "stonefruit",
   "version": "0.0.0",
-  "repository": "github:vvanpo/titian",
+  "repository": "github:vvanpo/stonefruit",
   "license": "GPL-3.0",
   "scripts": {
     "clean": "rm -rf www dist",
-    "dev": "stencil build --dev --watch --serve",
     "lint": "tslint -p . --fix"
   },
   "dependencies": {
-    "@stencil/router": "^0.3.1",
     "yargs": "^12.0.5"
   },
   "devDependencies": {
-    "@stencil/core": "^0.16.0",
-    "@stencil/sass": "^0.1.1",
     "tslint": "^5.11.0",
     "typescript": "^3.2.2"
   }

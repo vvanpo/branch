@@ -2,7 +2,7 @@ package field
 
 /*
 import (
-	"github.com/vvanpo/titian/email"
+	"github.com/vvanpo/stonefruit/email"
 )
 
 type EmailAddressesType struct {

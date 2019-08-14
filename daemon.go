@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/vvanpo/titian/server"
+	"github.com/vvanpo/stonefruit/server"
 )
 
 func main() {
