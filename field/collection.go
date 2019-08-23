@@ -1,5 +1,3 @@
 package field
 
-type Collection struct {
-	root Category
-}
+type Collection Category
