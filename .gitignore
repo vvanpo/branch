@@ -5,3 +5,9 @@
 /.stencil
 
 /site/components.d.ts
+
+
+#Added by cargo
+
+/target
+**/*.rs.bk
