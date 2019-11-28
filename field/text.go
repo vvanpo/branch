@@ -5,8 +5,7 @@ import (
 //	"unicode/utf8"
 )
 
-// TextField represents a multi-line text field.
-type TextField struct {
+type Text struct {
 	// The max length of the text field, in runes. Zero implies no limit.
 	Maximum uint
 }
