@@ -1,4 +1,4 @@
-name: Rust
+name: Build
 
 on: [push]
 
@@ -9,7 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Compile and Lint
+    - name: Lint
+      run: |
+        cargo check --verbose
+        cargo fmt -- --check
+    - name: Compile
       run: cargo build --verbose
     - name: Test
       run: cargo test --verbose
